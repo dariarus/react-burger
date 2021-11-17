@@ -1,0 +1,26 @@
+.section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.layout {
+    display: flex;
+    flex-direction: column;
+    max-height: 100vh;
+    overflow: scroll;
+    scrollbar-color: #8585ad #2f2f37;     /* «цвет ползунка» «цвет полосы скроллбара» */
+    scrollbar-width: thin;
+}
+
+.layout::-webkit-scrollbar {
+    width: 12px;
+    height: 0;
+    background-color: #2f2f37;
+}
+
+/* ползунок скроллбара */
+.layout::-webkit-scrollbar-thumb {
+    background-color: #8585ad;
+    border-radius: 10px;
+    border: 3px solid #2f2f37;
+}
