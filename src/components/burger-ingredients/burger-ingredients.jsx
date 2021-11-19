@@ -1,21 +1,81 @@
-import React from 'react';
+import React from "react";
 
-import burgerIngredientsStyle from "./burger-ingredients.module.css";
+import ingredientsWrapper from './burger-ingredients.module.css';
 
-import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
+import {burgerData, ingredientTypeRuName} from "../../utils/burger-data.js";
+import {RenderIngredientGroup} from "../render-ingredient-group/render-ingredient-group.jsx";
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 
 
-export function RenderIngredients(props) {
+export function BurgerIngredients() {
+  const sauce = React.useRef(null);
+  const bun = React.useRef(null);
+  const filling = React.useRef(null);
+  const [current, setCurrent] = React.useState('one')
+
+  function scroll(element) {
+    if (element) {
+      element.scrollIntoView({behavior: "smooth", block: "start"});
+    }
+  }
+
   return (
-    <div className={burgerIngredientsStyle.card}>
-      <Counter count={1} size="default" />
-      <img src={props.image} alt={props.name} className="pr-4 pl-4"/>
-      <div style={{display: "flex", alignContent: "center"}} className="pt-1 pb-1">
-        <p className="text text_type_digits-default pr-2">{props.price}</p>
-        <CurrencyIcon type="primary"/>
-      </div>
-      <p className={`text text_type_main-default ${burgerIngredientsStyle.text}`}>{props.name}</p>
-    </div>
-  )
+    <>
+      <div className={ingredientsWrapper.burgerIngredients}>
+        <div style={{position: 'absolute', top: '0', left: '0', zIndex: '100'}}>
 
+          <div style={{display: 'flex'}} className="pt-5">
+
+            <Tab value="buns" active={current === 'buns'}
+                 onClick={(value) => {
+                   setCurrent(value);
+                   scroll(bun.current)
+                 }}>
+              Булки
+            </Tab>
+
+            <Tab value="sauces" active={current === 'sauces'}
+                 onClick={(value) => {
+                   setCurrent(value);
+                   scroll(sauce.current)
+                 }}>
+              Соусы
+            </Tab>
+
+            <Tab value="filling" active={current === 'filling'}
+                 onClick={(value) => {
+                   setCurrent(value);
+                   scroll(filling.current)
+                 }}>
+              Начинки
+            </Tab>
+
+          </div>
+        </div>
+
+        {
+          <div className={ingredientsWrapper.layout}>
+            <RenderIngredientGroup groupName={ingredientTypeRuName.bun}
+                                   groupItems={
+                                     burgerData.filter(burgerItem => burgerItem.type === 'bun')
+                                   }
+                                   ref={bun}
+            />
+            <RenderIngredientGroup groupName={ingredientTypeRuName.sauce}
+                                   groupItems={
+                                     burgerData.filter(burgerItem => burgerItem.type === 'sauce')
+                                   }
+                                   ref={sauce}
+            />
+            <RenderIngredientGroup groupName={ingredientTypeRuName.main}
+                                   groupItems={
+                                     burgerData.filter(burgerItem => burgerItem.type === 'main')
+                                   }
+                                   ref={filling}
+            />
+          </div>
+        }
+      </div>
+    </>
+  )
 }

@@ -1,24 +1,33 @@
-.grid {
-  display: grid;
-  grid-template-columns: 272px 272px;
-  gap: 32px 24px;
-  padding: 24px 16px 0 16px;
+.section {
+  display: flex;
+  justify-content: space-between;
 }
 
-.card {
+.burgerIngredients {
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: relative;
-  box-sizing: border-box;
 }
 
-.counter {
-  position: absolute;
-  top: 0;
-  right: 0;
+.layout {
+  display: flex;
+  flex-direction: column;
+  max-height: 912px;
+  margin-top: 40px;
+  overflow: scroll;
+  scrollbar-color: #8585ad #2f2f37; /* «цвет ползунка» «цвет полосы скроллбара» */
+  scrollbar-width: thin;
 }
 
-.text {
-  text-align: center;
+.layout::-webkit-scrollbar {
+  width: 12px;
+  height: 0;
+  background-color: #2f2f37;
+}
+
+/* ползунок скроллбара */
+.layout::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+  border-radius: 10px;
+  border: 3px solid #2f2f37;
 }
