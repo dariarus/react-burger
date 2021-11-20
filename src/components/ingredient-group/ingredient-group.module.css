@@ -1,0 +1,14 @@
+.grid {
+  display: grid;
+  grid-template-columns: 272px 272px;
+  gap: 32px 24px;
+  padding: 24px 16px 0 16px;
+}
+
+.heading {
+
+}
+
+.heading:first-child {
+  padding-top: 80px;
+}

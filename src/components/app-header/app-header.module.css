@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-basis: 62%;
+}
+
+.flex-container {
+  display: flex;
+}
+
+.link {
+  display: flex;
+  color: #f2f2f3;
+  text-decoration: none;
+}
+
+.link-inactive {
+  color: #8585ad;
+}
