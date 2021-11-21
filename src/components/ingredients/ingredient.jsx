@@ -6,12 +6,6 @@ import ingredientsStyle from "./ingredient.module.css";
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
 
 export function Ingredient(props) {
-  Ingredient.propTypes = {
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
-  }
-
   return (
     <div className={ingredientsStyle.card}>
       <Counter count={1} size="default" />
@@ -23,5 +17,10 @@ export function Ingredient(props) {
       <p className={`text text_type_main-default ${ingredientsStyle.text}`}>{props.name}</p>
     </div>
   )
+}
 
+Ingredient.propTypes = {
+  image: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired
 }

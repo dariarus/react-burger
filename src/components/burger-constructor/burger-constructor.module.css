@@ -37,6 +37,10 @@
   background-color: #8585ad;
 }
 
+.constructor::-webkit-scrollbar-button {
+  width: 0;
+}
+
 .wrapper {
   display: flex;
   align-items: center;

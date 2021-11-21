@@ -6,15 +6,6 @@ import burgerConstructor from "./burger-constructor.module.css";
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 export function BurgerConstructor(props) {
-  BurgerConstructor.propTypes = {
-    burgerData: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired
-    })
-  }
-
   return (
     <div className={burgerConstructor.container}>
       <div className={burgerConstructor.top}>
@@ -73,4 +64,13 @@ export function BurgerConstructor(props) {
       </div>
     </div>
   )
+}
+
+BurgerConstructor.propTypes = {
+  burgerData: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired
+  }).isRequired
 }

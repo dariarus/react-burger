@@ -12,17 +12,6 @@ export function BurgerIngredients(props) {
   const filling = React.useRef(null);
   const [tab, setActiveTab] = React.useState('one')
 
-  BurgerIngredients.propTypes = {
-    ingredientTypeRuName: PropTypes.shape({
-      bun: PropTypes.string.isRequired,
-      sauce: PropTypes.string.isRequired,
-      main: PropTypes.string.isRequired,
-    }),
-    burgerData: PropTypes.shape({
-      type: PropTypes.string.isRequired,
-    })
-  }
-
   function scroll(element) {
     if (element) {
       element.scrollIntoView({behavior: "smooth", block: "start"});
@@ -83,4 +72,15 @@ export function BurgerIngredients(props) {
       </div>
     </>
   )
+}
+
+BurgerIngredients.propTypes = {
+  ingredientTypeRuName: PropTypes.shape({
+    bun: PropTypes.string.isRequired,
+    sauce: PropTypes.string.isRequired,
+    main: PropTypes.string.isRequired,
+  }).isRequired,
+  burgerData: PropTypes.shape({
+    type: PropTypes.string.isRequired,
+  }).isRequired
 }
