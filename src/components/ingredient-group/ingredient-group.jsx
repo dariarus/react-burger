@@ -9,12 +9,14 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
   return (
     <>
       <h2 ref={ref}
-          className={`pt-10 text text_type_main-medium ${burgerIngredientStyle.heading}`}>{props.groupName}</h2>
+          className="pt-10 text text_type_main-medium">{props.groupName}</h2>
       <div className={burgerIngredientStyle.grid}>
         {
           props.groupItems.map(burgerItem => (
             <Ingredient image={burgerItem.image} name={burgerItem.name}
-                        price={burgerItem.price}/>
+                        price={burgerItem.price} handleOnClick={props.handleOnClick}
+                        ingredientId={burgerItem._id}
+                        setSelectedIngredientId={props.setSelectedIngredientId}/>
           ))
         }
       </div>
@@ -28,5 +30,7 @@ IngredientGroup.propTypes = {
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired
-  })).isRequired
+  })).isRequired,
+  handleOnClick: PropTypes.func.isRequired,
+  setSelectedIngredientId: PropTypes.number.isRequired
 }

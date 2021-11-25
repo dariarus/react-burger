@@ -53,18 +53,24 @@ export function BurgerIngredients(props) {
                              groupItems={
                                props.burgerData.filter(burgerItem => burgerItem.type === 'bun')
                              }
+                             handleOnClick={props.handleOnClick}
+                             setSelectedIngredientId={props.setSelectedIngredientId}
                              ref={bun}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.sauce}
                              groupItems={
                                props.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
                              }
+                             handleOnClick={props.handleOnClick}
+                             setSelectedIngredientId={props.setSelectedIngredientId}
                              ref={sauce}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.main}
                              groupItems={
                                props.burgerData.filter(burgerItem => burgerItem.type === 'main')
                              }
+                             handleOnClick={props.handleOnClick}
+                             setSelectedIngredientId={props.setSelectedIngredientId}
                              ref={filling}
             />
           </div>
@@ -80,7 +86,8 @@ BurgerIngredients.propTypes = {
     sauce: PropTypes.string.isRequired,
     main: PropTypes.string.isRequired,
   }).isRequired,
-  burgerData: PropTypes.shape({
+  burgerData: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
-  }).isRequired
+  })).isRequired,
+  handleOnClick: PropTypes.func.isRequired,
 }

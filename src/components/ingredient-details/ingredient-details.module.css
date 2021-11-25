@@ -1,0 +1,25 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0 60px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.heading {
+  align-self: flex-start;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.properties {
+  margin-right: 20px;
+}
+
+.properties:last-of-type {
+  margin-right: 0;
+}

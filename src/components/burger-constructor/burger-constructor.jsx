@@ -58,7 +58,7 @@ export function BurgerConstructor(props) {
         <div className={burgerConstructor.icon}>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button type="primary" size="large" className="ml-10">
+        <Button type="primary" size="large" className="ml-10" onClick={props.handleOnClick}>
           Оформить заказ
         </Button>
       </div>
@@ -67,10 +67,11 @@ export function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  burgerData: PropTypes.shape({
+  burgerData: PropTypes.arrayOf(PropTypes.shape({
     type: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired
-  }).isRequired
+  })).isRequired,
+  handleOnClick: PropTypes.func.isRequired
 }

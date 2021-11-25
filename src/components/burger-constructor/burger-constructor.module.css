@@ -21,7 +21,7 @@
   gap: 10px;
   padding: 0 16px 0;
   height: calc(100vh - 388px);
-  overflow: scroll;
+  overflow: auto;
   scrollbar-color: #8585ad #2f2f37; /* «цвет ползунка» «цвет полосы скроллбара» */
   scrollbar-width: thin;
 }
@@ -35,10 +35,6 @@
 /* ползунок скроллбара */
 .constructor::-webkit-scrollbar-thumb {
   background-color: #8585ad;
-}
-
-.constructor::-webkit-scrollbar-button {
-  width: 0;
 }
 
 .wrapper {
