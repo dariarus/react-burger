@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import burgerIngredientStyle from "./ingredient-group.module.css";
 
 import {Ingredient} from "../ingredients/ingredient.jsx";
+import {ingredientProperties} from "../../utils/burger-data";
 
 export const IngredientGroup = React.forwardRef((props, ref) => {
   return (
@@ -16,7 +17,8 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
             <Ingredient image={burgerItem.image} name={burgerItem.name}
                         price={burgerItem.price} handleOnClick={props.handleOnClick}
                         ingredientId={burgerItem._id}
-                        setSelectedIngredientId={props.setSelectedIngredientId}/>
+                        setSelectedIngredientId={props.setSelectedIngredientId}
+                        key={burgerItem._id} />
           ))
         }
       </div>
@@ -26,11 +28,7 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
 
 IngredientGroup.propTypes = {
   groupName: PropTypes.string.isRequired,
-  groupItems: PropTypes.arrayOf(PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired
-  })).isRequired,
+  groupItems: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired,
-  setSelectedIngredientId: PropTypes.number.isRequired
+  setSelectedIngredientId: PropTypes.func.isRequired
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import burgerConstructor from "./burger-constructor.module.css";
+import {ingredientProperties} from "../../utils/burger-data.js";
 
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -18,6 +19,7 @@ export function BurgerConstructor(props) {
                 text={`${item.name} (верх)`}
                 price={item.price}
                 thumbnail={item.image}
+                key={item._id}
               />
             ))
         }
@@ -25,7 +27,8 @@ export function BurgerConstructor(props) {
 
       <div className={burgerConstructor.constructor}>
         {props.burgerData.filter(burgerItem => (burgerItem.type !== 'bun')).map(item => (
-          <div className={burgerConstructor.wrapper}>
+          <div className={burgerConstructor.wrapper}
+               key={item._id}>
             <div className="mr-1">
               <DragIcon type="primary"/>
             </div>
@@ -48,6 +51,7 @@ export function BurgerConstructor(props) {
                 text={`${item.name} (низ)`}
                 price={item.price}
                 thumbnail={item.image}
+                key={item._id}
               />
             ))
         }
@@ -67,11 +71,6 @@ export function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  burgerData: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired
-  })).isRequired,
+  burgerData: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired
 }

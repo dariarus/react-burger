@@ -5,6 +5,7 @@ import ingredientsWrapper from './burger-ingredients.module.css';
 
 import {IngredientGroup} from "../ingredient-group/ingredient-group.jsx";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ingredientProperties} from "../../utils/burger-data";
 
 export function BurgerIngredients(props) {
   const sauce = React.useRef(null);
@@ -86,8 +87,7 @@ BurgerIngredients.propTypes = {
     sauce: PropTypes.string.isRequired,
     main: PropTypes.string.isRequired,
   }).isRequired,
-  burgerData: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired,
-  })).isRequired,
+  burgerData: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired,
+  setSelectedIngredientId: PropTypes.func.isRequired
 }

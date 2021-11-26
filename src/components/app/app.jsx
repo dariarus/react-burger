@@ -8,7 +8,7 @@ import {ingredientTypeRuName, queryBurgerDataUrl} from "../../utils/burger-data.
 import {AppHeader} from '../app-header/app-header.jsx';
 import {BurgerIngredients} from '../burger-ingredients/burger-ingredients.jsx';
 import {BurgerConstructor} from '../burger-constructor/burger-constructor.jsx';
-import {ModalOverlay} from "../modal-overlay/modal-overlay.jsx";
+import {Modal} from "../modal/modal.jsx";
 import {OrderDetails} from "../order-details/order-details.jsx";
 import {IngredientDetails} from "../ingredient-details/ingredient-details.jsx";
 
@@ -17,16 +17,22 @@ function App() {
   const [state, setState] = React.useState({
     modalsOpened: {},
     selectedIngredientId: null,
-    modalIsVisible: false,
     isLoading: false,
     hasError: false,
     error: '',
     burgerData: []
   });
 
+  function getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+    return res.json();
+  }
+
   React.useEffect(() => {
     fetch(`${queryBurgerDataUrl}`)
-      .then(res => res.json())
+      .then(res => getResponseData(res))
       .then(
         (res) => {
           setState(state => ({
@@ -60,8 +66,7 @@ function App() {
   function handleOpenModal(modalToOpen) {
     setState(state => {
       const modalState = {
-        ...state,
-        modalIsVisible: true
+        ...state
       };
       if (modalToOpen) {
         Object.keys(modalState.modalsOpened).forEach(modal => {
@@ -76,8 +81,7 @@ function App() {
   function handleCloseModal(modalToClose) {
     setState(state => {
       const modalState = {
-        ...state,
-        modalIsVisible: false
+        ...state
       };
       if (modalToClose) {
         Object.keys(modalState.modalsOpened).forEach(modal => {
@@ -104,8 +108,9 @@ function App() {
                                handleOnClick={() => {
                                  handleOpenModal("modalIngredientDetailsOpened")
                                }}
-                               setSelectedIngredientId={setSelectedIngredientId} //подъем состояния до родительского компонента от дочернего в
-              // виде функции, которая меняет состояние и которая вызывается в доч.комп.
+              //подъем состояния до родительского компонента от дочернего в
+              // виде функции, которая меняет состояние и которая вызывается в доч.комп.:
+                               setSelectedIngredientId={setSelectedIngredientId}
             />
 
 
@@ -116,22 +121,22 @@ function App() {
             {
               // modalOrderDetailsOpened и modalIngredientDetailsOpened - убраны из глобального state, т.к. запис-ся динамически через handleOpenModal в
               // отдельный объект modalsOpened и впосл-ие берутся из него:
-              state.modalIsVisible && state.modalsOpened.modalOrderDetailsOpened &&
-              <ModalOverlay handleOnClose={() => {
+              state.modalsOpened.modalOrderDetailsOpened &&
+              <Modal handleOnClose={() => {
                 handleCloseModal("modalOrderDetailsOpened")
               }}>
                 <OrderDetails/>
-              </ModalOverlay>
+              </Modal>
             }
 
             {
-              state.modalIsVisible && state.modalsOpened.modalIngredientDetailsOpened &&
-              <ModalOverlay handleOnClose={() => {
+              state.modalsOpened.modalIngredientDetailsOpened &&
+              <Modal handleOnClose={() => {
                 handleCloseModal("modalIngredientDetailsOpened")
               }}>
                 <IngredientDetails ingredientProperties={state.burgerData}
                                    selectedIngredientId={state.selectedIngredientId}/>
-              </ModalOverlay>
+              </Modal>
             }
           </div>
         </main>

@@ -8,7 +8,7 @@ export function OrderDetails() {
   return(
     <div className={orderDetailsStyle.wrapper}>
       <h2 className={`text text_type_digits-large ${orderDetailsStyle.digits}`}>034536</h2>
-      <p className="mt-8 text text_type_main-small">идентификатор заказа</p>
+      <p className="mt-8 text text_type_main-default">идентификатор заказа</p>
       <div className={orderDetailsStyle.shadow}>
         <CheckMarkIcon type="primary" />
       </div>

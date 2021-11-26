@@ -2,6 +2,7 @@ import React from 'react';
 
 import ingredientDetailsStyle from './ingredient-details.module.css';
 import PropTypes from "prop-types";
+import {ingredientProperties} from "../../utils/burger-data";
 
 export function IngredientDetails(props) {
   return (
@@ -12,28 +13,28 @@ export function IngredientDetails(props) {
           return props.selectedIngredientId === ingredientProperty._id
         })
         .map(property => (
-            <>
+            <React.Fragment key={property._id}>
               <img src={property.image_large} alt={property.name}/>
-              <p className="text text_type_main-default">{property.name}</p>
-              <div className={ingredientDetailsStyle.wrapper}>
-                <div className={ingredientDetailsStyle.properties}>
-                  <p className="text text_type_main-small text_color_inactive">Калории, ккал</p>
+              <p className="text text_type_main-medium">{property.name}</p>
+              <ul className={ingredientDetailsStyle.wrapper}>
+                <li className={ingredientDetailsStyle.properties}>
+                  <p className="text text_type_main-default text_color_inactive">Калории, ккал</p>
                   <p className="mt-2 text text_type_digits-default text_color_inactive">{property.calories}</p>
-                </div>
-                <div className={ingredientDetailsStyle.properties}>
-                  <p className="text text_type_main-small text_color_inactive">Белки, г</p>
+                </li>
+                <li className={ingredientDetailsStyle.properties}>
+                  <p className="text text_type_main-default text_color_inactive">Белки, г</p>
                   <p className="mt-2 text text_type_digits-default text_color_inactive">{property.proteins}</p>
-                </div>
-                <div className={ingredientDetailsStyle.properties}>
-                  <p className="text text_type_main-small text_color_inactive">Жиры, г</p>
+                </li>
+                <li className={ingredientDetailsStyle.properties}>
+                  <p className="text text_type_main-default text_color_inactive">Жиры, г</p>
                   <p className="mt-2 text text_type_digits-default text_color_inactive">{property.fat}</p>
-                </div>
-                <div className={ingredientDetailsStyle.properties}>
-                  <p className="text text_type_main-small text_color_inactive">Углеводы, г</p>
+                </li>
+                <li className={ingredientDetailsStyle.properties}>
+                  <p className="text text_type_main-default text_color_inactive">Углеводы, г</p>
                   <p className="mt-2 text text_type_digits-default text_color_inactive">{property.carbohydrates}</p>
-                </div>
-              </div>
-            </>
+                </li>
+              </ul>
+            </React.Fragment>
           )
         )}
     </div>
@@ -42,13 +43,5 @@ export function IngredientDetails(props) {
 
 IngredientDetails.propTypes = {
   selectedIngredientId: PropTypes.string.isRequired,
-  ingredientProperties: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    calories: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-  })).isRequired,
+  ingredientProperties: ingredientProperties
 }

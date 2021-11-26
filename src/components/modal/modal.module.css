@@ -1,3 +1,16 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2;
+  background: rgba(0, 0, 0, .6);
+}
+
 .modal {
   position: relative;
   box-sizing: border-box;
@@ -7,6 +20,7 @@
   background: rgba(28, 28, 33, 1);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
   border-radius: 40px;
+  z-index: 4;
 }
 
 .cross {

@@ -24,6 +24,8 @@ export function Ingredient(props) {
 }
 
 Ingredient.propTypes = {
+  setSelectedIngredientId: PropTypes.func.isRequired,
+  ingredientId: PropTypes.string.isRequired,
   handleOnClick: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
