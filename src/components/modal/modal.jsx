@@ -29,16 +29,17 @@ export function Modal(props) {
 
   return ReactDOM.createPortal(
     (
-      <div className={modalStyle.popup} onClick={props.handleOnClose}>
-        <ModalOverlay  />
+      <>
+        <ModalOverlay handleOnClose={props.handleOnClose}/>
         <div className={modalStyle.modal} onClick={(evt) => {
-          evt.stopPropagation()}}>
+          evt.stopPropagation()
+        }}>
           <div className={modalStyle.cross} onClick={props.handleOnClose}>
             <CloseIcon type="primary"/>
           </div>
           {props.children}
         </div>
-      </div>
+      </>
     ),
     modalRoot
   )
