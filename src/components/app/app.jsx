@@ -2,7 +2,6 @@ import React from 'react';
 
 import main from './app.module.css';
 import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
-import modalStyle from "../modal/modal.module.css";
 
 import {ingredientTypeRuName, queryBurgerDataUrl} from "../../utils/burger-data.js";
 
