@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0 60px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.heading {
+  align-self: flex-start;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 32px 0 0;
+  padding: 0;
+}
+
+.properties {
+  margin: 0 20px 0 0;
+  list-style: none;
+}
+
+.properties:last-of-type {
+  margin-right: 0;
+}

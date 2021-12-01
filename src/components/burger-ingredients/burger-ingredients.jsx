@@ -5,6 +5,7 @@ import ingredientsWrapper from './burger-ingredients.module.css';
 
 import {IngredientGroup} from "../ingredient-group/ingredient-group.jsx";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ingredientProperties} from "../../utils/burger-data";
 
 export function BurgerIngredients(props) {
   const sauce = React.useRef(null);
@@ -53,18 +54,24 @@ export function BurgerIngredients(props) {
                              groupItems={
                                props.burgerData.filter(burgerItem => burgerItem.type === 'bun')
                              }
+                             handleOnClick={props.handleOnClick}
+                             setSelectedIngredientId={props.setSelectedIngredientId}
                              ref={bun}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.sauce}
                              groupItems={
                                props.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
                              }
+                             handleOnClick={props.handleOnClick}
+                             setSelectedIngredientId={props.setSelectedIngredientId}
                              ref={sauce}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.main}
                              groupItems={
                                props.burgerData.filter(burgerItem => burgerItem.type === 'main')
                              }
+                             handleOnClick={props.handleOnClick}
+                             setSelectedIngredientId={props.setSelectedIngredientId}
                              ref={filling}
             />
           </div>
@@ -80,7 +87,7 @@ BurgerIngredients.propTypes = {
     sauce: PropTypes.string.isRequired,
     main: PropTypes.string.isRequired,
   }).isRequired,
-  burgerData: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-  }).isRequired
+  burgerData: ingredientProperties,
+  handleOnClick: PropTypes.func.isRequired,
+  setSelectedIngredientId: PropTypes.func.isRequired
 }

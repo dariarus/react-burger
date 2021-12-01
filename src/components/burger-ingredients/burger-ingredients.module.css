@@ -8,7 +8,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 2;
 }
 
 .burgerIngredients {
@@ -20,9 +20,8 @@
 .layout {
   display: flex;
   flex-direction: column;
-  /*max-height: 912px;*/
   height: calc(100vh - 104px);
-  margin-top: 40px;
+  margin-top: 80px;
   overflow: scroll;
   scrollbar-color: #8585ad #2f2f37; /* «цвет ползунка» «цвет полосы скроллбара» */
   scrollbar-width: thin;
