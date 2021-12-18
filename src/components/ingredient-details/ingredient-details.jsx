@@ -10,7 +10,7 @@ export function IngredientDetails(props) {
       <h1 className={`pt-3 text text_type_main-large ${ingredientDetailsStyle.heading}`}>Детали ингредиента</h1>
       {props.ingredientProperties
         .filter(ingredientProperty => {
-          return props.selectedIngredientId === ingredientProperty._id
+          return props.ingredientIdForModal === ingredientProperty._id
         })
         .map(property => (
             <React.Fragment key={property._id}>
@@ -42,6 +42,6 @@ export function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-  selectedIngredientId: PropTypes.string.isRequired,
+  ingredientIdForModal: PropTypes.string.isRequired,
   ingredientProperties: ingredientProperties
 }

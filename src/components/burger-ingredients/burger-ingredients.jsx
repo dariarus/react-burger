@@ -3,15 +3,21 @@ import PropTypes from 'prop-types';
 
 import ingredientsWrapper from './burger-ingredients.module.css';
 
+
 import {IngredientGroup} from "../ingredient-group/ingredient-group.jsx";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
 import {ingredientProperties} from "../../utils/burger-data";
+import {BurgerContextId, BurgerContext} from "../services/burger-context";
 
 export function BurgerIngredients(props) {
+  //const {state} = React.useContext(BurgerContextId)
+  const {state} = React.useContext(BurgerContext);
+ // const handleOpenModal = React.useContext(BurgerHandlerContext);
+
   const sauce = React.useRef(null);
   const bun = React.useRef(null);
   const filling = React.useRef(null);
-  const [tab, setActiveTab] = React.useState('one')
+  const [tab, setActiveTab] = React.useState('')
 
   function scroll(element) {
     if (element) {
@@ -52,26 +58,26 @@ export function BurgerIngredients(props) {
           <div className={ingredientsWrapper.layout}>
             <IngredientGroup groupName={props.ingredientTypeRuName.bun}
                              groupItems={
-                               props.burgerData.filter(burgerItem => burgerItem.type === 'bun')
+                               state.burgerData.filter(burgerItem => burgerItem.type === 'bun')
                              }
                              handleOnClick={props.handleOnClick}
-                             setSelectedIngredientId={props.setSelectedIngredientId}
+                             setIngredientIdForModal={props.setIngredientIdForModal}
                              ref={bun}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.sauce}
                              groupItems={
-                               props.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
+                               state.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
                              }
                              handleOnClick={props.handleOnClick}
-                             setSelectedIngredientId={props.setSelectedIngredientId}
+                             setIngredientIdForModal={props.setIngredientIdForModal}
                              ref={sauce}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.main}
                              groupItems={
-                               props.burgerData.filter(burgerItem => burgerItem.type === 'main')
+                               state.burgerData.filter(burgerItem => burgerItem.type === 'main')
                              }
                              handleOnClick={props.handleOnClick}
-                             setSelectedIngredientId={props.setSelectedIngredientId}
+                             setIngredientIdForModal={props.setIngredientIdForModal}
                              ref={filling}
             />
           </div>
@@ -87,7 +93,7 @@ BurgerIngredients.propTypes = {
     sauce: PropTypes.string.isRequired,
     main: PropTypes.string.isRequired,
   }).isRequired,
-  burgerData: ingredientProperties,
+ //burgerData: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired,
-  setSelectedIngredientId: PropTypes.func.isRequired
+  setIngredientIdForModal: PropTypes.func.isRequired
 }

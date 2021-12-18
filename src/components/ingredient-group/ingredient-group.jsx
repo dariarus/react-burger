@@ -14,11 +14,13 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
       <div className={burgerIngredientStyle.grid}>
         {
           props.groupItems.map(burgerItem => (
-            <Ingredient image={burgerItem.image} name={burgerItem.name}
+            <Ingredient ingredient={burgerItem}
+                        image={burgerItem.image} name={burgerItem.name}
                         price={burgerItem.price} handleOnClick={props.handleOnClick}
                         ingredientId={burgerItem._id}
-                        setSelectedIngredientId={props.setSelectedIngredientId}
-                        key={burgerItem._id} />
+                        ingredientType={burgerItem.type}
+                        setIngredientIdForModal={props.setIngredientIdForModal}
+                        key={burgerItem._id}/>
           ))
         }
       </div>
@@ -30,5 +32,5 @@ IngredientGroup.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupItems: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired,
-  setSelectedIngredientId: PropTypes.func.isRequired
+  setIngredientIdForModal: PropTypes.func.isRequired
 }
