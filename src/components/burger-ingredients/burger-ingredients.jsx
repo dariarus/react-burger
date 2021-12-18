@@ -6,13 +6,11 @@ import ingredientsWrapper from './burger-ingredients.module.css';
 
 import {IngredientGroup} from "../ingredient-group/ingredient-group.jsx";
 import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-import {ingredientProperties} from "../../utils/burger-data";
-import {BurgerContextId, BurgerContext} from "../services/burger-context";
+//import {ingredientProperties} from "../../utils/burger-data";
+import {BurgerContext} from "../services/burger-context";
 
 export function BurgerIngredients(props) {
-  //const {state} = React.useContext(BurgerContextId)
   const {state} = React.useContext(BurgerContext);
- // const handleOpenModal = React.useContext(BurgerHandlerContext);
 
   const sauce = React.useRef(null);
   const bun = React.useRef(null);

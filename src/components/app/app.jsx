@@ -4,6 +4,7 @@ import main from './app.module.css';
 import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
 
 import {ingredientTypeRuName, queryBurgerDataUrl} from "../../utils/burger-data.js";
+import {getResponseData} from "../../utils/api.js";
 
 import {BurgerContext, BurgerContextIngredients} from "../services/burger-context.js";
 
@@ -13,6 +14,7 @@ import {BurgerConstructor} from '../burger-constructor/burger-constructor.jsx';
 import {Modal} from "../modal/modal.jsx";
 import {OrderDetails} from "../order-details/order-details.jsx";
 import {IngredientDetails} from "../ingredient-details/ingredient-details.jsx";
+import {doOrder} from "../../utils/api";
 
 function App() {
 
@@ -23,6 +25,7 @@ function App() {
       bun: null,
       ingredients: []
     },
+    orderNumber: null,
     isLoading: false,
     hasError: false,
     error: '',
@@ -30,15 +33,8 @@ function App() {
   });
 
   /*** API ***/
-  function getResponseData(res) {
-    if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-    return res.json();
-  }
-
   React.useEffect(() => {
-    fetch(`${queryBurgerDataUrl}`)
+    fetch(`${queryBurgerDataUrl}/ingredients`)
       .then(res => getResponseData(res))
       .then(
         (res) => {
@@ -59,6 +55,29 @@ function App() {
         }
       )
   }, [])
+
+  const getOrderNumber = () => {
+    doOrder(createCommonArrayOfIngredientsId())
+      .then(
+        (res) => {
+          console.log(res)
+          setState(state => ({
+            ...state,
+            orderNumber: res.order.number
+          }))
+        })
+      .catch((error) => {
+          console.log(error)
+          setState(state => ({
+            ...state,
+            isLoading: true,
+            hasError: true,
+            error: error
+          }))
+        }
+      )
+  }
+
 
   /*** Functions ***/
   const setIngredientIdForModal = (ingredientId) => {
@@ -82,6 +101,13 @@ function App() {
     let ingredientPrice = state.selectedIngredients.ingredients.reduce(ingredientArrayReducer, 0);
     return ingredientPrice + bunPrice;
   }
+
+  function createCommonArrayOfIngredientsId() {
+    const commonArrayOfIngredientsId = state.selectedIngredients.ingredients.map(item => item._id);
+    commonArrayOfIngredientsId.unshift(state.selectedIngredients.bun._id);
+    return commonArrayOfIngredientsId;
+  }
+
 
   /*** Handlers ***/
   function handleOpenModal(modalToOpen) {
@@ -132,10 +158,6 @@ function App() {
   }
   const [statePrice, dispatchTotalPrice] = React.useReducer(totalIngredientPriceReducer, initTotalIngredientPrice, undefined);
 
-  // const stateIngredientsIdInitial = {
-  //   bun: null,
-  //   ingredients: []
-  // }
   const pushIngredientsReducer = (stateReducer, action) => {
     switch (action.type) {
       case "addIngredientToOrder": {
@@ -190,41 +212,6 @@ function App() {
       type: "recalculateTotalPrice"
     })
   }, [state.selectedIngredients])
-  // const pushIngredientsReducer = (stateReducer, action) => {
-  //   switch (action.type) {
-  //     case "addIngredientToOrder": {
-  //       if (action.ingredient.type === 'bun') {
-  //         return {
-  //           ...stateReducer,
-  //           bun: action.ingredient
-  //         }
-  //       } else {
-  //         const copiedSelectedItemsIdIngredients = [
-  //           ...stateReducer.ingredients
-  //         ];
-  //         copiedSelectedItemsIdIngredients.push(action.ingredient);
-  //         return {
-  //           ...stateReducer,
-  //           ingredients: copiedSelectedItemsIdIngredients
-  //         }
-  //         // ingredients: stateReducer.selectedItemsId.ingredients.push(state.ingredientIdForModal) // неверно! т.к. состояние тут не иммутабельное,
-  //         // и это попытка внести изменения прямо в исходное состояние вместо его копии. '...stateReducer' - это не копирование на месте, а результат выполнения редьюсера
-  //       }
-  //     }
-  //     case "deleteIngredientFromOrder": {
-  //       return {
-  //         ...stateReducer,
-  //         selectedItemsId: {
-  //           ...state.selectedItemsId,
-  //           ingredients: state.selectedItemsId.ingredients.push(action.id)
-  //         }
-  //       }
-  //     }
-  //     default:
-  //       return stateReducer;
-  //   }
-  // }
-
 
   /*** Memo-ed provider values ***/
   const providerValueTotalPrice = React.useMemo(() => ({
@@ -237,7 +224,7 @@ function App() {
 
   /*** App Rendering ***/
   if (state.hasError) {
-    return <div>Ошибка: {state.error.message}</div>;
+    return <h2 className="text text_type_main-default">{state.error.message}</h2>;
   } else if (!state.isLoading) {
     return <div>Загрузка...</div>;
   } else {
@@ -261,32 +248,33 @@ function App() {
 
 
                 <BurgerConstructor handleOnClick={() => {
-                  handleOpenModal("modalOrderDetailsOpened")
+                  handleOpenModal("modalOrderDetailsOpened");
+                  getOrderNumber()
                 }}/>
 
+
+                {
+                  // modalOrderDetailsOpened и modalIngredientDetailsOpened - убраны из глобального state, т.к. запис-ся динамически через handleOpenModal в
+                  // отдельный объект modalsOpened и впосл-ие берутся из него:
+                  state.modalsOpened.modalOrderDetailsOpened &&
+                  <Modal handleOnClose={() => {
+                    handleCloseModal("modalOrderDetailsOpened")
+                  }}>
+                    <OrderDetails/>
+                  </Modal>
+                }
+
+                {
+                  state.modalsOpened.modalIngredientDetailsOpened &&
+                  <Modal handleOnClose={() => {
+                    handleCloseModal("modalIngredientDetailsOpened")
+                  }}>
+                    <IngredientDetails ingredientProperties={state.burgerData}
+                                       ingredientIdForModal={state.ingredientIdForModal}/>
+                  </Modal>
+                }
               </BurgerContext.Provider>
             </BurgerContextIngredients.Provider>
-
-            {
-              // modalOrderDetailsOpened и modalIngredientDetailsOpened - убраны из глобального state, т.к. запис-ся динамически через handleOpenModal в
-              // отдельный объект modalsOpened и впосл-ие берутся из него:
-              state.modalsOpened.modalOrderDetailsOpened &&
-              <Modal handleOnClose={() => {
-                handleCloseModal("modalOrderDetailsOpened")
-              }}>
-                <OrderDetails/>
-              </Modal>
-            }
-
-            {
-              state.modalsOpened.modalIngredientDetailsOpened &&
-              <Modal handleOnClose={() => {
-                handleCloseModal("modalIngredientDetailsOpened")
-              }}>
-                <IngredientDetails ingredientProperties={state.burgerData}
-                                   ingredientIdForModal={state.ingredientIdForModal}/>
-              </Modal>
-            }
           </div>
         </main>
       </div>

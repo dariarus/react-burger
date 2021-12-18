@@ -5,7 +5,7 @@ import {BurgerContext, BurgerContextIngredients} from "../services/burger-contex
 
 import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
-import {ingredientProperties} from "../../utils/burger-data.js";
+//import {ingredientProperties} from "../../utils/burger-data.js";
 
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -13,22 +13,22 @@ import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/
 /****/
 export function BurgerConstructor(props) {
   const {dispatchIngredients} = React.useContext(BurgerContextIngredients);
-  const {state, statePrice, dispatchTotalPrice} = React.useContext(BurgerContext);
+  const {state, statePrice} = React.useContext(BurgerContext);
 
   return (
     <div className={burgerConstructor.container}>
       <div className={burgerConstructor.top}>
         {
           state.selectedIngredients.bun ? Array.of(state.selectedIngredients.bun).map(item => (
-                <ConstructorElement
-                  type="top"
-                  isLocked={true}
-                  text={`${item.name} (верх)`}
-                  price={item.price}
-                  thumbnail={item.image}
-                  key={`top:${item._id}`}
-                />
-              ))
+              <ConstructorElement
+                type="top"
+                isLocked={true}
+                text={`${item.name} (верх)`}
+                price={item.price}
+                thumbnail={item.image}
+                key={`top:${item._id}`}
+              />
+            ))
             : <ConstructorElement
               type="top"
               isLocked={true}
@@ -93,7 +93,8 @@ export function BurgerConstructor(props) {
           <CurrencyIcon type="primary"/>
         </div>
         <Button type="primary" size="large" className="ml-10" onClick={() => {
-          props.handleOnClick("modalOrderDetailsOpened")
+          props.handleOnClick("modalOrderDetailsOpened");
+
         }}>
           Оформить заказ
         </Button>
@@ -103,6 +104,6 @@ export function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  // burgerData: ingredientProperties,
+// burgerData: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired
 }
