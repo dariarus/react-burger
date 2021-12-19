@@ -17,9 +17,7 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
             <Ingredient ingredient={burgerItem}
                         image={burgerItem.image} name={burgerItem.name}
                         price={burgerItem.price} handleOnClick={props.handleOnClick}
-                        ingredientId={burgerItem._id}
-                        ingredientType={burgerItem.type}
-                        setIngredientIdForModal={props.setIngredientIdForModal}
+                        setIngredientForModal={props.setIngredientForModal}
                         key={burgerItem._id}/>
           ))
         }
@@ -32,5 +30,5 @@ IngredientGroup.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupItems: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired,
-  setIngredientIdForModal: PropTypes.func.isRequired
+  setIngredientForModal: PropTypes.func.isRequired
 }

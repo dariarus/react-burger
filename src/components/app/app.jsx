@@ -21,6 +21,7 @@ function App() {
   const [state, setState] = React.useState({
     modalsOpened: {},
     ingredientIdForModal: null,
+    ingredientForModal: null,
     selectedIngredients: {
       bun: null,
       ingredients: []
@@ -44,7 +45,8 @@ function App() {
             burgerData: res.data,
           }));
         },
-        // Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(), чтобы не перехватывать исключения из ошибок в самих компонентах.
+        /* "Примечание: важно обрабатывать ошибки именно здесь, а не в блоке catch(), чтобы не перехватывать исключения из ошибок в самих компонентах." -
+        примечание оставлено, т.к. было написано в примере в документации React */
         (error) => {
           setState(state => ({
             ...state,
@@ -68,23 +70,22 @@ function App() {
         })
       .catch((error) => {
           console.log(error)
-          setState(state => ({
-            ...state,
-            isLoading: true,
-            hasError: true,
-            error: error
-          }))
+          // setState(state => ({
+          //   ...state,
+          //   isLoading: true,
+          //   hasError: true,
+          //   error: error
+          // }))
         }
       )
   }
 
-
   /*** Functions ***/
-  const setIngredientIdForModal = (ingredientId) => {
+  const setIngredientForModal = (ingredient) => {
     setState((state) => (
       {
         ...state,
-        ingredientIdForModal: ingredientId
+        ingredientForModal: ingredient
       }));
   }
 
@@ -104,10 +105,11 @@ function App() {
 
   function createCommonArrayOfIngredientsId() {
     const commonArrayOfIngredientsId = state.selectedIngredients.ingredients.map(item => item._id);
-    commonArrayOfIngredientsId.unshift(state.selectedIngredients.bun._id);
+    if (state.selectedIngredients.bun) {
+      commonArrayOfIngredientsId.unshift(state.selectedIngredients.bun._id);
+    }
     return commonArrayOfIngredientsId;
   }
-
 
   /*** Handlers ***/
   function handleOpenModal(modalToOpen) {
@@ -243,7 +245,7 @@ function App() {
                                    }}
                   //подъем состояния до родительского компонента от дочернего в
                   // виде функции, которая меняет состояние и которая вызывается в доч.комп.:
-                                   setIngredientIdForModal={setIngredientIdForModal}
+                                   setIngredientForModal={setIngredientForModal}
                 />
 
 
@@ -269,8 +271,7 @@ function App() {
                   <Modal handleOnClose={() => {
                     handleCloseModal("modalIngredientDetailsOpened")
                   }}>
-                    <IngredientDetails ingredientProperties={state.burgerData}
-                                       ingredientIdForModal={state.ingredientIdForModal}/>
+                    <IngredientDetails/>
                   </Modal>
                 }
               </BurgerContext.Provider>

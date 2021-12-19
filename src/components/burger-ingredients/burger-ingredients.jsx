@@ -59,7 +59,7 @@ export function BurgerIngredients(props) {
                                state.burgerData.filter(burgerItem => burgerItem.type === 'bun')
                              }
                              handleOnClick={props.handleOnClick}
-                             setIngredientIdForModal={props.setIngredientIdForModal}
+                             setIngredientForModal={props.setIngredientForModal}
                              ref={bun}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.sauce}
@@ -67,7 +67,7 @@ export function BurgerIngredients(props) {
                                state.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
                              }
                              handleOnClick={props.handleOnClick}
-                             setIngredientIdForModal={props.setIngredientIdForModal}
+                             setIngredientForModal={props.setIngredientForModal}
                              ref={sauce}
             />
             <IngredientGroup groupName={props.ingredientTypeRuName.main}
@@ -75,7 +75,7 @@ export function BurgerIngredients(props) {
                                state.burgerData.filter(burgerItem => burgerItem.type === 'main')
                              }
                              handleOnClick={props.handleOnClick}
-                             setIngredientIdForModal={props.setIngredientIdForModal}
+                             setIngredientForModal={props.setIngredientForModal}
                              ref={filling}
             />
           </div>
@@ -93,5 +93,5 @@ BurgerIngredients.propTypes = {
   }).isRequired,
  //burgerData: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired,
-  setIngredientIdForModal: PropTypes.func.isRequired
+  setIngredientForModal: PropTypes.func.isRequired
 }

@@ -5,12 +5,9 @@ import {BurgerContext, BurgerContextIngredients} from "../services/burger-contex
 
 import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
-//import {ingredientProperties} from "../../utils/burger-data.js";
 
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
-
-/****/
 export function BurgerConstructor(props) {
   const {dispatchIngredients} = React.useContext(BurgerContextIngredients);
   const {state, statePrice} = React.useContext(BurgerContext);
@@ -104,6 +101,5 @@ export function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-// burgerData: ingredientProperties,
   handleOnClick: PropTypes.func.isRequired
 }

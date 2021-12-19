@@ -11,7 +11,7 @@ export function Ingredient(props) {
 
   return (
     <div className={ingredientsStyle.card} onClick={() => {
-      props.setIngredientIdForModal(props.ingredientId);
+      props.setIngredientForModal(props.ingredient);
       props.handleOnClick();
       dispatchIngredients({
         type: "addIngredientToOrder",
@@ -30,9 +30,8 @@ export function Ingredient(props) {
 }
 
 Ingredient.propTypes = {
-  setIngredientIdForModal: PropTypes.func.isRequired,
+  setIngredientForModal: PropTypes.func.isRequired,
   ingredient: PropTypes.object.isRequired,
-  ingredientId: PropTypes.string.isRequired,
   handleOnClick: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
