@@ -59,25 +59,29 @@ function App() {
   }, [])
 
   const getOrderNumber = () => {
-    doOrder(createCommonArrayOfIngredientsId())
-      .then(
-        (res) => {
-          console.log(res)
-          setState(state => ({
-            ...state,
-            orderNumber: res.order.number
-          }))
-        })
-      .catch((error) => {
-          console.log(error)
-          // setState(state => ({
-          //   ...state,
-          //   isLoading: true,
-          //   hasError: true,
-          //   error: error
-          // }))
-        }
-      )
+    const arrayOfIngredients = createCommonArrayOfIngredientsId();
+    // if (arrayOfIngredients.find(item => {return state.selectedIngredients.bun && item === state.selectedIngredients.bun._id}) !== undefined) {
+    // if (arrayOfIngredients.includes(state.selectedIngredients.bun._id) {
+    if (state.selectedIngredients.bun) {
+      doOrder(arrayOfIngredients)
+        .then(
+          (res) => {
+            setState(state => ({
+              ...state,
+              orderNumber: res.order.number
+            }))
+          })
+        .catch((error) => {
+            console.log(error)
+            setState(state => ({
+              ...state,
+              isLoading: true,
+              hasError: true,
+              error: error
+            }))
+          }
+        );
+    }
   }
 
   /*** Functions ***/
@@ -189,7 +193,6 @@ function App() {
         return stateReducer;
       }
       case "deleteIngredientFromOrder": {
-        console.log(action.index);
         const copiedIngredientArray = [
           ...state.selectedIngredients.ingredients
         ];
