@@ -6,7 +6,7 @@ const ingredientTypeRuName = {
   "main": "Начинка"
 };
 
-const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api/ingredients';
+const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
 
 const ingredientProperties = PropTypes.arrayOf(PropTypes.shape({
   _id: PropTypes.string.isRequired,
