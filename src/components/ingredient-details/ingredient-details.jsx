@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from "react-redux";
 
 import ingredientDetailsStyle from './ingredient-details.module.css';
 import {BurgerContext} from "../services/burger-context";
@@ -6,14 +7,17 @@ import {BurgerContext} from "../services/burger-context";
 //import {ingredientProperties} from "../../utils/burger-data";
 
 export function IngredientDetails() {
-  const {state} = React.useContext(BurgerContext);
+  //const {state} = React.useContext(BurgerContext);
+  const {modalState} = useSelector(state => {
+      return state
+    });
 
   return (
     <div className={ingredientDetailsStyle.container}>
       <h1 className={`pt-3 text text_type_main-large ${ingredientDetailsStyle.heading}`}>Детали ингредиента</h1>
       {
-        state.ingredientForModal &&
-        Array.of(state.ingredientForModal).map(ingredient => (
+        modalState.ingredientForModal &&
+        Array.of(modalState.ingredientForModal).map(ingredient => (
             <React.Fragment key={ingredient._id}>
               <img src={ingredient.image_large} alt={ingredient.name}/>
               <p className="text text_type_main-medium">{ingredient.name}</p>

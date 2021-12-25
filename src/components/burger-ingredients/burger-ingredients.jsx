@@ -1,16 +1,18 @@
 import React from "react";
+import {useSelector} from "react-redux";
 import PropTypes from 'prop-types';
 
 import ingredientsWrapper from './burger-ingredients.module.css';
 
-
 import {IngredientGroup} from "../ingredient-group/ingredient-group.jsx";
-import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
-//import {ingredientProperties} from "../../utils/burger-data";
-import {BurgerContext} from "../services/burger-context";
+import {ingredientTypeRuName} from "../../utils/burger-data.js";
 
-export function BurgerIngredients(props) {
-  const {state} = React.useContext(BurgerContext);
+import {Tab} from "@ya.praktikum/react-developer-burger-ui-components";
+
+export function BurgerIngredients() {
+  const {burgerDataState} = useSelector(state => {
+    return state
+  });
 
   const sauce = React.useRef(null);
   const bun = React.useRef(null);
@@ -54,28 +56,22 @@ export function BurgerIngredients(props) {
 
         {
           <div className={ingredientsWrapper.layout}>
-            <IngredientGroup groupName={props.ingredientTypeRuName.bun}
+            <IngredientGroup groupName={ingredientTypeRuName.bun}
                              groupItems={
-                               state.burgerData.filter(burgerItem => burgerItem.type === 'bun')
+                               burgerDataState.burgerData.filter(burgerItem => burgerItem.type === 'bun')
                              }
-                             handleOnClick={props.handleOnClick}
-                             setIngredientForModal={props.setIngredientForModal}
                              ref={bun}
             />
-            <IngredientGroup groupName={props.ingredientTypeRuName.sauce}
+            <IngredientGroup groupName={ingredientTypeRuName.sauce}
                              groupItems={
-                               state.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
+                               burgerDataState.burgerData.filter(burgerItem => burgerItem.type === 'sauce')
                              }
-                             handleOnClick={props.handleOnClick}
-                             setIngredientForModal={props.setIngredientForModal}
                              ref={sauce}
             />
-            <IngredientGroup groupName={props.ingredientTypeRuName.main}
+            <IngredientGroup groupName={ingredientTypeRuName.main}
                              groupItems={
-                               state.burgerData.filter(burgerItem => burgerItem.type === 'main')
+                               burgerDataState.burgerData.filter(burgerItem => burgerItem.type === 'main')
                              }
-                             handleOnClick={props.handleOnClick}
-                             setIngredientForModal={props.setIngredientForModal}
                              ref={filling}
             />
           </div>
@@ -86,12 +82,12 @@ export function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  ingredientTypeRuName: PropTypes.shape({
-    bun: PropTypes.string.isRequired,
-    sauce: PropTypes.string.isRequired,
-    main: PropTypes.string.isRequired,
-  }).isRequired,
+  // ingredientTypeRuName: PropTypes.shape({
+  //   bun: PropTypes.string.isRequired,
+  //   sauce: PropTypes.string.isRequired,
+  //   main: PropTypes.string.isRequired,
+  // }).isRequired,
  //burgerData: ingredientProperties,
-  handleOnClick: PropTypes.func.isRequired,
-  setIngredientForModal: PropTypes.func.isRequired
+ //  handleOnClick: PropTypes.func.isRequired,
+ //  setIngredientForModal: PropTypes.func.isRequired
 }

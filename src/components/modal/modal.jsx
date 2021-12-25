@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 
 import modalStyle from "./modal.module.css";
@@ -8,13 +9,17 @@ import {ModalOverlay} from "../modal-overlay/modal-overlay.jsx";
 
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
+import {handleModalSlice} from "../services/toolkit-slices/modal";
+
 const modalRoot = document.getElementById("modal");
 
 export function Modal(props) {
+  const dispatch = useDispatch();
+  const {actions} = handleModalSlice;
 
   function handleEscClose(evt) {
     if (evt.key === 'Escape') {
-      props.handleOnClose();
+      dispatch(actions.handleModal_close());
     }
   }
 
@@ -30,11 +35,14 @@ export function Modal(props) {
   return ReactDOM.createPortal(
     (
       <>
-        <ModalOverlay handleOnClose={props.handleOnClose}/>
+        <ModalOverlay />;
+        }}/>
         <div className={modalStyle.modal} onClick={(evt) => {
           evt.stopPropagation()
         }}>
-          <div className={modalStyle.cross} onClick={props.handleOnClose}>
+          <div className={modalStyle.cross} onClick={() => {
+            dispatch(actions.handleModal_close());
+          }}>
             <CloseIcon type="primary"/>
           </div>
           {props.children}
@@ -46,6 +54,6 @@ export function Modal(props) {
 }
 
 Modal.propTypes = {
-  handleOnClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
+  // handleOnClose: PropTypes.func.isRequired,
+  // children: PropTypes.node.isRequired
 }

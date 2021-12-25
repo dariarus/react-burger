@@ -4,19 +4,23 @@ import PropTypes from 'prop-types';
 import ingredientsStyle from "./ingredient.module.css";
 
 import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
-import {BurgerContextIngredients} from "../services/burger-context";
+import {handleModalSlice} from "../services/toolkit-slices/modal";
+import {burgerConstructorSlice} from "../services/toolkit-slices/burger-constructor";
+import {useDispatch} from "react-redux";
 
 export function Ingredient(props) {
-  const {dispatchIngredients} = React.useContext(BurgerContextIngredients);
+
+  const dispatch = useDispatch();
+  const actionsModal = handleModalSlice.actions;
+  const actionsConstructor = burgerConstructorSlice.actions;
 
   return (
     <div className={ingredientsStyle.card} onClick={() => {
-      props.setIngredientForModal(props.ingredient);
-      props.handleOnClick();
-      dispatchIngredients({
-        type: "addIngredientToOrder",
-        ingredient: props.ingredient
-      });
+      dispatch(actionsModal.setIngredientForModal(props.ingredient));
+      dispatch(actionsModal.handleModal_open({
+        modalIngredientDetailsOpened: true
+      }));
+      dispatch(actionsConstructor.addIngredientToOrder(props.ingredient))
     }}>
       <Counter count={1} size="default"/>
       <img src={props.image} alt={props.name} className="pr-4 pl-4"/>
@@ -30,9 +34,9 @@ export function Ingredient(props) {
 }
 
 Ingredient.propTypes = {
-  setIngredientForModal: PropTypes.func.isRequired,
+//  setIngredientForModal: PropTypes.func.isRequired,
   ingredient: PropTypes.object.isRequired,
-  handleOnClick: PropTypes.func.isRequired,
+ // handleOnClick: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired

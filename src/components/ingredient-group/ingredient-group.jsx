@@ -5,6 +5,9 @@ import burgerIngredientStyle from "./ingredient-group.module.css";
 
 import {Ingredient} from "../ingredients/ingredient.jsx";
 import {ingredientProperties} from "../../utils/burger-data";
+import {useSelector} from "react-redux";
+
+
 
 export const IngredientGroup = React.forwardRef((props, ref) => {
   return (
@@ -16,8 +19,7 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
           props.groupItems.map(burgerItem => (
             <Ingredient ingredient={burgerItem}
                         image={burgerItem.image} name={burgerItem.name}
-                        price={burgerItem.price} handleOnClick={props.handleOnClick}
-                        setIngredientForModal={props.setIngredientForModal}
+                        price={burgerItem.price}
                         key={burgerItem._id}/>
           ))
         }
@@ -29,6 +31,6 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
 IngredientGroup.propTypes = {
   groupName: PropTypes.string.isRequired,
   groupItems: ingredientProperties,
-  handleOnClick: PropTypes.func.isRequired,
-  setIngredientForModal: PropTypes.func.isRequired
+ // handleOnClick: PropTypes.func.isRequired,
+ // setIngredientForModal: PropTypes.func.isRequired
 }

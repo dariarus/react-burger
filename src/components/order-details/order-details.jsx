@@ -3,15 +3,18 @@ import React from 'react';
 import orderDetailsStyle from "./order-details.module.css";
 
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {BurgerContext} from "../services/burger-context";
+import {useSelector} from "react-redux";
 
 export function OrderDetails() {
-  const {state} = React.useContext(BurgerContext);
+  const {burgerConstructorIngredients, orderState} = useSelector(state => {
+    return state
+  });
+
 
   return (
-    state.orderNumber && state.selectedIngredients.bun
+    orderState.orderNumber && burgerConstructorIngredients.bun
       ? <div className={orderDetailsStyle.wrapper}>
-        <h2 className={`text text_type_digits-large ${orderDetailsStyle.digits}`}>{state.orderNumber}</h2>
+        <h2 className={`text text_type_digits-large ${orderDetailsStyle.digits}`}>{orderState.orderNumber}</h2>
         <p className="mt-8 text text_type_main-default">идентификатор заказа</p>
         <div className={orderDetailsStyle.shadow}>
           <CheckMarkIcon type="primary"/>
