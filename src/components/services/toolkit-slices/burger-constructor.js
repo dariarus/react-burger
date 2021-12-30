@@ -8,6 +8,9 @@ export const burgerConstructorSlice = createSlice({
   },
   reducers: {
     addIngredientToOrder: (state, action) => {
+      const uniqId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+      console.log(uniqId())
+
       if (action.payload.type === 'bun') {
         return {
           ...state,
@@ -17,7 +20,10 @@ export const burgerConstructorSlice = createSlice({
         const copiedSelectedItemsIdIngredients = [
           ...state.ingredients
         ];
-        copiedSelectedItemsIdIngredients.push(action.payload);
+        copiedSelectedItemsIdIngredients.push({
+          item: action.payload,
+          uniqueId: uniqId()
+        })
         return {
           ...state,
           ingredients: copiedSelectedItemsIdIngredients
@@ -28,7 +34,13 @@ export const burgerConstructorSlice = createSlice({
       const copiedIngredientArray = [
         ...state.ingredients
       ];
-      copiedIngredientArray.splice(action.payload, 1) //index
+      const index = copiedIngredientArray.findIndex(itemWithId => itemWithId.uniqueId === action.payload) //id
+      if (index > -1) {
+        copiedIngredientArray.splice(index, 1)
+      } else {
+        console.log(`Error: Can not find itemWithId: ${action.payload}`)
+      }
+
       return {
         ...state,
         ingredients: copiedIngredientArray

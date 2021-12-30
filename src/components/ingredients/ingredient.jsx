@@ -1,28 +1,46 @@
 import React from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {useDrag} from "react-dnd";
 import PropTypes from 'prop-types';
 
 import ingredientsStyle from "./ingredient.module.css";
 
-import {CurrencyIcon, Counter} from "@ya.praktikum/react-developer-burger-ui-components";
+import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {handleModalSlice} from "../services/toolkit-slices/modal";
-import {burgerConstructorSlice} from "../services/toolkit-slices/burger-constructor";
-import {useDispatch} from "react-redux";
 
 export function Ingredient(props) {
 
+  const {ingredientCounter} = useSelector(state => {
+    return state
+  })
+
   const dispatch = useDispatch();
   const actionsModal = handleModalSlice.actions;
-  const actionsConstructor = burgerConstructorSlice.actions;
+
+  const [{isDragging}, dragRef] = useDrag({
+    type: 'ingredient',
+    item: props.ingredient,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  })
 
   return (
-    <div className={ingredientsStyle.card} onClick={() => {
-      dispatch(actionsModal.setIngredientForModal(props.ingredient));
-      dispatch(actionsModal.handleModal_open({
-        modalIngredientDetailsOpened: true
-      }));
-      dispatch(actionsConstructor.addIngredientToOrder(props.ingredient))
-    }}>
-      <Counter count={1} size="default"/>
+    <div ref={dragRef}
+         className={isDragging ? `${ingredientsStyle.dragging} ${ingredientsStyle.card}` : `${ingredientsStyle.card}`}
+         onClick={() => {
+           dispatch(actionsModal.setIngredientForModal(props.ingredient));
+           dispatch(actionsModal.handleModal_open({
+             modalIngredientDetailsOpened: true
+           }));
+         }}
+         draggable>
+      {
+        ingredientCounter.selectedIngredients.includes(props.ingredient) &&
+        <Counter
+          count={ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 1 : acc, 0)}
+          size="default"/>
+      }
       <img src={props.image} alt={props.name} className="pr-4 pl-4"/>
       <div className={`pt-1 pb-1 ${ingredientsStyle.wrapper}`}>
         <p className="text text_type_digits-default pr-2">{props.price}</p>
@@ -34,9 +52,7 @@ export function Ingredient(props) {
 }
 
 Ingredient.propTypes = {
-//  setIngredientForModal: PropTypes.func.isRequired,
   ingredient: PropTypes.object.isRequired,
- // handleOnClick: PropTypes.func.isRequired,
   image: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired

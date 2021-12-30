@@ -1,6 +1,6 @@
 import React from "react";
 import {createSlice} from "@reduxjs/toolkit";
-import {orderSlice} from "./order-number";
+import {orderSlice} from "./order";
 
 export const totalPriceSlice = createSlice({
   name: 'totalPrice',

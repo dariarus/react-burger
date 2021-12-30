@@ -4,6 +4,7 @@ export const ingredientCounterSlice = createSlice({
   name: 'ingredientCounter',
   initialState: {
     isVisible: false,
+    selectedIngredients: [],
     counter: 1
   },
   reducers: {
@@ -14,28 +15,31 @@ export const ingredientCounterSlice = createSlice({
       }
     },
     counter_increment: (state, action) => {
+      let copiedSelectedIngredients = [
+        ...state.selectedIngredients
+      ];
+      if (action.payload.type === 'bun') {
+        copiedSelectedIngredients = copiedSelectedIngredients.filter(ingredient => ingredient.type !== 'bun')
+      }
+      copiedSelectedIngredients.push(action.payload)
       return {
         ...state,
-        counter: state.counter + 1
+        selectedIngredients: copiedSelectedIngredients
       }
     },
     counter_decrement: (state, action) => { //needed?
-      if (state.counter !== 1) {
-        return {
-          ...state,
-          counter: state.counter - 1
-        }
+      let copiedSelectedIngredients = [
+        ...state.selectedIngredients
+      ];
+      const index = copiedSelectedIngredients.findIndex(item => item._id === action.payload) //id
+      if (index > -1) {
+        copiedSelectedIngredients.splice(index, 1)
       } else {
-        return {
-          ...state,
-          isVisible: false
-        }
+        console.log(`Error: Can not find itemWithId: ${action.payload}`)
       }
-    },
-    counter_hidden: (state, action) => {
       return {
         ...state,
-        isVisible: false
+        selectedIngredients: copiedSelectedIngredients
       }
     }
   }

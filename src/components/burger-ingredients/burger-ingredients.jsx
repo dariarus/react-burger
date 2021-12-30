@@ -25,6 +25,14 @@ export function BurgerIngredients() {
     }
   }
 
+  // пользовательский скролл вкладок внутри контейнера
+  // const handleMouseScroll = (event) => {
+  //   window.onscroll = (event) => {
+  //     event.preventDefault();
+  //   }
+  //   const position = window.screenY - window.clientY // clientY - не то, т.к. это координаты, по которым кликнул прльзователь
+  // }
+
   return (
     <>
       <div className={ingredientsWrapper.burgerIngredients}>

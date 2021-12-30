@@ -5,9 +5,6 @@ import burgerIngredientStyle from "./ingredient-group.module.css";
 
 import {Ingredient} from "../ingredients/ingredient.jsx";
 import {ingredientProperties} from "../../utils/burger-data";
-import {useSelector} from "react-redux";
-
-
 
 export const IngredientGroup = React.forwardRef((props, ref) => {
   return (

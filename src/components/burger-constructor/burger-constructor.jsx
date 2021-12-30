@@ -1,5 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
+import {useDrag, useDrop} from "react-dnd";
 
 import {doOrder} from "../../utils/api";
 
@@ -8,6 +9,7 @@ import bunImage from '../../images/logo.svg';
 
 import {burgerConstructorSlice} from "../services/toolkit-slices/burger-constructor.js";
 import {handleModalSlice} from "../services/toolkit-slices/modal";
+import {ingredientCounterSlice} from "../services/toolkit-slices/ingredient-counter"
 
 import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {totalPriceSlice} from "../services/toolkit-slices/total-price";
@@ -22,6 +24,8 @@ export function BurgerConstructor() {
   const actionsConstructor = burgerConstructorSlice.actions;
   const actionsModal = handleModalSlice.actions;
   const actionsTotalPrice = totalPriceSlice.actions;
+  const actionsCounter = ingredientCounterSlice.actions;
+  const actionsIngredientCounter = ingredientCounterSlice.actions;
 
   const createCommonArrayOfIngredientsIds = () => {
     const commonArrayOfIngredientsIds = burgerConstructorIngredients.ingredients.map(item => item._id);
@@ -39,17 +43,39 @@ export function BurgerConstructor() {
     if (burgerConstructorIngredients.bun) {
       bunPrice = burgerConstructorIngredients.bun.price * 2;
     }
-    let ingredientPrice = burgerConstructorIngredients.ingredients.reduce(ingredientArrayReducer, 0);
+    let ingredientPrice = burgerConstructorIngredients.ingredients
+      .map(element => element.item)
+      .reduce(ingredientArrayReducer, 0);
     return ingredientPrice + bunPrice;
   }
+
+  // const [{ isDragging }, dragRef, index] = useDrag({
+  //   type: 'item',
+  //   item: index,
+  //   collect: (monitor) => ({
+  //     isDragging: monitor.isDragging(),
+  //   }),
+  // })
+
+  const [{isOver}, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop: (item) => {
+      dispatch(actionsConstructor.addIngredientToOrder(item));
+      dispatch(actionsIngredientCounter.counter_increment(item))
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver()
+    })
+  })
 
   React.useEffect(() => {
     dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPrice()))
   }, [burgerConstructorIngredients])
 
   return (
-    <div className={burgerConstructor.container}>
-      <div className={burgerConstructor.top}>
+    <div ref={dropRef}
+         className={burgerConstructor.container}>
+      <div className={isOver ? `${burgerConstructor.top} ${burgerConstructor.overbun}` : `${burgerConstructor.top}`}>
         {
           burgerConstructorIngredients.bun
             ? Array.of(burgerConstructorIngredients.bun).map(item => (
@@ -72,27 +98,28 @@ export function BurgerConstructor() {
         }
       </div>
 
-      <div className={burgerConstructor.constructor}>
+      <div className={isOver ? `${burgerConstructor.constructor} ${burgerConstructor.overingredient}` : `${burgerConstructor.constructor}`}>
         {
-          burgerConstructorIngredients.ingredients && burgerConstructorIngredients.ingredients.map((item, index) => (
+          burgerConstructorIngredients.ingredients && burgerConstructorIngredients.ingredients.map((itemWithId, index) => (
             <div className={burgerConstructor.wrapper}
-                 key={index}>
+                 key={itemWithId.uniqueId}>
               <div className="mr-1">
                 <DragIcon type="primary"/>
               </div>
               <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
+                text={itemWithId.item.name}
+                price={itemWithId.item.price}
+                thumbnail={itemWithId.item.image}
                 handleClose={() => {
-                  dispatch(actionsConstructor.deleteIngredientFromOrder(index));
+                  dispatch(actionsConstructor.deleteIngredientFromOrder(itemWithId.uniqueId));
+                  dispatch(actionsCounter.counter_decrement(itemWithId.item._id));
                 }}
               />
             </div>
           ))}
       </div>
 
-      <div className={burgerConstructor.bottom}>
+      <div className={isOver ? `${burgerConstructor.bottom} ${burgerConstructor.overbun}` : `${burgerConstructor.bottom}`}>
         {
           burgerConstructorIngredients.bun
             ? Array.of(burgerConstructorIngredients.bun)

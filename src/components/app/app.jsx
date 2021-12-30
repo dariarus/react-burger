@@ -1,5 +1,7 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 import main from './app.module.css';
 import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
@@ -31,7 +33,6 @@ function App() {
   if (burgerDataState.hasError) {
     return <h2 className="text text_type_main-default">{burgerDataState.error.message}</h2>;
   } else if (burgerDataState.isLoading) {
-    console.log(burgerDataState.isLoading)
     return <div>Загрузка...</div>;
   } else {
     return (
@@ -40,13 +41,15 @@ function App() {
         <main className="pt-10 pb-10">
           <h1 className="text text_type_main-large">Соберите бургер</h1>
           <div className={ingredientsWrapper.section}>
-            {
-              // console.log(state) &&
-              burgerDataState &&
-              <BurgerIngredients/>
-            }
 
-            <BurgerConstructor/>
+            <DndProvider backend={HTML5Backend}>
+              {
+                burgerDataState &&
+                <BurgerIngredients/>
+              }
+
+              <BurgerConstructor/>
+            </DndProvider>
 
             {
               modalState.modalsOpened.modalOrderDetailsOpened &&
