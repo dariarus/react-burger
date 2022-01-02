@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
@@ -45,8 +45,26 @@ export const burgerConstructorSlice = createSlice({
         ...state,
         ingredients: copiedIngredientArray
       }
+    },
+    setIngredientToDrag: (state, action) => {
+      const updatedIngredients = [...state.ingredients]
+
+      const dragItem = state.ingredients[action.payload.dragIndex]
+      const hoverItem = state.ingredients[action.payload.hoverIndex]
+
+
+      
+      updatedIngredients[action.payload.dragIndex] = hoverItem
+      updatedIngredients[action.payload.hoverIndex] = dragItem
+      console.log(action.payload);
+      console.log(updatedIngredients)
+
+      return {
+        ...state,
+        ingredients: updatedIngredients
+      }
     }
   }
 })
-export const {addIngredientToOrder, deleteIngredientFromOrder} = burgerConstructorSlice.actions
+export const { addIngredientToOrder, deleteIngredientFromOrder } = burgerConstructorSlice.actions
 export default burgerConstructorSlice.reducer

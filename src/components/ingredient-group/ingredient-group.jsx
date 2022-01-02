@@ -8,9 +8,8 @@ import {ingredientProperties} from "../../utils/burger-data";
 
 export const IngredientGroup = React.forwardRef((props, ref) => {
   return (
-    <>
-      <h2 ref={ref}
-          className="pt-10 text text_type_main-medium">{props.groupName}</h2>
+    <div ref={ref}>
+      <h2 className="pt-10 text text_type_main-medium">{props.groupName}</h2>
       <div className={burgerIngredientStyle.grid}>
         {
           props.groupItems.map(burgerItem => (
@@ -21,7 +20,7 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
           ))
         }
       </div>
-    </>
+    </div>
   )
 })
 
