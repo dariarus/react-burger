@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const burgerConstructorSlice = createSlice({
-  name: 'burgerConstructor',
-  initialState: {
+const getInitialState = () => {
+  return {
     bun: null,
     ingredients: []
-  },
+  }
+}
+
+export const burgerConstructorSlice = createSlice({
+  name: 'burgerConstructor',
+  initialState: getInitialState(),
   reducers: {
     addIngredientToOrder: (state, action) => {
       const uniqId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
-      console.log(uniqId())
 
       if (action.payload.type === 'bun') {
         return {
@@ -52,17 +55,16 @@ export const burgerConstructorSlice = createSlice({
       const dragItem = state.ingredients[action.payload.dragIndex]
       const hoverItem = state.ingredients[action.payload.hoverIndex]
 
-
-      
       updatedIngredients[action.payload.dragIndex] = hoverItem
       updatedIngredients[action.payload.hoverIndex] = dragItem
-      console.log(action.payload);
-      console.log(updatedIngredients)
 
       return {
         ...state,
         ingredients: updatedIngredients
       }
+    },
+    cleanOrder: () => {
+      return getInitialState();
     }
   }
 })

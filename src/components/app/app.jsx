@@ -1,27 +1,35 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
+import { useSelector, useDispatch } from 'react-redux';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 import main from './app.module.css';
 import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
 
-import {getBurgerDataFromServer} from "../../utils/api.js";
+import { getBurgerDataFromServer } from "../../services/actions/api.js";
 
-import {AppHeader} from '../app-header/app-header.jsx';
-import {BurgerIngredients} from '../burger-ingredients/burger-ingredients.jsx';
-import {BurgerConstructor} from '../burger-constructor/burger-constructor.jsx';
-import {Modal} from "../modal/modal.jsx";
-import {OrderDetails} from "../order-details/order-details.jsx";
-import {IngredientDetails} from "../ingredient-details/ingredient-details.jsx";
+import { AppHeader } from '../app-header/app-header.jsx';
+import { BurgerIngredients } from '../burger-ingredients/burger-ingredients.jsx';
+import { BurgerConstructor } from '../burger-constructor/burger-constructor.jsx';
+import { Modal } from "../modal/modal.jsx";
+import { OrderDetails } from "../order-details/order-details.jsx";
+import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
+
+import { handleModalSlice } from "../../services/toolkit-slices/modal";
+import { burgerConstructorSlice } from "../../services/toolkit-slices/burger-constructor";
+import { ingredientCounterSlice } from "../../services/toolkit-slices/ingredient-counter";
 
 function App() {
 
-  const {burgerDataState, modalState} = useSelector(state => {
+  const { burgerDataState, modalState } = useSelector(state => {
     return state
   });
 
   const dispatch = useDispatch();
+
+  const actionsModal = handleModalSlice.actions;
+  const actionsConstructor = burgerConstructorSlice.actions;
+  const actionsIngredientCounter = ingredientCounterSlice.actions;
 
   /*** API ***/
   React.useEffect(() => {
@@ -37,7 +45,7 @@ function App() {
   } else {
     return (
       <div className={main.main}>
-        <AppHeader/>
+        <AppHeader />
         <main className="pt-10 pb-10">
           <h1 className="text text_type_main-large">Соберите бургер</h1>
           <div className={ingredientsWrapper.section}>
@@ -45,23 +53,29 @@ function App() {
             <DndProvider backend={HTML5Backend}>
               {
                 burgerDataState &&
-                <BurgerIngredients/>
+                <BurgerIngredients />
               }
 
-              <BurgerConstructor/>
+              <BurgerConstructor />
             </DndProvider>
 
             {
-              modalState.modalsOpened.modalOrderDetailsOpened &&
-              <Modal>
-                <OrderDetails/>
+              modalState.modalsOpened.modalIngredientDetailsOpened &&
+              <Modal handleOnClose={() => {
+                dispatch(actionsModal.handleModalClose());
+              }}>
+                <IngredientDetails />
               </Modal>
             }
 
             {
-              modalState.modalsOpened.modalIngredientDetailsOpened &&
-              <Modal>
-                <IngredientDetails/>
+              modalState.modalsOpened.modalOrderDetailsOpened &&
+              <Modal handleOnClose={() => {
+                dispatch(actionsModal.handleModalClose());
+                dispatch(actionsConstructor.cleanOrder());
+                dispatch(actionsIngredientCounter.counterClean());
+              }}>
+                <OrderDetails />
               </Modal>
             }
           </div>

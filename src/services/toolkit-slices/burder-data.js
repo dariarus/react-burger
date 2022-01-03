@@ -9,7 +9,7 @@ export const burgerDataSlice = createSlice({
     burgerData: []
   },
   reducers: {
-    getBurgerData_success: (state, action) => {
+    getBurgerDataSuccess: (state, action) => {
       return {
         ...state,
         isLoading: false,
@@ -24,7 +24,7 @@ export const burgerDataSlice = createSlice({
         hasError: false,
       }
     },
-    getBurgerData_failed: (state, action) => {
+    getBurgerDataFailed: (state, action) => {
       return {
         ...state,
         isLoading: false,
@@ -34,5 +34,5 @@ export const burgerDataSlice = createSlice({
     }
   }
 })
-export const { getBurgerData_success, getBurgerData, getBurgerData_failed } = burgerDataSlice.actions
+export const { getBurgerDataSuccess: getBurgerData_success, getBurgerData, getBurgerDataFailed: getBurgerData_failed } = burgerDataSlice.actions
 export default burgerDataSlice.reducer

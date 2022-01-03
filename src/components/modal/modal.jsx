@@ -9,17 +9,13 @@ import {ModalOverlay} from "../modal-overlay/modal-overlay.jsx";
 
 import {CloseIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {handleModalSlice} from "../services/toolkit-slices/modal";
-
 const modalRoot = document.getElementById("modal");
 
 export function Modal(props) {
-  const dispatch = useDispatch();
-  const {actions} = handleModalSlice;
 
   function handleEscClose(evt) {
     if (evt.key === 'Escape') {
-      dispatch(actions.handleModal_close());
+      props.handleOnClose();
     }
   }
 
@@ -35,13 +31,13 @@ export function Modal(props) {
   return ReactDOM.createPortal(
     (
       <>
-        <ModalOverlay />;
-        }}/>
+        <ModalOverlay handleOnClose={props.handleOnClose}/>
+        
         <div className={modalStyle.modal} onClick={(evt) => {
           evt.stopPropagation()
         }}>
           <div className={modalStyle.cross} onClick={() => {
-            dispatch(actions.handleModal_close());
+            props.handleOnClose();
           }}>
             <CloseIcon type="primary"/>
           </div>
@@ -54,6 +50,6 @@ export function Modal(props) {
 }
 
 Modal.propTypes = {
-  // handleOnClose: PropTypes.func.isRequired,
-  // children: PropTypes.node.isRequired
+  handleOnClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
 }

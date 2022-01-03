@@ -13,13 +13,13 @@ export const handleModalSlice = createSlice({
         ingredientForModal: action.payload // ingredient
       }
     },
-    handleModal_open: (state, action) => {
+    handleModalOpen: (state, action) => {
       return {
         ...state,
         modalsOpened: action.payload
       };
     },
-    handleModal_close: (state) => {
+    handleModalClose: (state) => {
       return {
         ...state,
         modalsOpened: {}
@@ -27,5 +27,5 @@ export const handleModalSlice = createSlice({
     },
   }
 })
-export const {setIngredientForModal, handleModal_open, handleModal_close} = handleModalSlice.actions
+export const {setIngredientForModal, handleModalOpen, handleModalClose} = handleModalSlice.actions
 export default handleModalSlice.reducer

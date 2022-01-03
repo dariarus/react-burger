@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 
-import { burgerConstructorSlice } from "../services/toolkit-slices/burger-constructor.js";
-import { ingredientCounterSlice } from "../services/toolkit-slices/ingredient-counter";
+import { burgerConstructorSlice } from "../../services/toolkit-slices/burger-constructor.js";
+import { ingredientCounterSlice } from "../../services/toolkit-slices/ingredient-counter.js";
 
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -31,7 +31,7 @@ export function ConstructorElemenetDraggable(props) {
         })
     })
 
-    const moveIngredientsListItem = 
+    const moveIngredientsListItem =
         (dragIndex, hoverIndex) => {
             dispatch(actionsConstructor.setIngredientToDrag({ dragIndex: dragIndex, hoverIndex: hoverIndex }))
         }
@@ -53,9 +53,6 @@ export function ConstructorElemenetDraggable(props) {
                 return;
             }
 
-            console.log(`dragIndex: ${dragIndex}`);
-            console.log(`hoverIndex: ${hoverIndex}`);
-
             const hoverBoundingRect = ref.current.getBoundingClientRect()
             const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
             const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top
@@ -73,10 +70,8 @@ export function ConstructorElemenetDraggable(props) {
     const dragDropRef = dragRef(dropSortRef(ref))
 
     return (
-        <div
-            ref={dragDropRef}
-            className={burgerConstructor.wrapper}
-            key={props.itemWithId.uniqueId}>
+        <div ref={dragDropRef}
+            className={burgerConstructor.wrapper}>
             <div className="mr-1">
                 <DragIcon type="primary" />
             </div>
@@ -86,7 +81,7 @@ export function ConstructorElemenetDraggable(props) {
                 thumbnail={props.itemWithId.item.image}
                 handleClose={() => {
                     dispatch(actionsConstructor.deleteIngredientFromOrder(props.itemWithId.uniqueId));
-                    dispatch(actionsIngredientCounter.counter_decrement(props.itemWithId.item._id));
+                    dispatch(actionsIngredientCounter.counterDecrement(props.itemWithId.item._id));
                 }}
             />
         </div>

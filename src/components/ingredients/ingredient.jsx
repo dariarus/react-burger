@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import ingredientsStyle from "./ingredient.module.css";
 
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
-import {handleModalSlice} from "../services/toolkit-slices/modal";
+import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
 export function Ingredient(props) {
 
@@ -30,7 +30,7 @@ export function Ingredient(props) {
          className={isDragging ? `${ingredientsStyle.dragging} ${ingredientsStyle.card}` : `${ingredientsStyle.card}`}
          onClick={() => {
            dispatch(actionsModal.setIngredientForModal(props.ingredient));
-           dispatch(actionsModal.handleModal_open({
+           dispatch(actionsModal.handleModalOpen({
              modalIngredientDetailsOpened: true
            }));
          }}
@@ -38,7 +38,10 @@ export function Ingredient(props) {
       {
         ingredientCounter.selectedIngredients.includes(props.ingredient) &&
         <Counter
-          count={ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 1 : acc, 0)}
+          count={props.ingredient.type === 'bun' 
+          ? ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 2 : acc, 0) 
+          : ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 1 : acc, 0)
+        }
           size="default"/>
       }
       <img src={props.image} alt={props.name} className="pr-4 pl-4"/>

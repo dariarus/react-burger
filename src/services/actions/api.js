@@ -1,6 +1,6 @@
-import {queryBurgerDataUrl} from "./burger-data.js";
-import {burgerDataSlice} from "../components/services/toolkit-slices/burder-data.js";
-import {orderSlice} from "../components/services/toolkit-slices/order";
+import { queryBurgerDataUrl } from "../../utils/burger-data.js";
+import { burgerDataSlice } from "../toolkit-slices/burder-data.js";
+import { orderSlice } from "../toolkit-slices/order";
 
 const actionsBurgerData = burgerDataSlice.actions;
 const actionsOrder = orderSlice.actions;
@@ -25,16 +25,18 @@ export function getBurgerDataFromServer() {
     fetch(`${queryBurgerDataUrl}/ingredients`)
       .then(res => getResponseData(res))
       .then(res => {
-        dispatch(actionsBurgerData.getBurgerData_success(res.data)) // res.data - это payload в action внутри экшна getBurgerData_success
+        dispatch(actionsBurgerData.getBurgerDataSuccess(res.data)) // res.data - это payload в action внутри экшна getBurgerData_success
       })
       .catch(error => {
-        dispatch(actionsBurgerData.getBurgerData_failed(error))
+        dispatch(actionsBurgerData.getBurgerDataFailed(error))
       })
   }
 }
 
 export function doOrder(ingredientsIdsList) {
   return function (dispatch) {
+    dispatch(actionsOrder.getOrderData());
+    
     fetch(`${queryBurgerDataUrl}/orders`, {
       method: 'POST',
       headers: {
@@ -46,14 +48,14 @@ export function doOrder(ingredientsIdsList) {
     })
       .then(res => getResponseData(res))
       .then(res => {
-        dispatch(actionsOrder.pushOrder({
+        dispatch(actionsOrder.getOrderSuccess({
           orderNumber: res.order.number,
           order: ingredientsIdsList
         }))
       })
       .catch((error) => {
         console.log(error)
-        dispatch(actionsBurgerData.getBurgerData_failed(error))
+        dispatch(actionsBurgerData.getBurgerDataFailed(error))
       });
   }
 }

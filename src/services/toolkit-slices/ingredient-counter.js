@@ -1,20 +1,16 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+const getInitialState = () => {
+  return {
+    selectedIngredients: []
+  }
+}
+
 export const ingredientCounterSlice = createSlice({
   name: 'ingredientCounter',
-  initialState: {
-    isVisible: false,
-    selectedIngredients: [],
-    counter: 1
-  },
+  initialState: getInitialState(),
   reducers: {
-    counter_isVisible: (state, action) => {
-      return {
-        ...state,
-        isVisible: true,
-      }
-    },
-    counter_increment: (state, action) => {
+    counterIncrement: (state, action) => {
       let copiedSelectedIngredients = [
         ...state.selectedIngredients
       ];
@@ -27,7 +23,7 @@ export const ingredientCounterSlice = createSlice({
         selectedIngredients: copiedSelectedIngredients
       }
     },
-    counter_decrement: (state, action) => { //needed?
+    counterDecrement: (state, action) => { 
       let copiedSelectedIngredients = [
         ...state.selectedIngredients
       ];
@@ -41,6 +37,9 @@ export const ingredientCounterSlice = createSlice({
         ...state,
         selectedIngredients: copiedSelectedIngredients
       }
+    },
+    counterClean: () => {
+      return getInitialState();
     }
   }
 })
