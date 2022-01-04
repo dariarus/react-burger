@@ -1,9 +1,7 @@
 import React from "react";
-import {useDispatch} from "react-redux";
 
 import modalOverlayStyle from './modal-overlay.module.css';
-
-import {handleModalSlice} from "../../services/toolkit-slices/modal";
+import PropTypes from "prop-types";
 
 export function ModalOverlay(props) {
    return (
@@ -12,4 +10,8 @@ export function ModalOverlay(props) {
     }}>
     </div>
   )
+}
+
+ModalOverlay.propTypes = {
+  handleOnClose: PropTypes.func.isRequired
 }

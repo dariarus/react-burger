@@ -1,23 +1,23 @@
 import React from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { useDrag, useDrop } from "react-dnd";
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
 
-import { doOrder } from "../../services/actions/api";
+import {doOrder} from "../../services/actions/api";
 
 import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
 
-import { ConstructorElemenetDraggable } from '../constructor-element-draggable/constructor-element-draggable';
-import { burgerConstructorSlice } from "../../services/toolkit-slices/burger-constructor.js";
-import { handleModalSlice } from "../../services/toolkit-slices/modal";
-import { ingredientCounterSlice } from "../../services/toolkit-slices/ingredient-counter"
+import {ConstructorElementDraggable} from '../constructor-element-draggable/constructor-element-draggable';
+import {burgerConstructorSlice} from "../../services/toolkit-slices/burger-constructor.js";
+import {handleModalSlice} from "../../services/toolkit-slices/modal";
+import {ingredientCounterSlice} from "../../services/toolkit-slices/ingredient-counter"
 
-import { ConstructorElement, DragIcon, CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { totalPriceSlice } from "../../services/toolkit-slices/total-price";
+import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {totalPriceSlice} from "../../services/toolkit-slices/total-price";
 
 export function BurgerConstructor() {
 
-  const { burgerConstructorIngredients, totalPrice } = useSelector(state => {
+  const {burgerConstructorIngredients, totalPrice} = useSelector(state => {
     return state
   });
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export function BurgerConstructor() {
     return commonArrayOfIngredientsIds;
   }
 
-  const calculateTotalPrice = () => {
+  const calculateTotalPrice = React.useCallback(() => {
     const ingredientArrayReducer = (acc, item) => {
       return acc + item.price
     }
@@ -47,9 +47,9 @@ export function BurgerConstructor() {
       .map(element => element.item)
       .reduce(ingredientArrayReducer, 0);
     return ingredientPrice + bunPrice;
-  }
+  }, [burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients])
 
-  const [{ isOver }, dropRef] = useDrop({
+  const [{isOver}, dropRef] = useDrop({
     accept: 'ingredient',
     drop: (item) => {
       dispatch(actionsConstructor.addIngredientToOrder(item));
@@ -62,12 +62,11 @@ export function BurgerConstructor() {
 
   React.useEffect(() => {
     dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPrice()))
-  }, [burgerConstructorIngredients])
+  }, [burgerConstructorIngredients, dispatch, actionsTotalPrice, calculateTotalPrice])
 
   return (
     <div ref={dropRef}
-
-      className={burgerConstructor.container}>
+         className={burgerConstructor.container}>
       <div className={isOver ? `${burgerConstructor.top} ${burgerConstructor.overbun}` : `${burgerConstructor.top}`}>
         {
           burgerConstructorIngredients.bun
@@ -95,14 +94,15 @@ export function BurgerConstructor() {
         className={isOver ? `${burgerConstructor.constructor} ${burgerConstructor.overingredient}` : `${burgerConstructor.constructor}`}>
         {
           burgerConstructorIngredients.ingredients && burgerConstructorIngredients.ingredients.map((itemWithId, index) => (
-            <ConstructorElemenetDraggable
+            <ConstructorElementDraggable
               key={itemWithId.uniqueId}
               itemWithId={itemWithId}
-              index={index} />
+              index={index}/>
           ))}
       </div>
 
-      <div className={isOver ? `${burgerConstructor.bottom} ${burgerConstructor.overbun}` : `${burgerConstructor.bottom}`}>
+      <div
+        className={isOver ? `${burgerConstructor.bottom} ${burgerConstructor.overbun}` : `${burgerConstructor.bottom}`}>
         {
           burgerConstructorIngredients.bun
             ? Array.of(burgerConstructorIngredients.bun)
@@ -130,13 +130,10 @@ export function BurgerConstructor() {
           {totalPrice.totalPrice}
         </h2>
         <div className={burgerConstructor.icon}>
-          <CurrencyIcon type="primary" />
+          <CurrencyIcon type="primary"/>
         </div>
         <Button type="primary" size="large" className="ml-10" onClick={() => {
-          console.log(`Это оно: ${burgerConstructorIngredients.bun}`)
-          if (burgerConstructorIngredients.bun) {
-            dispatch(doOrder(createCommonArrayOfIngredientsIds()));
-          }
+          dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
           dispatch(actionsModal.handleModalOpen({
             modalOrderDetailsOpened: true
           }));

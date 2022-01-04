@@ -1,9 +1,13 @@
-import { queryBurgerDataUrl } from "../../utils/burger-data.js";
-import { burgerDataSlice } from "../toolkit-slices/burder-data.js";
-import { orderSlice } from "../toolkit-slices/order";
+import {queryBurgerDataUrl} from "../../utils/burger-data.js";
+import {burgerDataSlice} from "../toolkit-slices/burder-data.js";
+import {orderSlice} from "../toolkit-slices/order";
+import {burgerConstructorSlice} from "../toolkit-slices/burger-constructor";
+import {ingredientCounterSlice} from "../toolkit-slices/ingredient-counter";
 
 const actionsBurgerData = burgerDataSlice.actions;
 const actionsOrder = orderSlice.actions;
+const actionsConstructor = burgerConstructorSlice.actions;
+const actionsIngredientCounter = ingredientCounterSlice.actions;
 
 function getResponseData(res) {
   if (!res.ok) {
@@ -33,30 +37,40 @@ export function getBurgerDataFromServer() {
   }
 }
 
-export function doOrder(ingredientsIdsList) {
+export function doOrder(ingredientsIdsList, order) {
   return function (dispatch) {
-    dispatch(actionsOrder.getOrderData());
-    
-    fetch(`${queryBurgerDataUrl}/orders`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        "ingredients": ingredientsIdsList
+    const isValidOrder = order.bun ? true : false
+
+    dispatch(actionsOrder.checkOrder(isValidOrder));
+
+    if (isValidOrder) {
+      dispatch(actionsOrder.getOrderData());
+
+      fetch(`${queryBurgerDataUrl}/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "ingredients": ingredientsIdsList
+        })
       })
-    })
-      .then(res => getResponseData(res))
-      .then(res => {
-        dispatch(actionsOrder.getOrderSuccess({
-          orderNumber: res.order.number,
-          order: ingredientsIdsList
-        }))
-      })
-      .catch((error) => {
-        console.log(error)
-        dispatch(actionsBurgerData.getBurgerDataFailed(error))
-      });
+        .then(res => getResponseData(res))
+        .then(res => {
+          dispatch(actionsOrder.getOrderSuccess({
+            orderNumber: res.order.number,
+            order: ingredientsIdsList
+          }))
+        })
+        .then(() => {
+          dispatch(actionsConstructor.cleanOrder());
+          dispatch(actionsIngredientCounter.counterClean());
+        })
+        .catch((error) => {
+          console.log(error)
+          dispatch(actionsBurgerData.getBurgerDataFailed(error))
+        });
+    }
   }
 }
 

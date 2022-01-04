@@ -5,9 +5,23 @@ export const orderSlice = createSlice({
   initialState: {
     order: [],
     orderNumber: null,
+    isValidOrder: true,
     isLoading: false
   },
   reducers: {
+    checkOrder: (state, action) => {
+      if(action.payload) {
+        return {
+          ...state,
+          isValidOrder: true
+        }
+      } else {
+        return {
+          ...state,
+          isValidOrder: false
+        }
+      }
+    },
     getOrderData: (state) => {
       return {
         ...state,

@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {useDispatch} from "react-redux";
 import PropTypes from "prop-types";
 
 import modalStyle from "./modal.module.css";
@@ -13,11 +12,11 @@ const modalRoot = document.getElementById("modal");
 
 export function Modal(props) {
 
-  function handleEscClose(evt) {
+  const handleEscClose = React.useCallback((evt) => {
     if (evt.key === 'Escape') {
       props.handleOnClose();
     }
-  }
+  }, [props])
 
   React.useEffect(() => {
     // Устанавливаем слушатель события при монтировании
@@ -26,13 +25,13 @@ export function Modal(props) {
     return () => {
       document.removeEventListener("keydown", handleEscClose)
     }
-  }, []) // обязательно прописать зависимости, чтобы избежать повтороного рендеринга
+  }, [handleEscClose]) // обязательно прописать зависимости, чтобы избежать повтороного рендеринга
 
   return ReactDOM.createPortal(
     (
       <>
         <ModalOverlay handleOnClose={props.handleOnClose}/>
-        
+
         <div className={modalStyle.modal} onClick={(evt) => {
           evt.stopPropagation()
         }}>

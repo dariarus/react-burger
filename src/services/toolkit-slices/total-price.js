@@ -1,6 +1,4 @@
-import React from "react";
 import {createSlice} from "@reduxjs/toolkit";
-import {orderSlice} from "./order";
 
 export const totalPriceSlice = createSlice({
   name: 'totalPrice',
@@ -11,7 +9,7 @@ export const totalPriceSlice = createSlice({
     setTotalPrice: (state, action) => {
       return {
         ...state,
-        totalPrice: action.payload //calculateTotalPrice()
+        totalPrice: action.payload // calculateTotalPrice()
       }
     }
   }

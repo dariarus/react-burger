@@ -16,8 +16,6 @@ import { OrderDetails } from "../order-details/order-details.jsx";
 import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
 
 import { handleModalSlice } from "../../services/toolkit-slices/modal";
-import { burgerConstructorSlice } from "../../services/toolkit-slices/burger-constructor";
-import { ingredientCounterSlice } from "../../services/toolkit-slices/ingredient-counter";
 
 function App() {
 
@@ -28,14 +26,12 @@ function App() {
   const dispatch = useDispatch();
 
   const actionsModal = handleModalSlice.actions;
-  const actionsConstructor = burgerConstructorSlice.actions;
-  const actionsIngredientCounter = ingredientCounterSlice.actions;
 
   /*** API ***/
   React.useEffect(() => {
     // Отправляем экшен при монтировании компонента
     dispatch(getBurgerDataFromServer());
-  }, [])
+  }, [dispatch])
 
   /*** App Rendering ***/
   if (burgerDataState.hasError) {
@@ -72,8 +68,6 @@ function App() {
               modalState.modalsOpened.modalOrderDetailsOpened &&
               <Modal handleOnClose={() => {
                 dispatch(actionsModal.handleModalClose());
-                dispatch(actionsConstructor.cleanOrder());
-                dispatch(actionsIngredientCounter.counterClean());
               }}>
                 <OrderDetails />
               </Modal>

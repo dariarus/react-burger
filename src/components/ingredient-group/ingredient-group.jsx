@@ -26,7 +26,5 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
 
 IngredientGroup.propTypes = {
   groupName: PropTypes.string.isRequired,
-  groupItems: ingredientProperties,
- // handleOnClick: PropTypes.func.isRequired,
- // setIngredientForModal: PropTypes.func.isRequired
+  groupItems: ingredientProperties
 }
