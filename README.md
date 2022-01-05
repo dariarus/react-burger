@@ -6,4 +6,4 @@
 
 ## *Используемые технологии*: React, Redux Toolkit, React-dnd, JSX, flexbox, grid layout, JavaScript, Webpack, API
 
-## *Ссылка на проектный сайт на GitHub Pages*: [Space Burgerhouse React. JSX + popups.](https://#)
+## *Ссылка на проектный сайт на GitHub Pages*: [Space Burgerhouse Redux Toolkit + D'n'D](https://dariarus.github.io/react-burgerhouse/)
