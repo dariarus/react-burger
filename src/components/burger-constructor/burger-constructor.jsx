@@ -1,22 +1,76 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import {useDispatch, useSelector} from "react-redux";
+import {useDrop} from "react-dnd";
 
-import {BurgerContext, BurgerContextIngredients} from "../services/burger-context.js";
+import {doOrder} from "../../services/actions/api";
 
 import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
 
-import {ConstructorElement, DragIcon, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {ConstructorElementDraggable} from '../constructor-element-draggable/constructor-element-draggable';
+import {burgerConstructorSlice} from "../../services/toolkit-slices/burger-constructor.js";
+import {handleModalSlice} from "../../services/toolkit-slices/modal";
+import {ingredientCounterSlice} from "../../services/toolkit-slices/ingredient-counter"
 
-export function BurgerConstructor(props) {
-  const {dispatchIngredients} = React.useContext(BurgerContextIngredients);
-  const {state, statePrice} = React.useContext(BurgerContext);
+import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {totalPriceSlice} from "../../services/toolkit-slices/total-price";
+
+export function BurgerConstructor() {
+
+  const {burgerConstructorIngredients, totalPrice} = useSelector(state => {
+    return state
+  });
+  const dispatch = useDispatch();
+
+  const actionsConstructor = burgerConstructorSlice.actions;
+  const actionsModal = handleModalSlice.actions;
+  const actionsTotalPrice = totalPriceSlice.actions;
+  const actionsIngredientCounter = ingredientCounterSlice.actions;
+
+  const createCommonArrayOfIngredientsIds = () => {
+    const commonArrayOfIngredientsIds = burgerConstructorIngredients.ingredients.map(itemWithId => itemWithId.item._id);
+    if (burgerConstructorIngredients.bun) {
+      commonArrayOfIngredientsIds.unshift(burgerConstructorIngredients.bun._id);
+    }
+    return commonArrayOfIngredientsIds;
+  }
+
+  const calculateTotalPrice = React.useCallback(() => {
+    const ingredientArrayReducer = (acc, item) => {
+      return acc + item.price
+    }
+    let bunPrice = 0;
+    if (burgerConstructorIngredients.bun) {
+      bunPrice = burgerConstructorIngredients.bun.price * 2;
+    }
+    let ingredientPrice = burgerConstructorIngredients.ingredients
+      .map(element => element.item)
+      .reduce(ingredientArrayReducer, 0);
+    return ingredientPrice + bunPrice;
+  }, [burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients])
+
+  const [{isOver}, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop: (item) => {
+      dispatch(actionsConstructor.addIngredientToOrder(item));
+      dispatch(actionsIngredientCounter.counterIncrement(item))
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver()
+    })
+  })
+
+  React.useEffect(() => {
+    dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPrice()))
+  }, [burgerConstructorIngredients, dispatch, actionsTotalPrice, calculateTotalPrice])
 
   return (
-    <div className={burgerConstructor.container}>
-      <div className={burgerConstructor.top}>
+    <div ref={dropRef}
+         className={burgerConstructor.container}>
+      <div className={isOver ? `${burgerConstructor.top} ${burgerConstructor.overbun}` : `${burgerConstructor.top}`}>
         {
-          state.selectedIngredients.bun ? Array.of(state.selectedIngredients.bun).map(item => (
+          burgerConstructorIngredients.bun
+            ? Array.of(burgerConstructorIngredients.bun).map(item => (
               <ConstructorElement
                 type="top"
                 isLocked={true}
@@ -36,33 +90,22 @@ export function BurgerConstructor(props) {
         }
       </div>
 
-      <div className={burgerConstructor.constructor}>
+      <div
+        className={isOver ? `${burgerConstructor.constructor} ${burgerConstructor.overingredient}` : `${burgerConstructor.constructor}`}>
         {
-          state.selectedIngredients.ingredients && state.selectedIngredients.ingredients.map((item, index) => (
-            // Array.of(state.burgerData.filter(burgerItem => (state.selectedItemsId.ingredients.map(ingredientId => burgerItem._id === ingredientId)))).map(item => (
-            <div className={burgerConstructor.wrapper}
-                 key={index}>
-              <div className="mr-1">
-                <DragIcon type="primary"/>
-              </div>
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={() => {
-                  dispatchIngredients({
-                    type: "deleteIngredientFromOrder",
-                    index: index
-                  });
-                }}
-              />
-            </div>
+          burgerConstructorIngredients.ingredients && burgerConstructorIngredients.ingredients.map((itemWithId, index) => (
+            <ConstructorElementDraggable
+              key={itemWithId.uniqueId}
+              itemWithId={itemWithId}
+              index={index}/>
           ))}
       </div>
 
-      <div className={burgerConstructor.bottom}>
+      <div
+        className={isOver ? `${burgerConstructor.bottom} ${burgerConstructor.overbun}` : `${burgerConstructor.bottom}`}>
         {
-          state.selectedIngredients.bun ? Array.of(state.selectedIngredients.bun)
+          burgerConstructorIngredients.bun
+            ? Array.of(burgerConstructorIngredients.bun)
               .map((item) => (
                 <ConstructorElement
                   type="bottom"
@@ -84,22 +127,20 @@ export function BurgerConstructor(props) {
       </div>
       <div className={burgerConstructor.order}>
         <h2 className="text text_type_digits-medium mr-2">
-          {statePrice.totalPrice}
+          {totalPrice.totalPrice}
         </h2>
         <div className={burgerConstructor.icon}>
           <CurrencyIcon type="primary"/>
         </div>
         <Button type="primary" size="large" className="ml-10" onClick={() => {
-          props.handleOnClick("modalOrderDetailsOpened");
-
+          dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
+          dispatch(actionsModal.handleModalOpen({
+            modalOrderDetailsOpened: true
+          }));
         }}>
           Оформить заказ
         </Button>
       </div>
     </div>
   )
-}
-
-BurgerConstructor.propTypes = {
-  handleOnClick: PropTypes.func.isRequired
 }

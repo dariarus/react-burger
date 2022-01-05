@@ -8,27 +8,23 @@ import {ingredientProperties} from "../../utils/burger-data";
 
 export const IngredientGroup = React.forwardRef((props, ref) => {
   return (
-    <>
-      <h2 ref={ref}
-          className="pt-10 text text_type_main-medium">{props.groupName}</h2>
+    <div ref={ref}>
+      <h2 className="pt-10 text text_type_main-medium">{props.groupName}</h2>
       <div className={burgerIngredientStyle.grid}>
         {
           props.groupItems.map(burgerItem => (
             <Ingredient ingredient={burgerItem}
                         image={burgerItem.image} name={burgerItem.name}
-                        price={burgerItem.price} handleOnClick={props.handleOnClick}
-                        setIngredientForModal={props.setIngredientForModal}
+                        price={burgerItem.price}
                         key={burgerItem._id}/>
           ))
         }
       </div>
-    </>
+    </div>
   )
 })
 
 IngredientGroup.propTypes = {
   groupName: PropTypes.string.isRequired,
-  groupItems: ingredientProperties,
-  handleOnClick: PropTypes.func.isRequired,
-  setIngredientForModal: PropTypes.func.isRequired
+  groupItems: ingredientProperties
 }
