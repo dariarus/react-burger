@@ -1,12 +1,11 @@
 import {combineReducers} from "redux";
 
-import {burgerDataSlice} from "./burder-data";
+import {burgerDataSlice} from "./burger-data";
 import {burgerConstructorSlice} from "./burger-constructor";
 import {handleModalSlice} from "./modal";
 import {orderSlice} from "./order";
 import {totalPriceSlice} from "./total-price";
 import {ingredientCounterSlice} from "./ingredient-counter";
-import {setTabsSlice} from './tabs';
 
 export const rootReducer = combineReducers({
   burgerDataState: burgerDataSlice.reducer,
@@ -15,5 +14,4 @@ export const rootReducer = combineReducers({
   orderState: orderSlice.reducer,
   totalPrice: totalPriceSlice.reducer,
   ingredientCounter: ingredientCounterSlice.reducer,
-  tabsScroll: setTabsSlice.reducer
 });

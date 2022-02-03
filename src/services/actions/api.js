@@ -1,5 +1,5 @@
-import {queryBurgerDataUrl} from "../../utils/burger-data.js";
-import {burgerDataSlice} from "../toolkit-slices/burder-data.js";
+import {queryBurgerDataUrl} from "../../utils/burger-data";
+import {burgerDataSlice} from "../toolkit-slices/burger-data";
 import {orderSlice} from "../toolkit-slices/order";
 import {burgerConstructorSlice} from "../toolkit-slices/burger-constructor";
 import {ingredientCounterSlice} from "../toolkit-slices/ingredient-counter";
@@ -9,7 +9,7 @@ const actionsOrder = orderSlice.actions;
 const actionsConstructor = burgerConstructorSlice.actions;
 const actionsIngredientCounter = ingredientCounterSlice.actions;
 
-function getResponseData(res) {
+const getResponseData = (res) => {
   if (!res.ok) {
     // return Promise.reject(res.json());
     return res.text().then(text => {

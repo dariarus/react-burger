@@ -1,4 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+
+import {IBurgerDataSliceState} from "../types/index";
+import {TIngredient} from "../types/data";
 
 export const burgerDataSlice = createSlice({
   name: 'burgerData', // префикс всех экшнов
@@ -7,9 +10,9 @@ export const burgerDataSlice = createSlice({
     hasError: false,
     error: '',
     burgerData: []
-  },
+  } as IBurgerDataSliceState,
   reducers: {
-    getBurgerDataSuccess: (state, action) => {
+    getBurgerDataSuccess: (state, action: PayloadAction<ReadonlyArray<TIngredient>>) => {
       return {
         ...state,
         isLoading: false,
@@ -17,14 +20,14 @@ export const burgerDataSlice = createSlice({
         burgerData: action.payload // приходит параметр
       }
     },
-    getBurgerData: (state, ) => {
+    getBurgerData: (state) => {
       return {
         ...state,
         isLoading: true,
         hasError: false,
       }
     },
-    getBurgerDataFailed: (state, action) => {
+    getBurgerDataFailed: (state, action: PayloadAction<string>) => {
       return {
         ...state,
         isLoading: false,

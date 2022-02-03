@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {TIngredient, TIngredientItem, TDraggableItem} from '../types/data';
 
-const getInitialState = () => {
+const getInitialState = (): {bun: TIngredient | null; ingredients: ReadonlyArray<TIngredientItem>} => {
   return {
     bun: null,
     ingredients: []
@@ -11,8 +12,8 @@ export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState: getInitialState(),
   reducers: {
-    addIngredientToOrder: (state, action) => {
-      const uniqId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+    addIngredientToOrder: (state, action: PayloadAction<TIngredient>) => {
+      const uniqId = (): string => Date.now().toString(36) + Math.random().toString(36).substr(2);
 
       if (action.payload.type === 'bun') {
         return {
@@ -33,7 +34,7 @@ export const burgerConstructorSlice = createSlice({
         }
       }
     },
-    deleteIngredientFromOrder: (state, action) => {
+    deleteIngredientFromOrder: (state, action: PayloadAction<string>) => {
       const copiedIngredientArray = [
         ...state.ingredients
       ];
@@ -49,7 +50,7 @@ export const burgerConstructorSlice = createSlice({
         ingredients: copiedIngredientArray
       }
     },
-    setIngredientToDrag: (state, action) => {
+    setIngredientToDrag: (state, action: PayloadAction<TDraggableItem>) => {
       const updatedIngredients = [...state.ingredients]
 
       const dragItem = state.ingredients[action.payload.dragIndex]

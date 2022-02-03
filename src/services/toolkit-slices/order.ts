@@ -1,4 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+import {IOrderSliceState} from "../types/index";
 
 export const orderSlice = createSlice({
   name: 'orderNumber',
@@ -7,9 +9,9 @@ export const orderSlice = createSlice({
     orderNumber: null,
     isValidOrder: true,
     isLoading: false
-  },
+  } as IOrderSliceState,
   reducers: {
-    checkOrder: (state, action) => {
+    checkOrder: (state, action: PayloadAction<boolean>) => {
       if(action.payload) {
         return {
           ...state,
@@ -28,7 +30,7 @@ export const orderSlice = createSlice({
         isLoading: true
       }
     },
-    getOrderSuccess: (state, action) => {
+    getOrderSuccess: (state, action: PayloadAction<IOrderSliceState>) => {
       return {
         ...state,
         isLoading: false,
@@ -38,5 +40,5 @@ export const orderSlice = createSlice({
     }
   }
 })
-export const { getOrderSuccess, pushIngredientId } = orderSlice.actions
+export const { getOrderSuccess } = orderSlice.actions
 export default orderSlice.reducer

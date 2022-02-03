@@ -1,4 +1,4 @@
-import React from "react";
+import React, {FunctionComponent} from "react";
 
 import headerStyle from "./app-header.module.css";
 
@@ -6,7 +6,7 @@ import {Logo} from '@ya.praktikum/react-developer-burger-ui-components';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-export function AppHeader() {
+export const AppHeader: FunctionComponent = () => {
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>
       <div className={headerStyle['flex-wrapper']}>

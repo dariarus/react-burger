@@ -38,8 +38,8 @@ export function Ingredient(props) {
       {
         ingredientCounter.selectedIngredients.includes(props.ingredient) &&
         <Counter
-          count={props.ingredient.type === 'bun' 
-          ? ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 2 : acc, 0) 
+          count={props.ingredient.type === 'bun'
+          ? ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 2 : acc, 0)
           : ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 1 : acc, 0)
         }
           size="default"/>

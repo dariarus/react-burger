@@ -6,14 +6,14 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import main from './app.module.css';
 import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
 
-import { getBurgerDataFromServer } from "../../services/actions/api.js";
+import { getBurgerDataFromServer } from "../../services/actions/api";
 
-import { AppHeader } from '../app-header/app-header.jsx';
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients.jsx';
-import { BurgerConstructor } from '../burger-constructor/burger-constructor.jsx';
-import { Modal } from "../modal/modal.jsx";
-import { OrderDetails } from "../order-details/order-details.jsx";
-import { IngredientDetails } from "../ingredient-details/ingredient-details.jsx";
+import { AppHeader } from '../app-header/app-header';
+import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
+import { BurgerConstructor } from '../burger-constructor/burger-constructor';
+import { Modal } from "../modal/modal";
+import { OrderDetails } from "../order-details/order-details";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 import { handleModalSlice } from "../../services/toolkit-slices/modal";
 
