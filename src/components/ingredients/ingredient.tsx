@@ -1,14 +1,16 @@
-import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {FunctionComponent} from 'react';
+import {useDispatch} from "react-redux";
 import {useDrag} from "react-dnd";
-import PropTypes from 'prop-types';
 
 import ingredientsStyle from "./ingredient.module.css";
 
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
-export function Ingredient(props) {
+import {TDraggableIngredient} from "../../services/types/data";
+import {useSelector} from "../../services/types/hooks";
+
+export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
 
   const {ingredientCounter} = useSelector(state => {
     return state
@@ -54,9 +56,9 @@ export function Ingredient(props) {
   )
 }
 
-Ingredient.propTypes = {
-  ingredient: PropTypes.object.isRequired,
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired
-}
+// Ingredient.propTypes = {
+//   ingredient: PropTypes.object.isRequired,
+//   image: PropTypes.string.isRequired,
+//   name: PropTypes.string.isRequired,
+//   price: PropTypes.number.isRequired
+// }

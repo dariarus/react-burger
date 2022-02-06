@@ -1,5 +1,6 @@
 import React, {FunctionComponent, useRef} from 'react';
 import {useDrag, useDrop, DropTargetMonitor} from 'react-dnd';
+import { XYCoord } from 'dnd-core';
 
 import {burgerConstructorSlice} from "../../services/toolkit-slices/burger-constructor";
 import {ingredientCounterSlice} from "../../services/toolkit-slices/ingredient-counter";
@@ -7,6 +8,7 @@ import {ingredientCounterSlice} from "../../services/toolkit-slices/ingredient-c
 import {ConstructorElement, DragIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import burgerConstructor from "../burger-constructor/burger-constructor.module.css";
+import draggableElement from "./constructor-element-draggable.module.css";
 
 import {TDraggableElement} from "../../services/types/data";
 import {useAppDispatch} from "../../services/types/hooks";
@@ -40,7 +42,7 @@ export const ConstructorElementDraggable: FunctionComponent<TDraggableElement> =
       isOver: monitor.isOver()
     }),
     hover: (item: { index: number }, monitor: DropTargetMonitor) => {
-      if (!ref.current || monitor.getClientOffset() === null) {
+      if (!ref.current) {
         return;
       }
       const dragIndex = item.index
@@ -49,10 +51,12 @@ export const ConstructorElementDraggable: FunctionComponent<TDraggableElement> =
       if (dragIndex === hoverIndex) {
         return;
       }
-//else if (monitor.getClientOffset() !== null) {
+
       const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
+      // const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
+      const clientOffset = monitor.getClientOffset();
+      const hoverActualY =(clientOffset as XYCoord).y - hoverBoundingRect.top;
       // if dragging down, continue only when hover is smaller than middle Y
       if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
       // if dragging up, continue only when hover is bigger than middle Y
@@ -60,7 +64,6 @@ export const ConstructorElementDraggable: FunctionComponent<TDraggableElement> =
 
       moveIngredientsListItem(dragIndex, hoverIndex);
       item.index = hoverIndex;
-      // }
     }
   })
 
@@ -69,7 +72,9 @@ export const ConstructorElementDraggable: FunctionComponent<TDraggableElement> =
 
   return (
     <div ref={ref}
-         className={burgerConstructor.wrapper}>
+         className={isDragging ? `${burgerConstructor.wrapper} ${draggableElement.dragging}`
+           : isOver ? `${burgerConstructor.wrapper} ${draggableElement.over}`
+             : `${burgerConstructor.wrapper}`}>
       <div className="mr-1">
         <DragIcon type="primary"/>
       </div>

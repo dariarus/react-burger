@@ -1,9 +1,10 @@
-import React from 'react';
-import { useSelector } from "react-redux";
+import React, {FunctionComponent} from 'react';
+
+import { useSelector} from "../../services/types/hooks";
 
 import ingredientDetailsStyle from './ingredient-details.module.css';
 
-export function IngredientDetails() {
+export const IngredientDetails: FunctionComponent = () => {
   const { modalState } = useSelector(state => {
     return state
   });

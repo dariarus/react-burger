@@ -1,5 +1,8 @@
-import {ConstructorElementDraggable} from "../../components/constructor-element-draggable/constructor-element-draggable";
 import React from "react";
+
+export type TErrorState = {
+  message?: string
+};
 
 /*** burger-constructor slice ***/
 export type TIngredient = {
@@ -37,3 +40,20 @@ export type TDraggableElement = {
   itemWithId: TIngredientItem,
   index: number
 }
+
+/*** constructor draggable element ***/
+export type TDraggableIngredient = {
+  ingredient: TIngredient,
+  image: string,
+  name: string,
+  price: number
+}
+
+/*** modal ***/
+export type TModal = {
+  handleOnClose: () => void,
+  children: React.ReactNode
+}
+
+/*** modal overlay ***/
+export type TModalOverlay = Omit<TModal, "children">

@@ -1,7 +1,8 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {FunctionComponent} from 'react';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import main from './app.module.css';
 import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
@@ -17,13 +18,13 @@ import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
 import { handleModalSlice } from "../../services/toolkit-slices/modal";
 
-function App() {
+const App: FunctionComponent = () => {
 
   const { burgerDataState, modalState } = useSelector(state => {
     return state
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const actionsModal = handleModalSlice.actions;
 

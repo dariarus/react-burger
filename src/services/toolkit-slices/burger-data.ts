@@ -1,14 +1,14 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {IBurgerDataSliceState} from "../types/index";
-import {TIngredient} from "../types/data";
+import {TErrorState, TIngredient} from "../types/data";
 
 export const burgerDataSlice = createSlice({
   name: 'burgerData', // префикс всех экшнов
   initialState: {
     isLoading: false,
     hasError: false,
-    error: '',
+    error: {},
     burgerData: []
   } as IBurgerDataSliceState,
   reducers: {
@@ -27,7 +27,7 @@ export const burgerDataSlice = createSlice({
         hasError: false,
       }
     },
-    getBurgerDataFailed: (state, action: PayloadAction<string>) => {
+    getBurgerDataFailed: (state, action: PayloadAction<TErrorState>) => {
       return {
         ...state,
         isLoading: false,

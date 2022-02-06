@@ -1,11 +1,12 @@
-import React from 'react';
-import {useSelector} from "react-redux";
+import React, {FunctionComponent} from 'react';
+
+import {useSelector} from "../../services/types/hooks";
 
 import orderDetailsStyle from "./order-details.module.css";
 
 import {CheckMarkIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function OrderDetails() {
+export const OrderDetails: FunctionComponent = () => {
   const {orderState} = useSelector(state => {
     return state
   });

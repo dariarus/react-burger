@@ -1,6 +1,6 @@
 import {rootReducer} from "../toolkit-slices/index";
 
-import {TIngredient} from "./data";
+import {TErrorState, TIngredient} from "./data";
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -8,19 +8,22 @@ export type RootState = ReturnType<typeof rootReducer>;
 export interface IBurgerDataSliceState {
   isLoading: boolean,
   hasError: boolean,
-  error: string,
+  error: TErrorState,
   burgerData: ReadonlyArray<TIngredient>
 }
 
 /*** modal slice initial state ***/
 export interface IModalSliceState {
-  modalsOpened: void | object,
+  modalsOpened: {
+    modalIngredientDetailsOpened?: string,
+    modalOrderDetailsOpened?: string
+  },
   ingredientForModal: null | TIngredient
 }
 
 /*** order slice initial state ***/
 export interface IOrderSliceState {
-  order: ReadonlyArray<void | string>,
+  order: ReadonlyArray<string>,
   orderNumber: number | null,
   isValidOrder: boolean,
   isLoading: boolean
