@@ -12,7 +12,7 @@ const modalRoot = document.getElementById("modal");
 
 export const Modal: FunctionComponent<TModal> = (props)=> {
 
-  const handleEscClose = React.useCallback((evt) => {
+  const handleEscClose = React.useCallback((evt: KeyboardEvent): void => {
     if (evt.key === 'Escape') {
       props.handleOnClose();
     }

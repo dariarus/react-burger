@@ -24,8 +24,9 @@ export const BurgerIngredients: FunctionComponent = () => {
     }
   }
 
-  const handleMouseScroll = React.useCallback((event) => {
-      const mainTopPosition = event.target.getBoundingClientRect().top;
+  const handleMouseScroll = React.useCallback((event: React.UIEvent): void => {
+      const mainTopPosition = event.currentTarget.getBoundingClientRect().top;
+      console.log(typeof mainTopPosition);
 
       const getCurrentPosition = (ref: RefObject<HTMLDivElement | null>): DOMRect | undefined => {
         if (null !== ref.current) {
@@ -33,7 +34,7 @@ export const BurgerIngredients: FunctionComponent = () => {
         }
       }
 
-      const isVisibleArea = (rectangle: DOMRect | undefined) => {
+      const isVisibleArea = (rectangle: DOMRect | undefined): boolean | undefined => {
         if (undefined !== rectangle) {
           return (
             rectangle.top - mainTopPosition / 2 <= mainTopPosition

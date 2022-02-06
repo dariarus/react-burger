@@ -1,8 +1,8 @@
-const ingredientTypeRuName = {
-  "bun": "Булки",
-  "sauce": "Соусы",
-  "main": "Начинка"
-};
+enum ingredientTypeRuName {
+  bun = "Булки",
+  sauce = "Соусы",
+  main = "Начинка"
+}
 
 const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
 
