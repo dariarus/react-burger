@@ -85,7 +85,7 @@ export const BurgerConstructor: FunctionComponent = () => {
             : <ConstructorElement
               type="top"
               isLocked={true}
-              text="Выберите булку из списка слева (верх)"
+              text="Перетащите сюда булку из списка слева (верх)"
               price={0}
               thumbnail={bunImage}
             />
@@ -121,7 +121,7 @@ export const BurgerConstructor: FunctionComponent = () => {
             : <ConstructorElement
               type="bottom"
               isLocked={true}
-              text="Выберите булку из списка слева (низ)"
+              text="Перетащите сюда булку из списка слева (низ)"
               price={0}
               thumbnail={bunImage}
             />

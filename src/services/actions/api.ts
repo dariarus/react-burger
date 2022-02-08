@@ -3,8 +3,10 @@ import {burgerDataSlice} from "../toolkit-slices/burger-data";
 import {orderSlice} from "../toolkit-slices/order";
 import {burgerConstructorSlice} from "../toolkit-slices/burger-constructor";
 import {ingredientCounterSlice} from "../toolkit-slices/ingredient-counter";
-import {TErrorState, TIngredient, TIngredientItem} from "../types/data";
-import {IOrderSliceState} from "../types";
+import {TIngredient, TIngredientItem} from "../types/data";
+import {IOrderSliceState, RootState} from "../types";
+import {ThunkAction} from "redux-thunk";
+import {AnyAction} from "@reduxjs/toolkit";
 
 const actionsBurgerData = burgerDataSlice.actions;
 const actionsOrder = orderSlice.actions;
@@ -21,8 +23,8 @@ function getResponseData<T>(res: Response): Promise<T> {
   return res.json();
 }
 
-export function getBurgerDataFromServer() {
-  return function (dispatch: (arg0: { payload: object | readonly TIngredient[] | undefined; type: string; }) => void) {
+export const getBurgerDataFromServer = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch) {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоудер или заблокировать
     // ввод на время выполнения запроса
@@ -39,8 +41,12 @@ export function getBurgerDataFromServer() {
   }
 }
 
-export function doOrder(ingredientsIdsList: ReadonlyArray<string>, order: {bun: TIngredient | null, ingredients: readonly TIngredientItem[]}) {
-  return function (dispatch: (arg0: { payload: boolean | TErrorState | IOrderSliceState | undefined; type: string; }) => void) {
+export const doOrder = (ingredientsIdsList: ReadonlyArray<string>,
+                        order: {
+                          bun: TIngredient | null,
+                          ingredients: readonly TIngredientItem[]
+                        }): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch) {
     const isValidOrder = order.bun ? true : false
 
     dispatch(actionsOrder.checkOrder(isValidOrder));
@@ -57,7 +63,7 @@ export function doOrder(ingredientsIdsList: ReadonlyArray<string>, order: {bun: 
           "ingredients": ingredientsIdsList
         })
       })
-        .then(res => getResponseData<{order: {number: number}}>(res))
+        .then(res => getResponseData<{ order: { number: number } }>(res))
         .then(res => {
           dispatch(actionsOrder.getOrderSuccess({
             orderNumber: res.order.number,

@@ -26,7 +26,6 @@ export const BurgerIngredients: FunctionComponent = () => {
 
   const handleMouseScroll = React.useCallback((event: React.UIEvent): void => {
       const mainTopPosition = event.currentTarget.getBoundingClientRect().top;
-      console.log(typeof mainTopPosition);
 
       const getCurrentPosition = (ref: RefObject<HTMLDivElement | null>): DOMRect | undefined => {
         if (null !== ref.current) {
