@@ -1,6 +1,8 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-const getInitialState = () => {
+import {TIngredient} from "../types/data";
+
+const getInitialState = (): {selectedIngredients: ReadonlyArray<TIngredient>} => {
   return {
     selectedIngredients: []
   }
@@ -10,7 +12,7 @@ export const ingredientCounterSlice = createSlice({
   name: 'ingredientCounter',
   initialState: getInitialState(),
   reducers: {
-    counterIncrement: (state, action) => {
+    counterIncrement: (state, action: PayloadAction<TIngredient>) => {
       let copiedSelectedIngredients = [
         ...state.selectedIngredients
       ];
@@ -23,7 +25,7 @@ export const ingredientCounterSlice = createSlice({
         selectedIngredients: copiedSelectedIngredients
       }
     },
-    counterDecrement: (state, action) => { 
+    counterDecrement: (state, action: PayloadAction<string>) => {
       let copiedSelectedIngredients = [
         ...state.selectedIngredients
       ];

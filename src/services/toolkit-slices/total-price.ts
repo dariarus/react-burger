@@ -1,12 +1,14 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+import {ITotalPriceSliceState} from "../types/index";
 
 export const totalPriceSlice = createSlice({
   name: 'totalPrice',
   initialState: {
     totalPrice: 0
-  },
+  } as ITotalPriceSliceState,
   reducers: {
-    setTotalPrice: (state, action) => {
+    setTotalPrice: (state, action: PayloadAction<number>) => {
       return {
         ...state,
         totalPrice: action.payload // calculateTotalPrice()
@@ -15,4 +17,3 @@ export const totalPriceSlice = createSlice({
   }
 })
 export const {setTotalPrice} = totalPriceSlice.actions
-export default totalPriceSlice.reducer

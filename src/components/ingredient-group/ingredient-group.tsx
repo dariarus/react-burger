@@ -1,12 +1,12 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import burgerIngredientStyle from "./ingredient-group.module.css";
 
-import {Ingredient} from "../ingredients/ingredient.jsx";
-import {ingredientProperties} from "../../utils/burger-data";
+import {Ingredient} from "../ingredients/ingredient";
 
-export const IngredientGroup = React.forwardRef((props, ref) => {
+import {TIngredientGroup} from '../../services/types/data';
+
+export const IngredientGroup = React.forwardRef<HTMLDivElement, TIngredientGroup>((props, ref) => {
   return (
     <div ref={ref}>
       <h2 className="pt-10 text text_type_main-medium">{props.groupName}</h2>
@@ -22,9 +22,4 @@ export const IngredientGroup = React.forwardRef((props, ref) => {
       </div>
     </div>
   )
-})
-
-IngredientGroup.propTypes = {
-  groupName: PropTypes.string.isRequired,
-  groupItems: ingredientProperties
-}
+});

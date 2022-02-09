@@ -1,5 +1,4 @@
-import React from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import React, {FunctionComponent} from 'react';
 import {useDrop} from "react-dnd";
 
 import {doOrder} from "../../services/actions/api";
@@ -8,19 +7,22 @@ import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
 
 import {ConstructorElementDraggable} from '../constructor-element-draggable/constructor-element-draggable';
-import {burgerConstructorSlice} from "../../services/toolkit-slices/burger-constructor.js";
+import {burgerConstructorSlice} from "../../services/toolkit-slices/burger-constructor";
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
 import {ingredientCounterSlice} from "../../services/toolkit-slices/ingredient-counter"
-
-import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
 import {totalPriceSlice} from "../../services/toolkit-slices/total-price";
 
-export function BurgerConstructor() {
+import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-developer-burger-ui-components";
+
+import {TIngredient} from "../../services/types/data";
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
+
+export const BurgerConstructor: FunctionComponent = () => {
 
   const {burgerConstructorIngredients, totalPrice} = useSelector(state => {
     return state
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const actionsConstructor = burgerConstructorSlice.actions;
   const actionsModal = handleModalSlice.actions;
@@ -36,7 +38,7 @@ export function BurgerConstructor() {
   }
 
   const calculateTotalPrice = React.useCallback(() => {
-    const ingredientArrayReducer = (acc, item) => {
+    const ingredientArrayReducer = (acc: number, item: TIngredient) => {
       return acc + item.price
     }
     let bunPrice = 0;
@@ -51,7 +53,7 @@ export function BurgerConstructor() {
 
   const [{isOver}, dropRef] = useDrop({
     accept: 'ingredient',
-    drop: (item) => {
+    drop: (item: TIngredient) => {
       dispatch(actionsConstructor.addIngredientToOrder(item));
       dispatch(actionsIngredientCounter.counterIncrement(item))
     },
@@ -83,7 +85,7 @@ export function BurgerConstructor() {
             : <ConstructorElement
               type="top"
               isLocked={true}
-              text="Выберите булку из списка слева (верх)"
+              text="Перетащите сюда булку из списка слева (верх)"
               price={0}
               thumbnail={bunImage}
             />
@@ -119,7 +121,7 @@ export function BurgerConstructor() {
             : <ConstructorElement
               type="bottom"
               isLocked={true}
-              text="Выберите булку из списка слева (низ)"
+              text="Перетащите сюда булку из списка слева (низ)"
               price={0}
               thumbnail={bunImage}
             />
@@ -132,14 +134,16 @@ export function BurgerConstructor() {
         <div className={burgerConstructor.icon}>
           <CurrencyIcon type="primary"/>
         </div>
-        <Button type="primary" size="large" className="ml-10" onClick={() => {
-          dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
-          dispatch(actionsModal.handleModalOpen({
-            modalOrderDetailsOpened: true
-          }));
-        }}>
-          Оформить заказ
-        </Button>
+        <div className="ml-10">
+          <Button type="primary" size="large" onClick={() => {
+            dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
+            dispatch(actionsModal.handleModalOpen({
+              modalOrderDetailsOpened: true
+            }));
+          }}>
+            Оформить заказ
+          </Button>
+        </div>
       </div>
     </div>
   )
