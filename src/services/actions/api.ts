@@ -4,7 +4,7 @@ import {orderSlice} from "../toolkit-slices/order";
 import {burgerConstructorSlice} from "../toolkit-slices/burger-constructor";
 import {ingredientCounterSlice} from "../toolkit-slices/ingredient-counter";
 import {TIngredient, TIngredientItem} from "../types/data";
-import {IOrderSliceState, RootState} from "../types";
+import {AppDispatch, IOrderSliceState, RootState} from "../types";
 import {ThunkAction} from "redux-thunk";
 import {AnyAction} from "@reduxjs/toolkit";
 
@@ -24,7 +24,7 @@ function getResponseData<T>(res: Response): Promise<T> {
 }
 
 export const getBurgerDataFromServer = (): ThunkAction<void, RootState, unknown, AnyAction> => {
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоудер или заблокировать
     // ввод на время выполнения запроса
@@ -46,7 +46,7 @@ export const doOrder = (ingredientsIdsList: ReadonlyArray<string>,
                           bun: TIngredient | null,
                           ingredients: readonly TIngredientItem[]
                         }): ThunkAction<void, RootState, unknown, AnyAction> => {
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     const isValidOrder = order.bun ? true : false
 
     dispatch(actionsOrder.checkOrder(isValidOrder));

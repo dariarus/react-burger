@@ -1,8 +1,10 @@
 import {rootReducer} from "../toolkit-slices/index";
 
 import {TErrorState, TIngredient} from "./data";
+import {store} from "../store";
 
 export type RootState = ReturnType<typeof rootReducer>;
+export type AppDispatch = typeof store.dispatch;
 
 /*** burger-data slice initial state ***/
 export interface IBurgerDataSliceState {
