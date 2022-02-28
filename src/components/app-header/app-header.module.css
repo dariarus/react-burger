@@ -17,10 +17,14 @@
 
 .link {
   display: flex;
-  color: #f2f2f3;
+  color: #8585ad;
   text-decoration: none;
 }
 
-.link-inactive {
-  color: #8585ad;
+.active { /* активная ссылка */
+  color: #f2f2f3;
+}
+
+.iconWrapper {
+  margin-right: 8px;
 }

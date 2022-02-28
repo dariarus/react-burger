@@ -1,0 +1,39 @@
+.wrapper {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+}
+
+.wrapper div {
+  width: 100%;
+}
+
+.wrapper > div, button {
+  margin-top: 24px;
+}
+
+.wrapper div div div {
+  max-width: 24px;
+}
+
+.text {
+  margin-top: 88px;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  color: #4c4cff;
+  text-decoration: none;
+  text-shadow: none;
+  transition: text-shadow 0.2s;
+}
+
+.link:hover {
+  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 0px 5px rgba(51, 51, 255, 1);
+}

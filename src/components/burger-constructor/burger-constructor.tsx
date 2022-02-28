@@ -1,5 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {useDrop} from "react-dnd";
+import {useHistory} from "react-router-dom";
 
 import {doOrder} from "../../services/actions/api";
 
@@ -28,6 +29,13 @@ export const BurgerConstructor: FunctionComponent = () => {
   const actionsModal = handleModalSlice.actions;
   const actionsTotalPrice = totalPriceSlice.actions;
   const actionsIngredientCounter = ingredientCounterSlice.actions;
+
+  const history = useHistory();
+  const login = React.useCallback(() => {
+      history.replace({ pathname: '/login' });
+    },
+    [history]
+  );
 
   const createCommonArrayOfIngredientsIds = () => {
     const commonArrayOfIngredientsIds = burgerConstructorIngredients.ingredients.map(itemWithId => itemWithId.item._id);
@@ -136,10 +144,11 @@ export const BurgerConstructor: FunctionComponent = () => {
         </div>
         <div className="ml-10">
           <Button type="primary" size="large" onClick={() => {
-            dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
-            dispatch(actionsModal.handleModalOpen({
-              modalOrderDetailsOpened: true
-            }));
+            login(); // исп-е useHistory для авторизации польз-ля перед отправкой заказа
+            // dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
+            // dispatch(actionsModal.handleModalOpen({
+            //   modalOrderDetailsOpened: true
+            // }));
           }}>
             Оформить заказ
           </Button>

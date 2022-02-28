@@ -35,3 +35,14 @@ export interface IOrderSliceState {
 export interface ITotalPriceSliceState {
   totalPrice: number
 }
+
+/*** user data slice initial state ***/
+export interface IUserDataSliceState {
+  success: boolean | null,
+  user: {
+    email: string,
+    name: string
+  },
+  accessToken: string,
+  refreshToken: string
+}

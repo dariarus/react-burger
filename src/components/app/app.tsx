@@ -1,81 +1,111 @@
 import React, {FunctionComponent} from 'react';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import main from './app.module.css';
-import ingredientsWrapper from "../burger-ingredients/burger-ingredients.module.css";
 
-import { getBurgerDataFromServer } from "../../services/actions/api";
+import {getBurgerDataFromServer, getUser, refreshAccessToken} from "../../services/actions/api";
 
-import { AppHeader } from '../app-header/app-header';
-import { BurgerIngredients } from '../burger-ingredients/burger-ingredients';
-import { BurgerConstructor } from '../burger-constructor/burger-constructor';
-import { Modal } from "../modal/modal";
-import { OrderDetails } from "../order-details/order-details";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import {AppHeader} from '../app-header/app-header';
 
-import { handleModalSlice } from "../../services/toolkit-slices/modal";
+import {BurgerConstructorPage} from "../pages/burger-constructor-page/burger-constructor-page";
+import {AuthorisationPage} from "../pages/authorisation-page/authorisation-page";
+import {RegistrationPage} from "../pages/register-page/register-page";
+import {ForgotPasswordPage} from "../pages/forgor-password-page/forgor-password-page";
+import {ResetPasswordPage} from "../pages/reset-password-page/reset-password-page";
+import {AccountPage} from "../pages/profile-page/profile-page";
+import {ProfileDetails} from "../profile-details/profile-details";
+import {getCookie} from "../../utils/burger-data";
+import {LogoutPage} from "../pages/logout-page/logout-page";
 
 const App: FunctionComponent = () => {
-
-  const { burgerDataState, modalState } = useSelector(state => {
+  const {burgerDataState} = useSelector(state => {
     return state
   });
 
   const dispatch = useAppDispatch();
 
-  const actionsModal = handleModalSlice.actions;
-
   /*** API ***/
   React.useEffect(() => {
-    // Отправляем экшен при монтировании компонента
+    // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
+
+   // const tokenExisting: string | undefined = getCookie('accessToken');
+   //
+   //  if (tokenExisting) {
+   //    dispatch(getUser(tokenExisting))
+   //  } else {
+   //    Promise.all([
+   //      dispatch(refreshAccessToken(getCookie('refreshToken'))),
+   //    ]).then(() => {
+   //      dispatch(getUser(getCookie('accessToken')))
+   //    }).catch((error) => {
+   //      console.log(error);
+   //      dispatch(refreshAccessToken(getCookie('refreshToken')))
+   //    })
+   //    dispatch(getUser(getCookie('accessToken')))
+   //  }
+    const tokenExisting: string | undefined = getCookie('refreshToken');
+
+      Promise.all([
+        dispatch(refreshAccessToken(tokenExisting)),
+      ]).then(() => {
+        dispatch(getUser(getCookie('accessToken')))
+      })
+
   }, [dispatch])
 
   /*** App Rendering ***/
+  let path;
   if (burgerDataState.hasError) {
     return <h2 className="text text_type_main-default">{burgerDataState.error.message}</h2>;
   } else if (burgerDataState.isLoading) {
     return <div>Загрузка...</div>;
   } else {
     return (
-      <div className={main.main}>
-        <AppHeader />
-        <main className="pt-10 pb-10">
-          <h1 className="text text_type_main-large">Соберите бургер</h1>
-          <div className={ingredientsWrapper.section}>
+      <BrowserRouter>
+        <div className={main.main}>
+          <AppHeader/>
+          <main className="pt-10 pb-10">
+            <Switch>
 
-            <DndProvider backend={HTML5Backend}>
-              {
-                burgerDataState &&
-                <BurgerIngredients />
-              }
+              <Route path="/login" exact={true}>
+                <AuthorisationPage/>
+              </Route>
 
-              <BurgerConstructor />
-            </DndProvider>
+              <Route path="/register" exact={true}>
+                <RegistrationPage/>
+              </Route>
 
-            {
-              modalState.modalsOpened.modalIngredientDetailsOpened &&
-              <Modal handleOnClose={() => {
-                dispatch(actionsModal.handleModalClose());
-              }}>
-                <IngredientDetails />
-              </Modal>
-            }
+              <Route path="/forgot-password" exact={true}>
+                <ForgotPasswordPage/>
+              </Route>
 
-            {
-              modalState.modalsOpened.modalOrderDetailsOpened &&
-              <Modal handleOnClose={() => {
-                dispatch(actionsModal.handleModalClose());
-              }}>
-                <OrderDetails />
-              </Modal>
-            }
-          </div>
-        </main>
-      </div>
+              <Route path="/reset-password" exact={true}>
+                <ResetPasswordPage/>
+              </Route>
+
+              <Route path="/profile" exact={true}>
+                <AccountPage text="В этом разделе вы можете изменить свои персональные данные">
+                  <ProfileDetails/>
+                </AccountPage>
+              </Route>
+
+              <Route path="/logout" exact={true}>
+                <AccountPage text="В этом разделе вы можете выйти из системы">
+                  <LogoutPage/>
+                </AccountPage>
+              </Route>
+
+              <Route path="/" exact={true}>
+                <BurgerConstructorPage/>
+              </Route>
+
+            </Switch>
+          </main>
+        </div>
+      </BrowserRouter>
     );
   }
 }
