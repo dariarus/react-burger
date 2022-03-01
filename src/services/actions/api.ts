@@ -171,16 +171,41 @@ export const getUser = (accessToken: string | undefined): ThunkAction<void, Root
         console.log(document.cookie)
         if (data.success) {
           dispatch(actionsUserData.refreshUserData(data))
-
         }
       })
-      .catch((error) => {
-        console.log(error)
-      })
+      .catch((err) => {
+        if (err.message === 'jwt expired') {
+          Promise.all([
+            dispatch(refreshAccessToken())
+            ])
+            fetch(`${queryBurgerDataUrl}/auth/user`, {
+              method: 'GET',
+              mode: 'cors',
+              cache: 'no-cache',
+              credentials: 'same-origin',
+              headers: {
+                'Content-Type': 'application/json',
+                'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
+              },
+              redirect: 'follow',
+              referrerPolicy: 'no-referrer',
+            })
+              .then(res => getResponseData<TUserRefresh>(res))
+              .then(data => {
+                console.log(document.cookie)
+                if (data.success) {
+                  dispatch(actionsUserData.refreshUserData(data))
+                }
+              })
+        } else {
+          // return Promise.reject(err);
+          console.log(err)
+        }
+      });
   }
 }
 
-export const refreshAccessToken = (refreshToken: string | undefined): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return function (dispatch: AppDispatch) {
     return fetch(`${queryBurgerDataUrl}/auth/token`, {
       method: 'POST',
@@ -193,7 +218,7 @@ export const refreshAccessToken = (refreshToken: string | undefined): ThunkActio
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
       body: JSON.stringify({
-        "token": refreshToken
+        "token": getCookie('refreshToken')
       })
     })
       .then(res => getResponseData<TToken>(res))

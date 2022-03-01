@@ -7,7 +7,7 @@ import main from './app.module.css';
 
 import {getBurgerDataFromServer, getUser, refreshAccessToken} from "../../services/actions/api";
 
-import {AppHeader} from '../app-header/app-header';
+import AppHeader from "../app-header/app-header";
 
 import {BurgerConstructorPage} from "../pages/burger-constructor-page/burger-constructor-page";
 import {AuthorisationPage} from "../pages/authorisation-page/authorisation-page";
@@ -18,6 +18,7 @@ import {AccountPage} from "../pages/profile-page/profile-page";
 import {ProfileDetails} from "../profile-details/profile-details";
 import {getCookie} from "../../utils/burger-data";
 import {LogoutPage} from "../pages/logout-page/logout-page";
+
 
 const App: FunctionComponent = () => {
   const {burgerDataState} = useSelector(state => {
@@ -30,34 +31,10 @@ const App: FunctionComponent = () => {
   React.useEffect(() => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
-
-   // const tokenExisting: string | undefined = getCookie('accessToken');
-   //
-   //  if (tokenExisting) {
-   //    dispatch(getUser(tokenExisting))
-   //  } else {
-   //    Promise.all([
-   //      dispatch(refreshAccessToken(getCookie('refreshToken'))),
-   //    ]).then(() => {
-   //      dispatch(getUser(getCookie('accessToken')))
-   //    }).catch((error) => {
-   //      console.log(error);
-   //      dispatch(refreshAccessToken(getCookie('refreshToken')))
-   //    })
-   //    dispatch(getUser(getCookie('accessToken')))
-   //  }
-    const tokenExisting: string | undefined = getCookie('refreshToken');
-
-      Promise.all([
-        dispatch(refreshAccessToken(tokenExisting)),
-      ]).then(() => {
-        dispatch(getUser(getCookie('accessToken')))
-      })
-
+    dispatch(getUser(getCookie('accessToken')));
   }, [dispatch])
 
   /*** App Rendering ***/
-  let path;
   if (burgerDataState.hasError) {
     return <h2 className="text text_type_main-default">{burgerDataState.error.message}</h2>;
   } else if (burgerDataState.isLoading) {
@@ -98,7 +75,7 @@ const App: FunctionComponent = () => {
                 </AccountPage>
               </Route>
 
-              <Route path="/" exact={true}>
+              <Route path="/">
                 <BurgerConstructorPage/>
               </Route>
 

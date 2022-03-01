@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useMemo} from "react";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, useHistory, withRouter} from "react-router-dom";
 
 
 import headerStyle from "./app-header.module.css";
@@ -8,7 +8,7 @@ import {Logo} from '@ya.praktikum/react-developer-burger-ui-components';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
 
-export const AppHeader: FunctionComponent = () => {
+const AppHeader: FunctionComponent = () => {
   const history = useHistory();
   const routePath = useMemo(() => history.location.pathname, [history.location]);
 
@@ -23,11 +23,11 @@ export const AppHeader: FunctionComponent = () => {
         {/*  </p>*/}
         {/*</a>*/}
         <div className={`p-5 ${headerStyle['flex-container']}`}>
-          <NavLink to={{pathname: '/login'}}
+          <NavLink to={{pathname: '/'}}
                    className={`ml-2 text text_type_main-default ${headerStyle.link}`}
                    activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
             <div className="mr-2">
-              <BurgerIcon type={routePath === '/login' ? 'primary' : 'secondary'}/>
+              <BurgerIcon type={routePath === '/' ? 'primary' : 'secondary'}/>
             </div>
             Конструктор
           </NavLink>
@@ -54,3 +54,5 @@ export const AppHeader: FunctionComponent = () => {
     </header>
   )
 }
+
+export default withRouter(AppHeader)
