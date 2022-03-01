@@ -107,9 +107,9 @@ export const register = (name: string, email: string, password: string): ThunkAc
     })
       .then(res => getResponseData<IUserDataSliceState>(res))
       .then(data => {
-        setCookie('accessToken', data.accessToken, {expires: 20})
-        setCookie('refreshToken', data.refreshToken)
         if (data.success) {
+          setCookie('accessToken', data.accessToken, {expires: 20})
+          setCookie('refreshToken', data.refreshToken)
           dispatch(actionsUserData.setUserData(data));
         }
       })
@@ -139,9 +139,9 @@ export const authorise = (email: string, password: string): ThunkAction<void, Ro
     })
       .then(res => getResponseData<IUserDataSliceState>(res))
       .then(data => {
-        setCookie('accessToken', data.accessToken, {expires: 20})
-        setCookie('refreshToken', data.refreshToken)
         if (data.success) {
+          setCookie('accessToken', data.accessToken, {expires: 20})
+          setCookie('refreshToken', data.refreshToken)
           dispatch(actionsUserData.setUserData(data));
         }
       })
@@ -175,28 +175,30 @@ export const getUser = (accessToken: string | undefined): ThunkAction<void, Root
       })
       .catch((err) => {
         if (err.message === 'jwt expired') {
-          Promise.all([
-            dispatch(refreshAccessToken())
-            ])
-            fetch(`${queryBurgerDataUrl}/auth/user`, {
-              method: 'GET',
-              mode: 'cors',
-              cache: 'no-cache',
-              credentials: 'same-origin',
-              headers: {
-                'Content-Type': 'application/json',
-                'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
-              },
-              redirect: 'follow',
-              referrerPolicy: 'no-referrer',
+          // Promise.all([
+          //   dispatch(refreshAccessToken())
+          //   ]).then(() => {
+          dispatch(refreshAccessToken())
+          fetch(`${queryBurgerDataUrl}/auth/user`, {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+              'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+          })
+            .then(res => getResponseData<TUserRefresh>(res))
+            .then(data => {
+              console.log(document.cookie)
+              if (data.success) {
+                dispatch(actionsUserData.refreshUserData(data))
+              }
             })
-              .then(res => getResponseData<TUserRefresh>(res))
-              .then(data => {
-                console.log(document.cookie)
-                if (data.success) {
-                  dispatch(actionsUserData.refreshUserData(data))
-                }
-              })
+          // })
         } else {
           // return Promise.reject(err);
           console.log(err)
@@ -223,9 +225,9 @@ export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyA
     })
       .then(res => getResponseData<TToken>(res))
       .then(data => {
-        setCookie('accessToken', data.accessToken, {expires: 20})
-        setCookie('refreshToken', data.refreshToken)
         if (data.success) {
+          setCookie('accessToken', data.accessToken, {expires: 20})
+          setCookie('refreshToken', data.refreshToken)
           dispatch(actionsUserData.setTokens(data));
         }
       })

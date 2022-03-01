@@ -16,7 +16,7 @@ export const LogoutPage: FunctionComponent = () => {
   return (
     <div>
       <div className={logoutPage.wrapper}>
-        <h2 className="text text_type_main-medium">Выйти из системы?</h2>
+        <h2 className="text text_type_main-medium">Выйти из профиля?</h2>
         <div className={logoutPage.buttons}>
           <Button type="primary" size="medium" onClick={() => {
             logout();

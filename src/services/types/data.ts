@@ -88,4 +88,4 @@ export type TModalOverlay = Omit<TModal, "children">
 export type TToken = Omit<IUserDataSliceState, "user">
 
 /*** refresh user data state ***/
-export type TUserRefresh = Omit<IUserDataSliceState, "accessToken"  & "refreshToken">
+export type TUserRefresh = Omit<IUserDataSliceState, "accessToken" & "refreshToken">

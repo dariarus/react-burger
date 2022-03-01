@@ -23,7 +23,7 @@ const AppHeader: FunctionComponent = () => {
         {/*  </p>*/}
         {/*</a>*/}
         <div className={`p-5 ${headerStyle['flex-container']}`}>
-          <NavLink to={{pathname: '/'}}
+          <NavLink to={{pathname: '/'}} exact={true}
                    className={`ml-2 text text_type_main-default ${headerStyle.link}`}
                    activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
             <div className="mr-2">
