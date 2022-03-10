@@ -20,3 +20,8 @@
 .wrapper div div div {
   max-width: 24px;
 }
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+}

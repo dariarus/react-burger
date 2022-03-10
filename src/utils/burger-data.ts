@@ -19,7 +19,7 @@ const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
 //   carbohydrates: PropTypes.number.isRequired,
 // })).isRequired
 
-function setCookie(cookieName: string, tokenValue: string, props?: any) { // TODO: выяснить, что за тип у пропсов
+function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props?: any) { // TODO: выяснить, что за тип у пропсов
   props = props || {}
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
@@ -30,7 +30,9 @@ function setCookie(cookieName: string, tokenValue: string, props?: any) { // TOD
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
-  tokenValue = encodeURIComponent(tokenValue);
+  if (tokenValue !== null) {
+    tokenValue = encodeURIComponent(tokenValue);
+  }
   let updatedCookie = cookieName + '=' + tokenValue;
   for (const propName in props) {
     updatedCookie += '; ' + propName;
@@ -47,6 +49,12 @@ function getCookie(cookieName: string) {
     new RegExp('(?:^|; )' + cookieName.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+export function deleteCookie(cookieName: string) {
+  // Находим куку по ключу token, удаляем её значение,
+  // устанавливаем отрицательное время жизни, чтобы удалить сам ключ token
+  setCookie(cookieName, null, { expires: -1 });
 }
 
 export {ingredientTypeRuName, queryBurgerDataUrl, setCookie, getCookie};

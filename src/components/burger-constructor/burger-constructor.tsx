@@ -20,7 +20,7 @@ import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 export const BurgerConstructor: FunctionComponent = () => {
 
-  const {burgerConstructorIngredients, totalPrice} = useSelector(state => {
+  const {burgerConstructorIngredients, totalPrice, userData} = useSelector(state => {
     return state
   });
   const dispatch = useAppDispatch();
@@ -145,10 +145,12 @@ export const BurgerConstructor: FunctionComponent = () => {
         <div className="ml-10">
           <Button type="primary" size="large" onClick={() => {
             login(); // исп-е useHistory для авторизации польз-ля перед отправкой заказа
-            // dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
-            // dispatch(actionsModal.handleModalOpen({
-            //   modalOrderDetailsOpened: true
-            // }));
+            if (userData.user.name !== '' && userData.user.email !== ''){
+              dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
+              dispatch(actionsModal.handleModalOpen({
+                modalOrderDetailsOpened: true
+              }));
+            }
           }}>
             Оформить заказ
           </Button>

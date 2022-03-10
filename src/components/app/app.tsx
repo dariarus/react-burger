@@ -1,11 +1,16 @@
 import React, {FunctionComponent} from 'react';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 
+import {ProtectedRoute} from "../protected-route/protected-route";
+
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import main from './app.module.css';
 
-import {getBurgerDataFromServer, getUser, refreshAccessToken} from "../../services/actions/api";
+import {
+  getBurgerDataFromServer,
+  getUser
+} from "../../services/actions/api";
 
 import AppHeader from "../app-header/app-header";
 
@@ -21,7 +26,7 @@ import {LogoutPage} from "../pages/logout-page/logout-page";
 
 
 const App: FunctionComponent = () => {
-  const {burgerDataState} = useSelector(state => {
+  const {burgerDataState, userData} = useSelector(state => {
     return state
   });
 
@@ -31,7 +36,7 @@ const App: FunctionComponent = () => {
   React.useEffect(() => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
-    dispatch(getUser(getCookie('accessToken')));
+   getUser(dispatch, getCookie('accessToken'), 3)
   }, [dispatch])
 
   /*** App Rendering ***/
@@ -63,17 +68,17 @@ const App: FunctionComponent = () => {
                 <ResetPasswordPage/>
               </Route>
 
-              <Route path="/profile" exact={true}>
+              <ProtectedRoute path="/profile" exact={true}>
                 <AccountPage text="В этом разделе вы можете изменить свои персональные данные">
                   <ProfileDetails/>
                 </AccountPage>
-              </Route>
+              </ProtectedRoute>
 
-              <Route path="/logout" exact={true}>
+              <ProtectedRoute path="/profile/logout" exact={true}>
                 <AccountPage text="В этом разделе вы можете выйти из системы">
                   <LogoutPage/>
                 </AccountPage>
-              </Route>
+              </ProtectedRoute>
 
               <Route path="/">
                 <BurgerConstructorPage/>

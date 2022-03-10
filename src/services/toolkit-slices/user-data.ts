@@ -6,6 +6,7 @@ import {TToken, TUserRefresh} from "../types/data";
 export const userDataSlice = createSlice({
   name: 'userData',
   initialState: {
+    isUserLoading: false,
     success: null,
     user: {
       email: "",
@@ -15,9 +16,16 @@ export const userDataSlice = createSlice({
     refreshToken: ""
   } as IUserDataSliceState,
   reducers: {
+    getUserData: (state) => {
+      return {
+        ...state,
+        isUserLoading: true
+      }
+  },
     setUserData: (state, action: PayloadAction<IUserDataSliceState>) => { // res.user
       return {
         ...state,
+        isUserLoading: false,
         success: action.payload.success,
         user: {
           ...state.user,
@@ -40,6 +48,7 @@ export const userDataSlice = createSlice({
     refreshUserData: (state, action: PayloadAction<TUserRefresh>) => {
       return {
         ...state,
+        isUserLoading: false,
         success: action.payload.success,
         user: {
           ...state.user,
@@ -47,8 +56,19 @@ export const userDataSlice = createSlice({
           email: action.payload.user.email
         }
       }
+    },
+    deleteUserData: (state) => {
+      return {
+        ...state,
+        user: {
+          email: "",
+          name: ""
+        },
+        accessToken: "",
+        refreshToken: ""
+      }
     }
   }
 })
-export const {setUserData, setTokens, refreshUserData} = userDataSlice.actions
+export const {getUserData, setUserData, setTokens, refreshUserData, deleteUserData} = userDataSlice.actions
 export default userDataSlice.reducer

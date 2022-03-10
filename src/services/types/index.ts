@@ -38,6 +38,7 @@ export interface ITotalPriceSliceState {
 
 /*** user data slice initial state ***/
 export interface IUserDataSliceState {
+  isUserLoading: boolean,
   success: boolean | null,
   user: {
     email: string,
@@ -45,4 +46,9 @@ export interface IUserDataSliceState {
   },
   accessToken: string,
   refreshToken: string
+}
+
+/*** forgot password slice ***/
+export interface IForgotPasswordMarker {
+  emailWasSent: boolean
 }

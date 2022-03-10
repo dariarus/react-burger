@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from "react";
-import {Link, useHistory} from "react-router-dom";
+import {Link, Redirect, useHistory} from "react-router-dom";
 
 import forgotPWPage from "./forgot-password-page.module.css";
 
@@ -7,8 +7,13 @@ import {InputDefault} from "../../input-default/input-default";
 import {requestToResetPassword} from "../../../services/actions/api";
 
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
+import {useAppDispatch, useSelector} from "../../../services/types/hooks";
 
 export const ForgotPasswordPage: FunctionComponent = () => {
+  const {userData} = useSelector(state => {
+    return state
+  });
+
   const [value, setValue] = React.useState<string>('');
 
   const history = useHistory();
@@ -18,6 +23,16 @@ export const ForgotPasswordPage: FunctionComponent = () => {
     [history]
   );
 
+  const dispatch = useAppDispatch();
+
+  if (userData.user.name !== '' && userData.user.email !== '') {
+    return (
+      <Redirect
+        to={{pathname: "/"}}/>
+      // to={`${state?.from}` || '/' }/>
+    );
+  }
+
   return (
     <div>
       <div className={forgotPWPage.wrapper}>
@@ -25,7 +40,7 @@ export const ForgotPasswordPage: FunctionComponent = () => {
         <InputDefault placeholder={'Укажите e-mail'} value={value} onChange={e => setValue(e.target.value)}
                       type='email'/>
         <Button type="primary" size="medium" onClick={() => {
-          requestToResetPassword(value, redirectToChangePWPage)
+          requestToResetPassword(dispatch, value, redirectToChangePWPage)
         }}>
           Восстановить
         </Button>

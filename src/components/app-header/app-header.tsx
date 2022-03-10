@@ -6,9 +6,14 @@ import headerStyle from "./app-header.module.css";
 
 import {Logo} from '@ya.praktikum/react-developer-burger-ui-components';
 import {BurgerIcon, ListIcon, ProfileIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {useSelector} from "../../services/types/hooks";
 
 
 const AppHeader: FunctionComponent = () => {
+  const {userData} = useSelector(state => {
+    return state
+  });
+
   const history = useHistory();
   const routePath = useMemo(() => history.location.pathname, [history.location]);
 
@@ -42,13 +47,21 @@ const AppHeader: FunctionComponent = () => {
         <Logo/>
       </div>
       <div className={`p-5 ${headerStyle['flex-container']}`}>
-        <NavLink to="/profile"
+        <NavLink to={{pathname: '/profile'}}
                  className={`ml-2 text text_type_main-default ${headerStyle.link}`}
                  activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
           <div className="mr-2">
-            <ProfileIcon type={routePath === "/profile" ? "primary" : "secondary"}/>
+            <ProfileIcon
+              type={(routePath === "/profile") || (routePath === "/profile/logout") ? "primary" : "secondary"}/>
           </div>
-          Личный кабинет
+          <div className={`${headerStyle['flex-nav-link']}`}>
+            <p className="text">Личный кабинет</p>
+            <p className="text text_type_digits-default">
+              {
+                userData.user.name === '' ? "Star guest" : `${userData.user.name}`
+              }
+            </p>
+          </div>
         </NavLink>
       </div>
     </header>

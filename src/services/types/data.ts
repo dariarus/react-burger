@@ -89,3 +89,10 @@ export type TToken = Omit<IUserDataSliceState, "user">
 
 /*** refresh user data state ***/
 export type TUserRefresh = Omit<IUserDataSliceState, "accessToken" & "refreshToken">
+
+/*** Protected-route props type ***/
+export type TProtectedRouteProps = {
+  path: string,
+  exact?: boolean,
+  children?: React.ReactNode
+}

@@ -4,6 +4,7 @@ import {Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {TInputDefault} from "../../services/types/data";
 import {TICons} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 import {validateInputDefault} from "../../utils/form-validation";
+import {useHistory} from "react-router-dom";
 
 export const InputDefault: FunctionComponent<TInputDefault> = (props) => {
   const [icon, changeIcon] = React.useState<keyof TICons | undefined>(props.icon);
@@ -11,12 +12,20 @@ export const InputDefault: FunctionComponent<TInputDefault> = (props) => {
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
+  const history = useHistory();
+  const changePassword = React.useCallback(() => {
+      history.replace({ pathname: '/forgot-password' });
+    },
+    [history]
+  );
+
   const onIconClick = () => {
-    // setTimeout(() => {
-    //   if (null !== inputRef.current) {
-    //     return inputRef.current.focus(), 0;
-    //   }
-    // });
+    setTimeout(() => {
+      if (null !== inputRef.current) {
+        return inputRef.current.focus(), 0;
+      }
+    })
+    // alert('Вы уверены?')
     if (icon === 'ShowIcon') {
       changeIcon('HideIcon');
       changeInputType('text');
@@ -24,7 +33,9 @@ export const InputDefault: FunctionComponent<TInputDefault> = (props) => {
       changeIcon('ShowIcon');
       changeInputType('password');
     }
-    //else alert('Icon Click Callback');
+    else if (icon === 'EditIcon' && inputType === 'password') {
+      changePassword();
+    }
   }
 
   const inputError = validateInputDefault(inputType, props.value);

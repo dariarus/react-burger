@@ -1,5 +1,7 @@
 import React, {ChangeEvent, FunctionComponent} from "react";
-import {Link, useHistory} from "react-router-dom";
+import {Link, useHistory, Redirect} from "react-router-dom";
+
+import { pathToRegexp, match, parse, compile } from "path-to-regexp";
 
 import authPage from "./authorisation-page.module.css";
 
@@ -9,9 +11,10 @@ import {PasswordInputComponent} from "../../password-input/password-input";
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
 import {authorise} from "../../../services/actions/api";
 import {useAppDispatch, useSelector} from "../../../services/types/hooks";
-import {userDataSlice} from "../../../services/toolkit-slices/user-data";
 
 export const AuthorisationPage: FunctionComponent = () => {
+
+
   const {userData} = useSelector(state => {
     return state
   });
@@ -25,6 +28,15 @@ export const AuthorisationPage: FunctionComponent = () => {
   const redirectToMainPage = React.useCallback(() => {
     history.replace({pathname: '/'});
   }, [history])
+
+  if (userData.user.name !== '' && userData.user.email !== '') {
+    return (
+      // Переадресовываем авторизованного пользователя на главную страницу
+      <Redirect
+        to={{pathname: "/"}}/>
+        // to={`${state?.from}` || '/' }/> // не может найти имя state
+    );
+  }
 
   return (
     <div>
