@@ -1,5 +1,5 @@
-import React, {FunctionComponent, useMemo} from "react";
-import {Route, Redirect, useHistory} from "react-router-dom";
+import React, {FunctionComponent} from "react";
+import {Route, Redirect} from "react-router-dom";
 
 import {useSelector} from "../../services/types/hooks";
 import {TProtectedRouteProps} from "../../services/types/data";
@@ -8,9 +8,6 @@ export const ProtectedRoute: FunctionComponent<TProtectedRouteProps> = ({childre
   const {userData} = useSelector(state => {
     return state
   });
-
-  const history = useHistory();
-  const path = useMemo(() => history.location.pathname, [history.location]);
 
   // if (!userData.isUserLoading) {
   //   return null;
@@ -21,12 +18,7 @@ export const ProtectedRoute: FunctionComponent<TProtectedRouteProps> = ({childre
       render={({location}) =>  // render - пропс компонента Route. Исп-ся как функция, в св.с чем  избег-ся лишни рендеринг. Вызыв-ся при совпадении URL
         (userData.user.name !== '' && userData.user.email !== '')
           ? (children)
-          : ((userData.user.name !== '' && userData.user.email !== '') && (path === '/profile'))
-            ? (children)
-            && (<Redirect to={{
-              pathname: '/forgot-password'
-            }}/>)
-            : (
+          : (
               <Redirect // Если пользователя нет в хранилище, происходит переадресация на роут /login
                 // Передадим в пропс to не строку, а объект.
                 to={{

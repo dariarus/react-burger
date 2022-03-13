@@ -49,8 +49,8 @@ export const getBurgerDataFromServer = (): ThunkAction<void, RootState, unknown,
     fetch(`${queryBurgerDataUrl}/ingredients`, {
       method: 'GET',
       headers: {
-      'Content-Type': 'application/json'
-    }
+        'Content-Type': 'application/json'
+      }
     })
       .then(res => getResponseData<{ data: ReadonlyArray<TIngredient> }>(res))
       .then(res => {
@@ -216,7 +216,7 @@ export const getUser = (dispatch: AppDispatch, accessToken: string | undefined, 
     });
 }
 
-export const refreshUserData = (accessToken: string | undefined, name: string, email: string): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const refreshUserData = (accessToken: string | undefined, name: string, email: string, password: string): ThunkAction<void, RootState, unknown, AnyAction> => {
   return function (dispatch: AppDispatch) {
     dispatch(actionsUserData.getUserData());
 
@@ -233,7 +233,8 @@ export const refreshUserData = (accessToken: string | undefined, name: string, e
       referrerPolicy: 'no-referrer',
       body: JSON.stringify({
         "name": name,
-        "email": email
+        "email": email,
+        "password": password
       })
     })
       .then(res => getResponseData<IUserDataSliceState>(res))
@@ -248,7 +249,6 @@ export const refreshUserData = (accessToken: string | undefined, name: string, e
       })
   }
 }
-
 
 export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyAction> => {
   return function (dispatch: AppDispatch) {
@@ -271,6 +271,9 @@ export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyA
         if (data.success) {
           setCookie('accessToken', data.accessToken)
           setCookie('refreshToken', data.refreshToken)
+
+          console.log(document.cookie)
+
           dispatch(actionsUserData.setTokens(data));
         }
       })
@@ -299,8 +302,10 @@ export const requestToResetPassword = (dispatch: AppDispatch, email: string, red
     .then((res) => {
       if (res.success) {
         dispatch(actionsForgotPasswordMarker.setEmailSentMarker());
-        redirectToChangePWPage();
       }
+    })
+    .then(() => {
+      redirectToChangePWPage();
     })
     .catch(err => console.log(err))
 }
@@ -350,6 +355,7 @@ export const logout = (dispatch: AppDispatch) => {
       deleteCookie('accessToken')
       deleteCookie('refreshToken')
       dispatch(actionsUserData.deleteUserData());
+
     })
     .catch(err => console.log(err))
 }

@@ -19,6 +19,11 @@
   display: flex;
   color: #8585ad;
   text-decoration: none;
+  transition: text-decoration 0.5s;
+}
+
+.link:hover {
+  text-decoration: underline;
 }
 
 .active { /* активная ссылка */

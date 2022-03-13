@@ -9,7 +9,7 @@ export const AccountNavigation: FunctionComponent<TPropsAccount> = (props) => {
     <div>
       <NavLink to="/profile" exact={true} className={`text text_type_main-medium text_color_inactive ${navigation.link}`}
                activeClassName={`text text_type_main-medium text_color_inactive ${navigation.link} ${navigation.active}`}>Профиль</NavLink>
-      <NavLink to="/expl" className={`text text_type_main-medium text_color_inactive ${navigation.link}`}
+      <NavLink to="/404" className={`text text_type_main-medium text_color_inactive ${navigation.link}`}
                activeClassName={`text text_type_main-medium text_color_inactive ${navigation.link} ${navigation.active}`}>История
         заказов</NavLink>
       <NavLink to="/profile/logout" exact={true} className={`text text_type_main-medium text_color_inactive ${navigation.link}`}

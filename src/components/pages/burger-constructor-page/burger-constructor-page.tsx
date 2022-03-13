@@ -12,17 +12,25 @@ import {OrderDetails} from "../../order-details/order-details";
 
 import {useAppDispatch, useSelector} from "../../../services/types/hooks";
 import {handleModalSlice} from "../../../services/toolkit-slices/modal";
+import {Route, Switch, useHistory, useRouteMatch} from "react-router-dom";
+import {IngredientDetailsPage} from "../ingredient-details-page/ingredient-details-page";
 
 export const BurgerConstructorPage: FunctionComponent = () => {
   const {burgerDataState, modalState} = useSelector(state => {
     return state
   });
 
-  const dispatch = useAppDispatch();
+  const {path} = useRouteMatch();
 
+  const history = useHistory();
+  const redirectToIngredientPage = React.useCallback(() => {
+    history.push({pathname: `${path}`});
+  }, [history])
+
+  const dispatch = useAppDispatch();
   const actionsModal = handleModalSlice.actions;
 
-  return(
+  return (
     <>
       <h1 className="text text_type_main-large">Соберите бургер</h1>
       <div className={ingredientsWrapper.section}>
@@ -37,12 +45,20 @@ export const BurgerConstructorPage: FunctionComponent = () => {
         </DndProvider>
 
         {
-          modalState.modalsOpened.modalIngredientDetailsOpened &&
-          <Modal handleOnClose={() => {
-            dispatch(actionsModal.handleModalClose());
-          }}>
-            <IngredientDetails/>
-          </Modal>
+          modalState.modalsOpened.modalIngredientDetailsOpened
+            && <Route
+              path={`/ingredient/:id`}
+              render={() => {
+                return (
+                  <Modal handleOnClose={() => {
+                    dispatch(actionsModal.handleModalClose());
+                    redirectToIngredientPage();
+                  }}>
+                    <IngredientDetails/>
+                  </Modal>
+                )
+              }}
+            />
         }
 
         {

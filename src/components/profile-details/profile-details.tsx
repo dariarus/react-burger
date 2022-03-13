@@ -1,5 +1,4 @@
 import React, {FunctionComponent} from "react";
-import {useHistory, Redirect} from "react-router-dom";
 
 import {useAppDispatch} from "../../services/types/hooks";
 
@@ -23,16 +22,6 @@ export const ProfileDetails: FunctionComponent = () => {
   const [login, setLogin] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
-  // const history = useHistory();
-  // const redirectToChangePasswordPage = React.useCallback(() => {
-  //   return (
-  //     <Redirect to={{pathname: '/forgot-password'}}/>
-  //   )
-  //     // history.replace({ pathname: '/forgot-password' });
-  //   },
-  //   []
-  // );
-
   React.useEffect(() => {
     if (userData.user) {
       setUsername(userData.user.name);
@@ -51,12 +40,11 @@ export const ProfileDetails: FunctionComponent = () => {
         }} type="email" placeholder="Логин" icon="EditIcon"/>
         <InputDefault value={password} onChange={(e) => {
           setPassword(e.target.value);
-         // redirectToChangePasswordPage();
         }} type="password" placeholder="Пароль" icon="EditIcon"/>
       </div>
       <div className={profile.buttons}>
         <Button type="primary" size="medium" onClick={() => {
-          dispatch(refreshUserData(getCookie('accessToken'), username, login))
+          dispatch(refreshUserData(getCookie('accessToken'), username, login, password))
         }}>Сохранить</Button>
         <Button type="primary" size="medium" onClick={() => {
           setUsername(userData.user.name);

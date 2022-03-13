@@ -3,6 +3,8 @@ import {BrowserRouter, Switch, Route} from "react-router-dom";
 
 import {ProtectedRoute} from "../protected-route/protected-route";
 
+import {IngredientDetailsPage} from "../pages/ingredient-details-page/ingredient-details-page";
+
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import main from './app.module.css';
@@ -23,10 +25,11 @@ import {AccountPage} from "../pages/profile-page/profile-page";
 import {ProfileDetails} from "../profile-details/profile-details";
 import {getCookie} from "../../utils/burger-data";
 import {LogoutPage} from "../pages/logout-page/logout-page";
+import {NotFound404} from "../pages/not-found-404/not-found-404";
 
 
 const App: FunctionComponent = () => {
-  const {burgerDataState, userData} = useSelector(state => {
+  const {burgerDataState, modalState} = useSelector(state => {
     return state
   });
 
@@ -36,7 +39,7 @@ const App: FunctionComponent = () => {
   React.useEffect(() => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
-   getUser(dispatch, getCookie('accessToken'), 3)
+    getUser(dispatch, getCookie('accessToken'), 3)
   }, [dispatch])
 
   /*** App Rendering ***/
@@ -79,6 +82,17 @@ const App: FunctionComponent = () => {
                   <LogoutPage/>
                 </AccountPage>
               </ProtectedRoute>
+
+              {
+                !modalState.modalsOpened.modalIngredientDetailsOpened
+                  && <Route path={`/ingredient/:id`}>
+                    <IngredientDetailsPage/>
+                  </Route>
+              }
+
+              <Route path="/404" exact={true}>
+                <NotFound404 />
+              </Route>
 
               <Route path="/">
                 <BurgerConstructorPage/>

@@ -1,8 +1,6 @@
 import React, {ChangeEvent, FunctionComponent} from "react";
 import {Link, useHistory, Redirect} from "react-router-dom";
 
-import { pathToRegexp, match, parse, compile } from "path-to-regexp";
-
 import authPage from "./authorisation-page.module.css";
 
 import {EmailInputComponent} from "../../email-input/email-input";
@@ -13,7 +11,6 @@ import {authorise} from "../../../services/actions/api";
 import {useAppDispatch, useSelector} from "../../../services/types/hooks";
 
 export const AuthorisationPage: FunctionComponent = () => {
-
 
   const {userData} = useSelector(state => {
     return state
@@ -62,7 +59,7 @@ export const AuthorisationPage: FunctionComponent = () => {
           <p className="text text_type_main-default text_color_inactive">
             Вы — новый пользователь?
             <Link to="/register"
-                  className={`text text_type_main-default text_color_inactive ${authPage.link}`}> Зарегистрироваться
+                  className={`ml-2 text text_type_main-default text_color_inactive ${authPage.link}`}>Зарегистрироваться
             </Link>
           </p>
         </div>
@@ -70,7 +67,7 @@ export const AuthorisationPage: FunctionComponent = () => {
           <p className="mt-4 text text_type_main-default text_color_inactive">
             Забыли пароль?
             <Link to="/forgot-password"
-                  className={`text text_type_main-default text_color_inactive ${authPage.link}`}> Восстановить пароль
+                  className={`ml-2 text text_type_main-default text_color_inactive ${authPage.link}`}>Восстановить пароль
             </Link>
           </p>
         </div>

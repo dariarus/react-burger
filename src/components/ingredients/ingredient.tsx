@@ -1,10 +1,11 @@
 import React, {FunctionComponent} from 'react';
 import {useDispatch} from "react-redux";
 import {useDrag} from "react-dnd";
+import {useHistory, useRouteMatch} from "react-router-dom";
+import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ingredientsStyle from "./ingredient.module.css";
 
-import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
 import {TDraggableIngredient} from "../../services/types/data";
@@ -31,19 +32,19 @@ export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
     <div ref={dragRef}
          className={isDragging ? `${ingredientsStyle.dragging} ${ingredientsStyle.card}` : `${ingredientsStyle.card}`}
          onClick={() => {
-           dispatch(actionsModal.setIngredientForModal(props.ingredient));
-           dispatch(actionsModal.handleModalOpen({
-             modalIngredientDetailsOpened: true
-           }));
+             dispatch(actionsModal.setIngredientForModal(props.ingredient));
+             dispatch(actionsModal.handleModalOpen({
+               modalIngredientDetailsOpened: true
+             }))
          }}
          draggable>
       {
         ingredientCounter.selectedIngredients.includes(props.ingredient) &&
         <Counter
           count={props.ingredient.type === 'bun'
-          ? ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 2 : acc, 0)
-          : ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 1 : acc, 0)
-        }
+            ? ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 2 : acc, 0)
+            : ingredientCounter.selectedIngredients.reduce((acc, cur) => cur === props.ingredient ? acc + 1 : acc, 0)
+          }
           size="default"/>
       }
       <img src={props.image} alt={props.name} className="pr-4 pl-4"/>

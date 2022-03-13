@@ -12,13 +12,6 @@ export const InputDefault: FunctionComponent<TInputDefault> = (props) => {
 
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const history = useHistory();
-  const changePassword = React.useCallback(() => {
-      history.replace({ pathname: '/forgot-password' });
-    },
-    [history]
-  );
-
   const onIconClick = () => {
     setTimeout(() => {
       if (null !== inputRef.current) {
@@ -32,9 +25,6 @@ export const InputDefault: FunctionComponent<TInputDefault> = (props) => {
     } else if (icon === 'HideIcon') {
       changeIcon('ShowIcon');
       changeInputType('password');
-    }
-    else if (icon === 'EditIcon' && inputType === 'password') {
-      changePassword();
     }
   }
 

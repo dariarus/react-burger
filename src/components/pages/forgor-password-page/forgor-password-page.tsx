@@ -40,7 +40,9 @@ export const ForgotPasswordPage: FunctionComponent = () => {
         <InputDefault placeholder={'Укажите e-mail'} value={value} onChange={e => setValue(e.target.value)}
                       type='email'/>
         <Button type="primary" size="medium" onClick={() => {
-          requestToResetPassword(dispatch, value, redirectToChangePWPage)
+          if (value !== '') {
+            requestToResetPassword(dispatch, value, redirectToChangePWPage);
+          }
         }}>
           Восстановить
         </Button>

@@ -1,7 +1,6 @@
 import React, {FunctionComponent, useMemo} from "react";
 import {NavLink, useHistory, withRouter} from "react-router-dom";
 
-
 import headerStyle from "./app-header.module.css";
 
 import {Logo} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -37,13 +36,14 @@ const AppHeader: FunctionComponent = () => {
             Конструктор
           </NavLink>
         </div>
-        <a href="#" className={`mr-0 p-5 ${headerStyle.link} ${headerStyle['link-inactive']}`}>
-          <ListIcon type="secondary"/>
-          <p className="ml-2 text text_type_main-default text_color_inactive">
-            Лента заказов
-          </p>
-        </a>
-        {/*</div>*/}
+        <NavLink to={{pathname: '/404'}} exact={true}
+                 className={`ml-2 text text_type_main-default ${headerStyle.link}`}
+                 activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
+          <div className="mr-2">
+            <ListIcon type={routePath === '/404' ? 'primary' : 'secondary'}/>
+          </div>
+          Лента заказов
+        </NavLink>
         <Logo/>
       </div>
       <div className={`p-5 ${headerStyle['flex-container']}`}>
