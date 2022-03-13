@@ -19,7 +19,7 @@ const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
 //   carbohydrates: PropTypes.number.isRequired,
 // })).isRequired
 
-function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props?: any) { // TODO: выяснить, что за тип у пропсов
+function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props?: any) {
   props = props || {}
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
