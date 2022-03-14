@@ -49,8 +49,3 @@ export const Modal: FunctionComponent<TModal> = (props)=> {
     )
   } else return null // нужно для установки типа всего компонента: из него могут вернуться только либо jsx, либо null
 }
-
-// Modal.propTypes = {
-//   handleOnClose: PropTypes.func.isRequired,
-//   children: PropTypes.node.isRequired
-// }

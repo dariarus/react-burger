@@ -31,7 +31,11 @@ export const ProfileDetails: FunctionComponent = () => {
 
   return (
     <>
-      <div className={profile.wrapper}>
+      <form className={profile.wrapper} onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(refreshUserData(getCookie('accessToken'), username, login, password));
+      }}>
         <InputDefault value={username} onChange={(e) => {
           setUsername(e.target.value);
         }} type="text" placeholder="Имя" icon="EditIcon"/>
@@ -41,16 +45,14 @@ export const ProfileDetails: FunctionComponent = () => {
         <InputDefault value={password} onChange={(e) => {
           setPassword(e.target.value);
         }} type="password" placeholder="Пароль" icon="EditIcon"/>
-      </div>
-      <div className={profile.buttons}>
-        <Button type="primary" size="medium" onClick={() => {
-          dispatch(refreshUserData(getCookie('accessToken'), username, login, password))
-        }}>Сохранить</Button>
-        <Button type="primary" size="medium" onClick={() => {
-          setUsername(userData.user.name);
-          setLogin(userData.user.email);
-        }}>Отмена</Button>
-      </div>
+        <div className={profile.buttons}>
+          <Button type="primary" size="medium">Сохранить</Button>
+          <Button type="primary" size="medium" onClick={() => {
+            setUsername(userData.user.name);
+            setLogin(userData.user.email);
+          }}>Отмена</Button>
+        </div>
+      </form>
     </>
   )
 }

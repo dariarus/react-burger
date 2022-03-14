@@ -1,13 +1,13 @@
 import React, {ChangeEvent, FunctionComponent} from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 
 import regPage from "./register-page.module.css";
-import {EmailInputComponent} from "../../email-input/email-input";
-import {PasswordInputComponent} from "../../password-input/password-input";
+import {EmailInputComponent} from "../../components/email-input/email-input";
+import {PasswordInputComponent} from "../../components/password-input/password-input";
 
-import {InputDefault} from "../../input-default/input-default";
-import {register} from "../../../services/actions/api";
-import {useAppDispatch, useSelector} from "../../../services/types/hooks";
+import {InputDefault} from "../../components/input-default/input-default";
+import {register} from "../../services/actions/api";
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -22,17 +22,23 @@ export const RegistrationPage: FunctionComponent = () => {
 
   const dispatch = useAppDispatch();
 
+  const location: { state: {from: Location} } = useLocation();
+
   if (userData.user.name !== '' && userData.user.email !== '') {
     return (
       <Redirect
-        to={{pathname: "/"}}/>
-      // to={`${state?.from}` || '/' }/>
+        to={location.state?.from || '/' }
+      />
     );
   }
 
   return (
     <div>
-      <div className={regPage.wrapper}>
+      <form className={regPage.wrapper} onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(register(name, email, password));
+      }}>
         <h2 className="text text_type_main-medium">Регистрация</h2>
         <InputDefault placeholder={'Имя'} value={name} onChange={e => setName(e.target.value)} type='text'/>
         <EmailInputComponent value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -40,18 +46,16 @@ export const RegistrationPage: FunctionComponent = () => {
         }}/>
         <PasswordInputComponent value={password} onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setPassword(e.target.value)}}/>
-        <Button type="primary" size="medium" onClick={() => {
-          dispatch(register(name, email, password));
-        }}>
+        <Button type="primary" size="medium">
           Зарегистрироваться
         </Button>
-      </div>
+      </form>
       <div className={regPage.text}>
         <div className={regPage.textWrapper}>
           <p className="text text_type_main-default text_color_inactive">
             Уже зарегистрированы?
             <Link to="/login"
-                  className={`text text_type_main-default text_color_inactive ${regPage.link}`}> Войти
+                  className={`ml-2 text text_type_main-default text_color_inactive ${regPage.link}`}>Войти
             </Link>
           </p>
         </div>

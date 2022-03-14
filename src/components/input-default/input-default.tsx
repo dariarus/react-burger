@@ -4,7 +4,6 @@ import {Input} from '@ya.praktikum/react-developer-burger-ui-components';
 import {TInputDefault} from "../../services/types/data";
 import {TICons} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 import {validateInputDefault} from "../../utils/form-validation";
-import {useHistory} from "react-router-dom";
 
 export const InputDefault: FunctionComponent<TInputDefault> = (props) => {
   const [icon, changeIcon] = React.useState<keyof TICons | undefined>(props.icon);

@@ -2,7 +2,8 @@
   "name": "untitled",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dariarus.github.io/react-burgerhouse/",
+  "homepage": "/",
+
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.1",
     "@testing-library/jest-dom": "^5.15.0",

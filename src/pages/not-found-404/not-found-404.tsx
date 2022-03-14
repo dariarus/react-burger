@@ -1,7 +1,7 @@
 import React, {FunctionComponent} from "react";
 import {Link} from "react-router-dom";
 
-import trollShibaInu from '../../../images/404_shiba_inu.png';
+import trollShibaInu from '../../images/404_shiba_inu.png';
 import notFound from './not-found-404.module.css';
 
 export const NotFound404: FunctionComponent = () => {

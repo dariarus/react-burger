@@ -8,10 +8,7 @@ export const ProtectedRoute: FunctionComponent<TProtectedRouteProps> = ({childre
   const {userData} = useSelector(state => {
     return state
   });
-
-  // if (!userData.isUserLoading) {
-  //   return null;
-  // } else {
+  
   return (
     <Route
       {...rest} // это пропсы path и exact

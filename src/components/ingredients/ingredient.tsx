@@ -1,7 +1,6 @@
 import React, {FunctionComponent} from 'react';
 import {useDispatch} from "react-redux";
 import {useDrag} from "react-dnd";
-import {useHistory, useRouteMatch} from "react-router-dom";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ingredientsStyle from "./ingredient.module.css";
@@ -56,10 +55,3 @@ export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
     </div>
   )
 }
-
-// Ingredient.propTypes = {
-//   ingredient: PropTypes.object.isRequired,
-//   image: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   price: PropTypes.number.isRequired
-// }

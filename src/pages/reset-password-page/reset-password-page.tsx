@@ -1,14 +1,14 @@
 import React, {FunctionComponent} from "react";
-import {Link, Redirect} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 
 import resetPWPage from "./reset-password-page.module.css";
 
-import {changePassword} from "../../../services/actions/api";
+import {changePassword} from "../../services/actions/api";
 
-import {InputDefault} from "../../input-default/input-default";
+import {InputDefault} from "../../components/input-default/input-default";
 
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useAppDispatch, useSelector} from "../../../services/types/hooks";
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 export const ResetPasswordPage: FunctionComponent = () => {
   const {userData, forgotPasswordMarker} = useSelector(state => {
@@ -21,11 +21,13 @@ export const ResetPasswordPage: FunctionComponent = () => {
   const [code, setCode] = React.useState<string>('');
   const typePassword = 'password';
 
+  const location: { state: {from: Location} } = useLocation();
+
   if (userData.user.name !== '' && userData.user.email !== '') {
     return (
       <Redirect
-        to={{pathname: "/"}}/>
-      // to={`${state?.from}` || '/' }/>
+        to={location.state?.from || '/' }
+      />
     );
   } else if (forgotPasswordMarker.emailWasSent !== true) {
     return (
@@ -36,7 +38,11 @@ export const ResetPasswordPage: FunctionComponent = () => {
 
   return (
     <div>
-      <div className={resetPWPage.wrapper}>
+      <form className={resetPWPage.wrapper} onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(changePassword(password, code));
+      }}>
         <h2 className="text text_type_main-medium">Восстановление пароля</h2>
         <InputDefault placeholder={'Введите новый пароль'} value={password} onChange={(e) => {
           setPassword(e.target.value);
@@ -45,18 +51,16 @@ export const ResetPasswordPage: FunctionComponent = () => {
                       icon={'ShowIcon'} type={typePassword}/>
         <InputDefault placeholder={'Введите код из письма'} value={code} onChange={e => setCode(e.target.value)}
                       type='text'/>
-        <Button type="primary" size="medium" onClick={() => {
-          changePassword(dispatch, password, code);
-        }}>
+        <Button type="primary" size="medium">
           Восстановить
         </Button>
-      </div>
+      </form>
       <div className={resetPWPage.text}>
         <div className={resetPWPage.textWrapper}>
           <p className="text text_type_main-default text_color_inactive">
             Вспомнили пароль?
             <Link to="/login"
-                  className={`text text_type_main-default text_color_inactive ${resetPWPage.link}`}> Войти
+                  className={`ml-2 text text_type_main-default text_color_inactive ${resetPWPage.link}`}>Войти
             </Link>
           </p>
         </div>

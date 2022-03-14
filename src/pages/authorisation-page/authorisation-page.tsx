@@ -1,17 +1,17 @@
 import React, {ChangeEvent, FunctionComponent} from "react";
-import {Link, useHistory, Redirect} from "react-router-dom";
+import {Link, Redirect, useLocation} from "react-router-dom";
 
 import authPage from "./authorisation-page.module.css";
 
-import {EmailInputComponent} from "../../email-input/email-input";
-import {PasswordInputComponent} from "../../password-input/password-input";
+import {EmailInputComponent} from "../../components/email-input/email-input";
+import {PasswordInputComponent} from "../../components/password-input/password-input";
 
 import {Button} from '@ya.praktikum/react-developer-burger-ui-components';
-import {authorise} from "../../../services/actions/api";
-import {useAppDispatch, useSelector} from "../../../services/types/hooks";
+import {authorise} from "../../services/actions/api";
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
+import {TLocationState} from "../../services/types/data";
 
 export const AuthorisationPage: FunctionComponent = () => {
-
   const {userData} = useSelector(state => {
     return state
   });
@@ -21,23 +21,25 @@ export const AuthorisationPage: FunctionComponent = () => {
 
   const dispatch = useAppDispatch();
 
-  const history = useHistory();
-  const redirectToMainPage = React.useCallback(() => {
-    history.replace({pathname: '/'});
-  }, [history])
+  const location = useLocation<TLocationState>();
 
   if (userData.user.name !== '' && userData.user.email !== '') {
     return (
-      // Переадресовываем авторизованного пользователя на главную страницу
       <Redirect
-        to={{pathname: "/"}}/>
-        // to={`${state?.from}` || '/' }/> // не может найти имя state
+        // to={`${location.state?.from?.pathname}` || '/' }/> - тоже работает О_о
+        to={location.state?.from || '/' }
+      />
     );
+
   }
 
   return (
     <div>
-      <div className={authPage.wrapper}>
+      <form className={authPage.wrapper} onSubmit={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(authorise(email, password));
+      }}>
         <h2 className="text text_type_main-medium">Вход</h2>
         <EmailInputComponent value={email} onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setEmail(e.target.value)
@@ -45,15 +47,10 @@ export const AuthorisationPage: FunctionComponent = () => {
         <PasswordInputComponent value={password} onChange={(e: ChangeEvent<HTMLInputElement>) => {
           setPassword(e.target.value)
         }}/>
-        <Button type="primary" size="medium" onClick={() => {
-          dispatch(authorise(email, password));
-          if (userData.success) {
-            redirectToMainPage();
-          }
-        }}>
+        <Button type="primary" size="medium">
           Войти
         </Button>
-      </div>
+      </form>
       <div className={authPage.text}>
         <div className={authPage.textWrapper}>
           <p className="text text_type_main-default text_color_inactive">

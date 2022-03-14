@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useMemo} from "react";
-import {NavLink, useHistory, withRouter} from "react-router-dom";
+import {NavLink, Link, useHistory, withRouter} from "react-router-dom";
 
 import headerStyle from "./app-header.module.css";
 
@@ -44,7 +44,9 @@ const AppHeader: FunctionComponent = () => {
           </div>
           Лента заказов
         </NavLink>
-        <Logo/>
+        <Link to="/">
+          <Logo/>
+        </Link>
       </div>
       <div className={`p-5 ${headerStyle['flex-container']}`}>
         <NavLink to={{pathname: '/profile'}}

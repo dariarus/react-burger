@@ -103,7 +103,8 @@ export const doOrder = (ingredientsIdsList: ReadonlyArray<string>,
   }
 }
 
-/*** routing functions ***/
+/***---------- routing functions ----------***/
+
 export const register = (name: string, email: string, password: string): ThunkAction<void, RootState, unknown, AnyAction> => {
   return function (dispatch: AppDispatch) {
     dispatch(actionsUserData.getUserData());
@@ -172,48 +173,48 @@ export const authorise = (email: string, password: string): ThunkAction<void, Ro
       });
   }
 }
-export const getUser = (dispatch: AppDispatch, accessToken: string | undefined, retryOnErrorCount?: number) => {
-  dispatch(actionsUserData.getUserData());
+export const getUser = (accessToken: string | undefined, retryOnErrorCount?: number): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch: AppDispatch) {
 
-  return fetch(`${queryBurgerDataUrl}/auth/user`, {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json',
-      'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-  })
-    .then(res => throwOnError<IUserDataSliceState>(res))
-    .then(data => {
-      console.log(document.cookie)
-      if (data.success) {
-        dispatch(actionsUserData.refreshUserData(data))
-      }
+    dispatch(actionsUserData.getUserData());
+
+    return fetch(`${queryBurgerDataUrl}/auth/user`, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
     })
-    .catch((errObj) => {
-      const err = JSON.parse(errObj.message);
-
-      // console.log('lalala')
-
-      const accessTokenExisting = getCookie('accessToken')
-      if (!accessTokenExisting || err.message === 'jwt expired') {
-        Promise.all([
-          dispatch(refreshAccessToken())
-        ]).then(() => {
-          if (!retryOnErrorCount) { // retryOnErrorCount нужен: если токен так и не может успешно обновиться (refreshToken невалиден),
-            // есть только n попыток повторно вызвать getUser ниже
-            return
-          }
-          return getUser(dispatch, getCookie('accessToken'), (retryOnErrorCount - 1))
-        })
-      } else {
-        console.log(err)
-      }
-    });
+      .then(res => throwOnError<IUserDataSliceState>(res))
+      .then(data => {
+        // console.log(document.cookie)
+        if (data.success) {
+          dispatch(actionsUserData.refreshUserData(data))
+        }
+      })
+      .catch((errObj) => {
+        const err = JSON.parse(errObj.message);
+        const accessTokenExisting = getCookie('accessToken')
+        if (!accessTokenExisting || err.message === 'jwt expired') {
+          Promise.resolve(
+            dispatch(refreshAccessToken())
+          ).then(() => {
+            if (!retryOnErrorCount) { // retryOnErrorCount нужен: если токен так и не может успешно обновиться (refreshToken невалиден),
+              // есть только n попыток повторно вызвать getUser ниже - чтобы вызов getUser не зациклился до бесконечности
+              return
+            }
+            return dispatch(getUser(getCookie('accessToken'), (retryOnErrorCount - 1)))
+          }).catch((err) => console.log(err))
+        } else {
+          console.log(err)
+        }
+      });
+  }
 }
 
 export const refreshUserData = (accessToken: string | undefined, name: string, email: string, password: string): ThunkAction<void, RootState, unknown, AnyAction> => {
@@ -227,7 +228,7 @@ export const refreshUserData = (accessToken: string | undefined, name: string, e
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
+        'authorization': accessToken ? accessToken : '' // иначе accessToken не подходит по типу, т.к. м/б undefined
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -241,7 +242,7 @@ export const refreshUserData = (accessToken: string | undefined, name: string, e
       .then(data => {
         console.log(document.cookie)
         if (data.success) {
-          dispatch(actionsUserData.refreshUserData(data))
+          dispatch(actionsUserData.refreshUserData(data));
         }
       })
       .catch((err) => {
@@ -272,8 +273,6 @@ export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyA
           setCookie('accessToken', data.accessToken)
           setCookie('refreshToken', data.refreshToken)
 
-          console.log(document.cookie)
-
           dispatch(actionsUserData.setTokens(data));
         }
       })
@@ -283,79 +282,86 @@ export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyA
   }
 }
 
-export const requestToResetPassword = (dispatch: AppDispatch, email: string, redirectToChangePWPage: () => void) => {
-  fetch(`${queryBurgerDataUrl}/password-reset`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({
-      "email": email
+export const requestToResetPassword = (email: string, redirectToChangePWPage: () => void): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch: AppDispatch) {
+
+    return fetch(`${queryBurgerDataUrl}/password-reset`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        "email": email
+      })
     })
-  })
-    .then(res => getResponseData<{ success: boolean, message: string }>(res))
-    .then((res) => {
-      if (res.success) {
-        dispatch(actionsForgotPasswordMarker.setEmailSentMarker());
-      }
-    })
-    .then(() => {
-      redirectToChangePWPage();
-    })
-    .catch(err => console.log(err))
+      .then(res => getResponseData<{ success: boolean, message: string }>(res))
+      .then((res) => {
+        if (res.success) {
+          dispatch(actionsForgotPasswordMarker.setEmailSentMarker());
+        }
+      })
+      .then(() => {
+        redirectToChangePWPage();
+      })
+      .catch(err => console.log(err))
+  }
 }
 
-export const changePassword = (dispatch: AppDispatch, password: string, token: string) => {
-  fetch(`${queryBurgerDataUrl}/password-reset/reset`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({
-      "password": password,
-      "token": token
+export const changePassword = (password: string, token: string): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch: AppDispatch) {
+    return fetch(`${queryBurgerDataUrl}/password-reset/reset`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        "password": password,
+        "token": token
+      })
     })
-  })
-    .then(res => getResponseData<{ success: boolean, message: string }>(res))
-    .then(response => {
-      if (response.success) {
-        dispatch(actionsForgotPasswordMarker.deleteEmailSentMarker())
-      }
-    })
-    .catch(err => console.log(err))
+      .then(res => getResponseData<{ success: boolean, message: string }>(res))
+      .then(response => {
+        if (response.success) {
+          dispatch(actionsForgotPasswordMarker.deleteEmailSentMarker())
+        }
+      })
+      .catch(err => console.log(err))
+  }
 }
 
-export const logout = (dispatch: AppDispatch) => {
-  fetch(`${queryBurgerDataUrl}/auth/logout`, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({
-      "token": getCookie('refreshToken')
+export const logout = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch: AppDispatch) {
+    return fetch(`${queryBurgerDataUrl}/auth/logout`, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow',
+      referrerPolicy: 'no-referrer',
+      body: JSON.stringify({
+        "token": getCookie('refreshToken')
+      })
     })
-  })
-    .then(res => getResponseData<{ success: boolean, message: string }>(res))
-    .then(() => {
-      deleteCookie('accessToken')
-      deleteCookie('refreshToken')
-      dispatch(actionsUserData.deleteUserData());
+      .then(res => getResponseData<{ success: boolean, message: string }>(res))
+      .then(() => {
+        deleteCookie('accessToken')
+        deleteCookie('refreshToken')
+        dispatch(actionsUserData.deleteUserData());
 
-    })
-    .catch(err => console.log(err))
+      })
+      .catch(err => console.log(err))
+  }
 }

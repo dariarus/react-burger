@@ -5,11 +5,10 @@ import burgerIngredientStyle from "./ingredient-group.module.css";
 
 import {Ingredient} from "../ingredients/ingredient";
 
-import {TIngredientGroup} from '../../services/types/data';
+import {TIngredientGroup, TLocationState} from '../../services/types/data';
 
 export const IngredientGroup = React.forwardRef<HTMLDivElement, TIngredientGroup>((props, ref) => {
-
-  let location: {state: {background: any}} = useLocation();
+  let location = useLocation<TLocationState>();
 
   return (
     <div ref={ref}>
@@ -17,11 +16,11 @@ export const IngredientGroup = React.forwardRef<HTMLDivElement, TIngredientGroup
       <div className={burgerIngredientStyle.grid}>
         {
           props.groupItems.map(burgerItem => (
-            <>
-              <Link key={burgerItem._id}
-                    to={{
-                      pathname: `ingredient/${burgerItem._id}`
-                    }}
+            <React.Fragment key={burgerItem._id}>
+              <Link to={{
+                pathname: `ingredient/${burgerItem._id}`,
+                state: {background: location}
+              }}
                     className={`text text_type_main-medium ${burgerIngredientStyle.link}`}
               >
                 <Ingredient ingredient={burgerItem}
@@ -29,7 +28,7 @@ export const IngredientGroup = React.forwardRef<HTMLDivElement, TIngredientGroup
                             price={burgerItem.price}
                             key={burgerItem._id}/>
               </Link>
-            </>
+            </React.Fragment>
           ))
         }
       </div>

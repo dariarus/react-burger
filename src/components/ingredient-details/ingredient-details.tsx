@@ -16,7 +16,7 @@ export const IngredientDetails: FunctionComponent = () => {
   React.useEffect(() => {
     const findResult = burgerDataState.burgerData.find(element => element._id === params.id)
    setIngredient(findResult)
-  }, [burgerDataState])
+  }, [burgerDataState, params.id])
 
 
   return (

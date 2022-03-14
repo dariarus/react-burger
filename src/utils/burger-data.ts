@@ -6,19 +6,6 @@ enum ingredientTypeRuName {
 
 const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
 
-// const ingredientProperties = PropTypes.arrayOf(PropTypes.shape({
-//   _id: PropTypes.string.isRequired,
-//   type: PropTypes.string.isRequired,
-//   name: PropTypes.string.isRequired,
-//   price: PropTypes.number.isRequired,
-//   image: PropTypes.string.isRequired,
-//   image_large: PropTypes.string.isRequired,
-//   calories: PropTypes.number.isRequired,
-//   proteins: PropTypes.number.isRequired,
-//   fat: PropTypes.number.isRequired,
-//   carbohydrates: PropTypes.number.isRequired,
-// })).isRequired
-
 function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props?: any) {
   props = props || {}
   let exp = props.expires;

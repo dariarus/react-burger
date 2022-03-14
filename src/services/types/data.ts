@@ -96,3 +96,17 @@ export type TProtectedRouteProps = {
   exact?: boolean,
   children?: React.ReactNode
 }
+
+/*** useLocation hook: location state ***/
+export type TLocationState = {
+  from?: {
+    pathname: string;
+  };
+  background?: {
+    state: any;
+    pathname: string;
+    search: string;
+    hash: string;
+    key: string;
+  }
+}
