@@ -5,8 +5,8 @@ import {useAppDispatch} from "../../services/types/hooks";
 import profile from './profile-details.module.css';
 
 import {InputDefault} from "../input-default/input-default";
-import {refreshUserData} from "../../services/actions/api";
-import {getCookie} from "../../utils/burger-data";
+import {refreshAccessToken, refreshUserData} from "../../services/actions/api";
+import {deleteCookie, getCookie} from "../../utils/burger-data";
 
 import {useSelector} from "../../services/types/hooks";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";

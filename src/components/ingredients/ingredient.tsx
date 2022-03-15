@@ -9,6 +9,7 @@ import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
 import {TDraggableIngredient} from "../../services/types/data";
 import {useSelector} from "../../services/types/hooks";
+import {useHistory} from "react-router-dom";
 
 export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
 
@@ -34,7 +35,7 @@ export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
              dispatch(actionsModal.setIngredientForModal(props.ingredient));
              dispatch(actionsModal.handleModalOpen({
                modalIngredientDetailsOpened: true
-             }))
+             }));
          }}
          draggable>
       {

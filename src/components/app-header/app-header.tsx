@@ -19,13 +19,6 @@ const AppHeader: FunctionComponent = () => {
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>
       <div className={headerStyle['flex-wrapper']}>
-        {/*<div className={headerStyle['flex-container']}>*/}
-        {/*<a href="#" className={`mr-2 pt-5 pr-5 pb-5 pl-0 ${headerStyle.link}`}>*/}
-        {/*  <BurgerIcon type="primary"/>*/}
-        {/*  <p className="ml-2 text text_type_main-default">*/}
-        {/*    Конструктор*/}
-        {/*  </p>*/}
-        {/*</a>*/}
         <div className={`p-5 ${headerStyle['flex-container']}`}>
           <NavLink to={{pathname: '/'}} exact={true}
                    className={`ml-2 text text_type_main-default ${headerStyle.link}`}
@@ -49,7 +42,7 @@ const AppHeader: FunctionComponent = () => {
         </Link>
       </div>
       <div className={`p-5 ${headerStyle['flex-container']}`}>
-        <NavLink to={{pathname: '/profile'}}
+        <NavLink to={{pathname: '/profile'}} exact={true}
                  className={`ml-2 text text_type_main-default ${headerStyle.link}`}
                  activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
           <div className="mr-2">

@@ -23,7 +23,7 @@ import {ForgotPasswordPage} from "../../pages/forgor-password-page/forgor-passwo
 import {ResetPasswordPage} from "../../pages/reset-password-page/reset-password-page";
 import {AccountPage} from "../../pages/profile-page/profile-page";
 import {ProfileDetails} from "../profile-details/profile-details";
-import {getCookie} from "../../utils/burger-data";
+import {deleteCookie, getCookie} from "../../utils/burger-data";
 import {LogoutPage} from "../../pages/logout-page/logout-page";
 import {NotFound404} from "../../pages/not-found-404/not-found-404";
 import {TLocationState} from "../../services/types/data";
@@ -53,7 +53,10 @@ const App: FunctionComponent = () => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
     dispatch(getUser(getCookie('accessToken'), 3));
-    history.replace({ state: {} })
+    if (background) {
+      delete location.state.background;
+    }
+   // history.replace({state: {}})
   }, [dispatch, history])
 
   /*** App Rendering ***/
@@ -97,9 +100,9 @@ const App: FunctionComponent = () => {
               </AccountPage>
             </ProtectedRoute>
 
-              <Route path="/ingredient/:id">
-                <IngredientDetailsPage/>
-              </Route>
+            <Route path="/ingredient/:id">
+              <IngredientDetailsPage/>
+            </Route>
 
             <Route path="/404" exact={true}>
               <NotFound404/>

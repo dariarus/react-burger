@@ -269,10 +269,9 @@ export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyA
     })
       .then(res => getResponseData<TToken>(res))
       .then(data => {
-        if (data.success) {
+        if (data.success && !document.cookie) {
           setCookie('accessToken', data.accessToken)
           setCookie('refreshToken', data.refreshToken)
-
           dispatch(actionsUserData.setTokens(data));
         }
       })
