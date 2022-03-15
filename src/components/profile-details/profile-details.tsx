@@ -5,8 +5,8 @@ import {useAppDispatch} from "../../services/types/hooks";
 import profile from './profile-details.module.css';
 
 import {InputDefault} from "../input-default/input-default";
-import {refreshAccessToken, refreshUserData} from "../../services/actions/api";
-import {deleteCookie, getCookie} from "../../utils/burger-data";
+import {refreshUserData} from "../../services/actions/api";
+import {getCookie} from "../../utils/burger-data";
 
 import {useSelector} from "../../services/types/hooks";
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
@@ -23,7 +23,7 @@ export const ProfileDetails: FunctionComponent = () => {
   const [password, setPassword] = React.useState<string>('');
 
   React.useEffect(() => {
-    if (userData.user) {
+    if (userData.user.name !== '' && userData.user.email !== '') {
       setUsername(userData.user.name);
       setLogin(userData.user.email);
     }
@@ -34,7 +34,7 @@ export const ProfileDetails: FunctionComponent = () => {
       <form className={profile.wrapper} onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        dispatch(refreshUserData(getCookie('accessToken'), username, login, password));
+       dispatch(refreshUserData(getCookie('accessToken'), username, login, password));
       }}>
         <InputDefault value={username} onChange={(e) => {
           setUsername(e.target.value);

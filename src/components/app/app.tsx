@@ -23,7 +23,7 @@ import {ForgotPasswordPage} from "../../pages/forgor-password-page/forgor-passwo
 import {ResetPasswordPage} from "../../pages/reset-password-page/reset-password-page";
 import {AccountPage} from "../../pages/profile-page/profile-page";
 import {ProfileDetails} from "../profile-details/profile-details";
-import {deleteCookie, getCookie} from "../../utils/burger-data";
+import {getCookie} from "../../utils/burger-data";
 import {LogoutPage} from "../../pages/logout-page/logout-page";
 import {NotFound404} from "../../pages/not-found-404/not-found-404";
 import {TLocationState} from "../../services/types/data";
@@ -57,7 +57,7 @@ const App: FunctionComponent = () => {
       delete location.state.background;
     }
    // history.replace({state: {}})
-  }, [dispatch, history])
+  }, [dispatch, history, background, location.state.background])
 
   /*** App Rendering ***/
   if (burgerDataState.hasError) {

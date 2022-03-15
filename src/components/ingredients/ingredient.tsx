@@ -9,7 +9,6 @@ import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
 import {TDraggableIngredient} from "../../services/types/data";
 import {useSelector} from "../../services/types/hooks";
-import {useHistory} from "react-router-dom";
 
 export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
 
