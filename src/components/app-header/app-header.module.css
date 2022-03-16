@@ -17,10 +17,24 @@
 
 .link {
   display: flex;
-  color: #f2f2f3;
+  color: #8585ad;
   text-decoration: none;
+  transition: text-decoration 0.5s;
 }
 
-.link-inactive {
-  color: #8585ad;
+.link:hover {
+  text-decoration: underline;
+}
+
+.active { /* активная ссылка */
+  color: #f2f2f3;
+}
+
+.iconWrapper {
+  margin-right: 8px;
+}
+
+.flex-nav-link {
+  display: flex;
+  flex-direction: column;
 }

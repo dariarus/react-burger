@@ -1,0 +1,23 @@
+.link {
+  display: block;
+  margin-top: 34px;
+  text-decoration: none;
+  text-shadow: none;
+  transition: color 0.2s;
+}
+
+.active { /* активная ссылка */
+  color: #f2f2f3;
+}
+
+.link:first-of-type {
+  margin-top: 17px;
+}
+
+.link:hover {
+  color: #4c4cff;
+}
+
+.text {
+  margin-top: 88px;
+}

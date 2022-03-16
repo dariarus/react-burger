@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  text-align: center;
+  /*background: url("../../../images/png-transparent-dogecoin-shiba-inu-cryptocurrency-meme-meme-white-face-cat-like-mammal.png") no-repeat #1C1C21;*/
+}
+
+.image {
+  max-width: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.text {
+  margin-bottom: 20px;
+  line-height: 60px;
+  text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.link {
+  color: #4c4cff;
+  font-weight: 700;
+  text-decoration: none;
+  text-shadow: none;
+  transition: text-decoration 0.2s;
+}
+
+.link:hover {
+  text-decoration: underline;
+}

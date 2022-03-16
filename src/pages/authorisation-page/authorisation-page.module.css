@@ -1,0 +1,41 @@
+.wrapper {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+}
+
+.wrapper div {
+  width: 100%;
+}
+
+.wrapper > div, button {
+  margin-top: 24px;
+}
+
+.wrapper div div div {
+  max-width: 24px;
+}
+
+.text {
+  margin-top: 88px;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.link {
+  color: #4c4cff;
+  text-decoration: none;
+  text-shadow: none;
+  transition: text-decoration 0.2s;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+

@@ -35,3 +35,20 @@ export interface IOrderSliceState {
 export interface ITotalPriceSliceState {
   totalPrice: number
 }
+
+/*** user data slice initial state ***/
+export interface IUserDataSliceState {
+  isUserLoading: boolean,
+  success: boolean | null,
+  user: {
+    email: string,
+    name: string
+  },
+  accessToken: string,
+  refreshToken: string
+}
+
+/*** forgot password slice ***/
+export interface IForgotPasswordMarker {
+  emailWasSent: boolean
+}

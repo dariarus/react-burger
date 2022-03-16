@@ -1,0 +1,20 @@
+.wrapper {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.buttons > button {
+  min-width: 109px;
+}
+
+.buttons > button:first-child {
+  margin-right: 44px;
+}
