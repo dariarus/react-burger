@@ -53,11 +53,12 @@ const App: FunctionComponent = () => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
     dispatch(getUser(getCookie('accessToken'), 3));
-    if (background) {
-      delete location.state.background;
-    }
-   // history.replace({state: {}})
-  }, [dispatch, history, background, location.state.background])
+    // if (background) {
+    //   delete location.state.background;
+    // }
+   history.replace({state: {}})
+  // }, [dispatch, history, background, location.state.background])
+  }, [dispatch, history])
 
   /*** App Rendering ***/
   if (burgerDataState.hasError) {
