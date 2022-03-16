@@ -42,7 +42,7 @@ const AppHeader: FunctionComponent = () => {
         </Link>
       </div>
       <div className={`p-5 ${headerStyle['flex-container']}`}>
-        <NavLink to={{pathname: '/profile'}} exact={true}
+        <NavLink to={{pathname: '/profile'}}
                  className={`ml-2 text text_type_main-default ${headerStyle.link}`}
                  activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
           <div className="mr-2">
