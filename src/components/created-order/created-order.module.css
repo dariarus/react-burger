@@ -1,0 +1,43 @@
+.wrapper {
+  box-sizing: border-box;
+  width: 600px;
+  margin-bottom: 16px;
+  padding: 24px;
+  background: #1C1C21;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+}
+
+.wrapper:last-of-type {
+  margin-bottom: 0;
+}
+
+.preview {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+  /*min-width: 600px;*/
+}
+
+.burgerName {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.ingredients {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ingredientsWrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.price {
+  display: flex;
+
+}

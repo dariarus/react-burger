@@ -29,11 +29,11 @@ const AppHeader: FunctionComponent = () => {
             Конструктор
           </NavLink>
         </div>
-        <NavLink to={{pathname: '/404'}} exact={true}
+        <NavLink to={{pathname: '/feed'}} exact={true}
                  className={`ml-2 text text_type_main-default ${headerStyle.link}`}
                  activeClassName={`ml-2 text text_type_main-default ${headerStyle.link} ${headerStyle.active}`}>
           <div className="mr-2">
-            <ListIcon type={routePath === '/404' ? 'primary' : 'secondary'}/>
+            <ListIcon type={routePath === '/feed' ? 'primary' : 'secondary'}/>
           </div>
           Лента заказов
         </NavLink>

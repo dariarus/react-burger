@@ -148,7 +148,7 @@ export const BurgerConstructor: FunctionComponent = () => {
             if (userData.user.name !== '' && userData.user.email !== ''){
               dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
               dispatch(actionsModal.handleModalOpen({
-                modalOrderDetailsOpened: true
+                modalOrderNumberDetailsOpened: true
               }));
             }
           }}>

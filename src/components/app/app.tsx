@@ -29,6 +29,8 @@ import {NotFound404} from "../../pages/not-found-404/not-found-404";
 import {TLocationState} from "../../services/types/data";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
+import {FeedPage} from "../../pages/feed-page/feed-page";
+import {OrderDetailsPage} from "../../pages/order-details-page/order-details-page";
 
 const App: FunctionComponent = () => {
   const {burgerDataState} = useSelector(state => {
@@ -87,6 +89,11 @@ const App: FunctionComponent = () => {
 
             <Route path="/reset-password" exact={true}>
               <ResetPasswordPage/>
+            </Route>
+
+            <Route path="/feed" exact={true}>
+              <OrderDetailsPage/>
+              {/*<FeedPage/>*/}
             </Route>
 
             <ProtectedRoute path="/profile" exact={true}>

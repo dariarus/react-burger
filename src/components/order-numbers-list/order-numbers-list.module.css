@@ -1,35 +1,36 @@
-.wrapper {
+.container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  margin-top: 20px;
 }
 
-.list {
-  max-height: 312px;
-  margin-bottom: 40px;
-  overflow: auto;
+.wrapper {
+  margin-top: 24px;
+  max-height: 206px;
+  overflow-y: auto;
   scrollbar-color: #8585ad #2f2f37; /* «цвет ползунка» «цвет полосы скроллбара» */
   scrollbar-width: thin;
 }
 
-.list::-webkit-scrollbar {
+.wrapper::-webkit-scrollbar {
   width: 8px;
   height: 8px;
   background-color: #2f2f37;
 }
 
 /* ползунок скроллбара */
-.list::-webkit-scrollbar-thumb {
+.wrapper::-webkit-scrollbar-thumb {
   background-color: #8585ad;
 }
 
-.total {
+.wrapperList {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
 }
 
-.count {
+.list {
   display: flex;
-  align-items: center;
+  flex-flow: column wrap;
+  width: 272px;
+  max-height: 352px;
 }

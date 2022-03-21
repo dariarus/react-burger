@@ -1,0 +1,8 @@
+.wrapper {
+  margin: auto;
+  max-width: 640px;
+}
+
+.wrapper > div + p {
+  align-self: center;
+}

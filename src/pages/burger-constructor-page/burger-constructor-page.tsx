@@ -7,7 +7,7 @@ import ingredientsWrapper from "../../components/burger-ingredients/burger-ingre
 import {BurgerIngredients} from "../../components/burger-ingredients/burger-ingredients";
 import {BurgerConstructor} from "../../components/burger-constructor/burger-constructor";
 import {Modal} from "../../components/modal/modal";
-import {OrderDetails} from "../../components/order-details/order-details";
+import {OrderNumberDetails} from "../../components/order-number-details/order-number-details";
 
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
@@ -35,11 +35,11 @@ export const BurgerConstructorPage: FunctionComponent = () => {
         </DndProvider>
 
         {
-          modalState.modalsOpened.modalOrderDetailsOpened &&
+          modalState.modalsOpened.modalOrderNumberDetailsOpened &&
           <Modal handleOnClose={() => {
             dispatch(actionsModal.handleModalClose());
           }}>
-            <OrderDetails/>
+            <OrderNumberDetails/>
           </Modal>
         }
       </div>

@@ -18,7 +18,7 @@ export interface IBurgerDataSliceState {
 export interface IModalSliceState {
   modalsOpened: {
     modalIngredientDetailsOpened?: string,
-    modalOrderDetailsOpened?: string
+    modalOrderNumberDetailsOpened?: string
   },
   ingredientForModal: null | TIngredient
 }
