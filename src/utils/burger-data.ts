@@ -5,9 +5,13 @@ enum ingredientTypeRuName {
 }
 
 const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
+const queryFeedDataUrl = 'wss://norma.nomoreparties.space/api';
 
-function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props?: any) {
-  props = props || {}
+function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props: any = {}) {
+  props = {
+    path: '/',
+    ...props
+  }
   let exp = props.expires;
   if (typeof exp == 'number' && exp) {
     const d = new Date();
@@ -44,4 +48,4 @@ export function deleteCookie(cookieName: string) {
   setCookie(cookieName, null, { expires: -1 });
 }
 
-export {ingredientTypeRuName, queryBurgerDataUrl, setCookie, getCookie};
+export {ingredientTypeRuName, queryBurgerDataUrl, queryFeedDataUrl, setCookie, getCookie};

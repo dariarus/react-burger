@@ -9,6 +9,8 @@ import {BurgerConstructor} from "../../components/burger-constructor/burger-cons
 import {Modal} from "../../components/modal/modal";
 import {OrderNumberDetails} from "../../components/order-number-details/order-number-details";
 
+import {OrderDetails} from "../../components/order-details/order-details";
+
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
@@ -39,7 +41,7 @@ export const BurgerConstructorPage: FunctionComponent = () => {
           <Modal handleOnClose={() => {
             dispatch(actionsModal.handleModalClose());
           }}>
-            <OrderNumberDetails/>
+            <OrderDetails/>
           </Modal>
         }
       </div>

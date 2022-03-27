@@ -1,7 +1,8 @@
 import {rootReducer} from "../toolkit-slices/index";
 
-import {TErrorState, TIngredient} from "./data";
+import {TErrorState, TIngredient, TOrders} from "./data";
 import {store} from "../store";
+import {MiddlewareArray, PayloadAction} from "@reduxjs/toolkit";
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;
@@ -51,4 +52,20 @@ export interface IUserDataSliceState {
 /*** forgot password slice ***/
 export interface IForgotPasswordMarker {
   emailWasSent: boolean
+}
+
+/*** feed slice ***/
+export interface IFeedSliceState {
+  isOrderFeedLoading?: boolean,
+  success: boolean,
+  orders: ReadonlyArray<TOrders>,
+  total: number | null,
+  totalToday: number | null
+}
+
+/*** socket middleware slice ***/
+export interface ISocketMiddleware {
+  socket?: null | WebSocket,
+  wsConnected: boolean,
+  actions: PayloadAction
 }

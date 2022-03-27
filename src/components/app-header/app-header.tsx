@@ -14,7 +14,7 @@ const AppHeader: FunctionComponent = () => {
   });
 
   const history = useHistory();
-  const routePath = useMemo(() => history.location.pathname, [history.location]);
+  const routePath = useMemo(() => history.location.pathname, [history.location]); // можно исп-ть хук useRouteMatch для выявления текущего маршрута
 
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>

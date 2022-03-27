@@ -1,4 +1,4 @@
-import {deleteCookie, getCookie, queryBurgerDataUrl, setCookie} from "../../utils/burger-data";
+import {deleteCookie, getCookie, queryBurgerDataUrl, queryFeedDataUrl, setCookie} from "../../utils/burger-data";
 import {ThunkAction} from "redux-thunk";
 import {AnyAction} from "@reduxjs/toolkit";
 
@@ -10,7 +10,9 @@ import {ingredientCounterSlice} from "../toolkit-slices/ingredient-counter";
 import {forgotPasswordMarkerSlice} from "../toolkit-slices/reset-password-marker";
 
 import {TIngredient, TIngredientItem, TToken} from "../types/data";
-import {AppDispatch, IOrderSliceState, IUserDataSliceState, RootState} from "../types";
+import {AppDispatch, IFeedSliceState, IOrderSliceState, IUserDataSliceState, RootState} from "../types";
+import {ordersFeedSlice} from "../toolkit-slices/orders-feed";
+import {socketMiddleware} from "../toolkit-slices/socket-middleware";
 
 const actionsBurgerData = burgerDataSlice.actions;
 const actionsOrder = orderSlice.actions;
@@ -18,6 +20,7 @@ const actionsConstructor = burgerConstructorSlice.actions;
 const actionsIngredientCounter = ingredientCounterSlice.actions;
 const actionsUserData = userDataSlice.actions;
 const actionsForgotPasswordMarker = forgotPasswordMarkerSlice.actions;
+const actionsOrdersFeed = ordersFeedSlice.actions;
 
 function getResponseData<T>(res: Response): Promise<T> {
   if (!res.ok) {
@@ -270,8 +273,8 @@ export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyA
       .then(res => getResponseData<TToken>(res))
       .then(data => {
         if (data.success) {
-          setCookie('accessToken', data.accessToken)
-          setCookie('refreshToken', data.refreshToken)
+          setCookie('accessToken', data.accessToken, {path: "/"})
+          setCookie('refreshToken', data.refreshToken, {path: "/"})
           dispatch(actionsUserData.setTokens(data));
         }
       })
@@ -362,5 +365,18 @@ export const logout = (): ThunkAction<void, RootState, unknown, AnyAction> => {
 
       })
       .catch(err => console.log(err))
+  }
+}
+
+
+/***-------- Middleware-functions for feed --------***/
+
+export const getAllOrders = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+  return function (dispatch: AppDispatch) {
+    const actionsSocketMiddleware = socketMiddleware.actions;
+    dispatch(actionsOrdersFeed.getOrdersFeed());
+    return (
+      dispatch(actionsSocketMiddleware.wsInit(`${queryFeedDataUrl}/orders/all`))
+    )
   }
 }

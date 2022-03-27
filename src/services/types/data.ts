@@ -110,3 +110,13 @@ export type TLocationState = {
     key: string;
   }
 }
+
+/*** orders feed ***/
+export type TOrders = {
+  ingredients: ReadonlyArray<string>,
+  _id: string,
+  status: string,
+  number: number | null,
+  createdAt: string,
+  updatedAt: string
+}

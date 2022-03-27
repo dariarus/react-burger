@@ -8,6 +8,8 @@ import {totalPriceSlice} from "./total-price";
 import {ingredientCounterSlice} from "./ingredient-counter";
 import {userDataSlice} from "./user-data";
 import {forgotPasswordMarkerSlice} from "./reset-password-marker";
+import {ordersFeedSlice} from "./orders-feed";
+import {socketMiddleware} from "./socket-middleware";
 
 export const rootReducer = combineReducers({
   burgerDataState: burgerDataSlice.reducer,
@@ -17,5 +19,7 @@ export const rootReducer = combineReducers({
   totalPrice: totalPriceSlice.reducer,
   ingredientCounter: ingredientCounterSlice.reducer,
   userData: userDataSlice.reducer,
-  forgotPasswordMarker: forgotPasswordMarkerSlice.reducer
+  forgotPasswordMarker: forgotPasswordMarkerSlice.reducer,
+  ordersFeedState: ordersFeedSlice.reducer,
+  socketMiddleware: socketMiddleware.reducer,
 });
