@@ -9,7 +9,9 @@ export const ordersFeedSlice = createSlice({
     success: false,
     orders: [],
     total: null,
-    totalToday: null
+    totalToday: null,
+    hasError: false,
+    error: null
   } as IFeedSliceState,
   reducers: {
     getOrdersFeed: (state) => {
@@ -18,16 +20,27 @@ export const ordersFeedSlice = createSlice({
         isOrderFeedLoading: true
       }
     },
+    getOrdersFeedSuccess: (state) => {
+      return {
+        ...state,
+        isOrderFeedLoading: false
+      }
+    },
     setOrdersFeed: (state, action: PayloadAction<IFeedSliceState>) => {
       return {
         ...state,
-        isOrderFeedLoading: false,
         success: action.payload.success,
         orders: action.payload.orders,
         total: action.payload.total,
         totalToday: action.payload.totalToday
       }
-    }
+    },
+    getOrdesFeedFailed: (state) => {
+      return {
+        ...state,
+        isOrderFeedLoading: false
+      }
+    },
   }
 })
-export const {getOrdersFeed, setOrdersFeed} = ordersFeedSlice.actions
+export const {getOrdersFeed, getOrdersFeedSuccess, setOrdersFeed} = ordersFeedSlice.actions

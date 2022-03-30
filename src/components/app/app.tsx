@@ -10,7 +10,6 @@ import {useAppDispatch, useSelector} from "../../services/types/hooks";
 import main from './app.module.css';
 
 import {
-  getAllOrders,
   getBurgerDataFromServer,
   getUser
 } from "../../services/actions/api";
@@ -24,22 +23,19 @@ import {ForgotPasswordPage} from "../../pages/forgor-password-page/forgor-passwo
 import {ResetPasswordPage} from "../../pages/reset-password-page/reset-password-page";
 import {AccountPage} from "../../pages/profile-page/profile-page";
 import {ProfileDetails} from "../profile-details/profile-details";
-import {getCookie, queryFeedDataUrl} from "../../utils/burger-data";
+import {getCookie} from "../../utils/burger-data";
 import {LogoutPage} from "../../pages/logout-page/logout-page";
 import {NotFound404} from "../../pages/not-found-404/not-found-404";
 import {TLocationState} from "../../services/types/data";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {FeedPage} from "../../pages/feed-page/feed-page";
-import {OrderDetailsPage} from "../../pages/order-details-page/order-details-page";
-import {socketMiddleware} from "../../services/toolkit-slices/socket-middleware";
+// import {OrderDetailsPage} from "../../pages/order-details-page/order-details-page";
 
 const App: FunctionComponent = () => {
-  const {burgerDataState, socketMiddleware} = useSelector(state => {
+  const {burgerDataState} = useSelector(state => {
     return state
   });
-
-  const actionsSocketMiddleware = socketMiddleware.actions
 
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -59,8 +55,8 @@ const App: FunctionComponent = () => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
     dispatch(getUser(getCookie('accessToken'), 3));
-    dispatch(getAllOrders());
-    console.log(actionsSocketMiddleware.wsInit())
+    // dispatch(getAllOrders());
+    // console.log(actionsSocketMiddleware.wsInit())
    // dispatch(getAllOrders());
    //  console.log(ordersFeedState.orders)
     if (background) {
