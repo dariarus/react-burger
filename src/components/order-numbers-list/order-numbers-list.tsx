@@ -9,10 +9,10 @@ export const OrderNumbersList: FunctionComponent<{listName: string}> = (props) =
       <div className={numbersList.wrapper}>
         <div className={numbersList.wrapperList}>
           <div className={numbersList.list}>
-            <p className="mb-2 mr-2 text text_type_digits-default">123654</p>
-            <p className="mb-2 mr-2 text text_type_digits-default">123654</p>
-            <p className="mb-2 mr-2 text text_type_digits-default">123654</p>
-            {/*{props.children}*/}
+            {/*<p className="mb-2 mr-2 text text_type_digits-default">123654</p>*/}
+            {/*<p className="mb-2 mr-2 text text_type_digits-default">123654</p>*/}
+            {/*<p className="mb-2 mr-2 text text_type_digits-default">123654</p>*/}
+            {props.children}
           </div>
         </div>
       </div>

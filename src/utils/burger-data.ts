@@ -1,3 +1,6 @@
+import {TIngredient, TIngredientItem} from "../services/types/data";
+import React from "react";
+
 enum ingredientTypeRuName {
   bun = "Булки",
   sauce = "Соусы",
@@ -5,7 +8,23 @@ enum ingredientTypeRuName {
 }
 
 const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
-const queryFeedDataUrl = 'wss://norma.nomoreparties.space/api';
+const queryFeedDataUrl = 'wss://norma.nomoreparties.space';
+
+export const calculateTotalPrice = (bun: TIngredient | null, ingredients: ReadonlyArray<TIngredient>) => {
+  const ingredientArrayReducer = (acc: number, item: TIngredient) => {
+    return acc + item.price
+  }
+  let bunPrice = 0;
+  if (bun) {
+    bunPrice = bun.price * 2;
+  }
+    if (ingredients) {
+      let ingredientPrice = ingredients
+        //.map(element => element && element.item ? element.item : element)
+        .reduce(ingredientArrayReducer, 0);
+      return ingredientPrice + bunPrice;
+    } else return bunPrice
+}
 
 function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props: any = {}) {
   props = {

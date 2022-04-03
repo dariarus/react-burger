@@ -41,7 +41,7 @@ export const BurgerConstructorPage: FunctionComponent = () => {
           <Modal handleOnClose={() => {
             dispatch(actionsModal.handleModalClose());
           }}>
-            <OrderDetails/>
+            <OrderNumberDetails/>
           </Modal>
         }
       </div>

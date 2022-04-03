@@ -3,7 +3,6 @@ import {AnyAction} from "@reduxjs/toolkit";
 
 import {middlewareSlice} from "../toolkit-slices/socket-middleware";
 import {ordersFeedSlice} from "../toolkit-slices/orders-feed";
-import {AppDispatch, RootState} from "../types";
 import {getCookie} from "../../utils/burger-data";
 
 export const socketMiddleware = (wsUrl: string) => {
@@ -36,6 +35,7 @@ export const socketMiddleware = (wsUrl: string) => {
           const {data} = event; // извлечение объекта с данными из самого объекта event
           const parsedData = JSON.parse(data);
           store.dispatch(actionsOrderFeed.setOrdersFeed(parsedData));
+
           console.log(store.getState().ordersFeedState.orders)
         }
         socket.onclose = (event: CloseEvent) => {

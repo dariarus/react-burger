@@ -35,7 +35,7 @@ export const orderSlice = createSlice({
         ...state,
         isLoading: false,
         orderNumber: action.payload.orderNumber,
-        order: action.payload.order
+        order: action.payload.order,
       }
     }
   }

@@ -8,8 +8,8 @@ export const ordersFeedSlice = createSlice({
     isOrderFeedLoading: false,
     success: false,
     orders: [],
-    total: null,
-    totalToday: null,
+    total: 0,
+    totalToday: 0,
     hasError: false,
     error: null
   } as IFeedSliceState,
@@ -35,7 +35,7 @@ export const ordersFeedSlice = createSlice({
         totalToday: action.payload.totalToday
       }
     },
-    getOrdesFeedFailed: (state) => {
+    getOrdersFeedFailed: (state) => {
       return {
         ...state,
         isOrderFeedLoading: false

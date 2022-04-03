@@ -17,6 +17,7 @@ import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-deve
 
 import {TIngredient} from "../../services/types/data";
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
+import {calculateTotalPrice} from "../../utils/burger-data";
 
 export const BurgerConstructor: FunctionComponent = () => {
 
@@ -45,18 +46,8 @@ export const BurgerConstructor: FunctionComponent = () => {
     return commonArrayOfIngredientsIds;
   }
 
-  const calculateTotalPrice = React.useCallback(() => {
-    const ingredientArrayReducer = (acc: number, item: TIngredient) => {
-      return acc + item.price
-    }
-    let bunPrice = 0;
-    if (burgerConstructorIngredients.bun) {
-      bunPrice = burgerConstructorIngredients.bun.price * 2;
-    }
-    let ingredientPrice = burgerConstructorIngredients.ingredients
-      .map(element => element.item)
-      .reduce(ingredientArrayReducer, 0);
-    return ingredientPrice + bunPrice;
+  const calculateTotalPriceCallback = React.useCallback(() => {
+    return calculateTotalPrice(burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients.map(ingredientItem => ingredientItem.item));
   }, [burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients])
 
   const [{isOver}, dropRef] = useDrop({
@@ -71,8 +62,8 @@ export const BurgerConstructor: FunctionComponent = () => {
   })
 
   React.useEffect(() => {
-    dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPrice()))
-  }, [burgerConstructorIngredients, dispatch, actionsTotalPrice, calculateTotalPrice])
+    dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPriceCallback()))
+  }, [burgerConstructorIngredients, dispatch, actionsTotalPrice, calculateTotalPriceCallback])
 
   return (
     <div ref={dropRef}

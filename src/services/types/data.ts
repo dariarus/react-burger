@@ -115,8 +115,24 @@ export type TLocationState = {
 export type TOrders = {
   ingredients: ReadonlyArray<string>,
   _id: string,
+  name: string,
   status: string,
   number: number | null,
   createdAt: string,
   updatedAt: string
+}
+
+/*** ingredient icon props type ***/
+export type TIngredientIcon = {
+  image: string,
+  imageName: string,
+  isSixth: boolean,
+  index?: number,
+  restCount?: number,
+  ingredientCount: number
+}
+
+/*** counter for reducer ***/
+export type TReducedCounter = {
+  [index: string]: number
 }

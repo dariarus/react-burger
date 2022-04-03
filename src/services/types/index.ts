@@ -1,12 +1,13 @@
 import {rootReducer} from "../toolkit-slices/index";
 
 import {TErrorState, TIngredient, TOrders} from "./data";
-import {store} from "../store";
-import {MiddlewareArray, PayloadAction} from "@reduxjs/toolkit";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "@reduxjs/toolkit";
+// import {store} from "../store";
 
 export type RootState = ReturnType<typeof rootReducer>;
-
-export type AppDispatch = typeof store.dispatch;
+// export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ThunkDispatch<RootState, any, AnyAction>;
 
 /*** burger-data slice initial state ***/
 export interface IBurgerDataSliceState {
@@ -60,8 +61,8 @@ export interface IFeedSliceState {
   isOrderFeedLoading?: boolean,
   success: boolean,
   orders: ReadonlyArray<TOrders>,
-  total: number | null,
-  totalToday: number | null,
+  total: number,
+  totalToday: number,
   hasError?: boolean,
   error?: null | string
 }
