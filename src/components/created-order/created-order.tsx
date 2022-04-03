@@ -87,14 +87,14 @@ export const CreatedOrder: FunctionComponent<{ order: TOrders }> = (props) => {
   // }
 
   useEffect(() => {
-    let newBurgerIngredient: {bun: TIngredient | null, ingredients: Array<TIngredient>} = {
-      bun: null,
+    let newBurgerIngredient: {bun: TIngredient | null | undefined, ingredients: Array<TIngredient> } = {
+      bun: undefined,
       ingredients: []
     };
-    newBurgerIngredient.bun = burgerIngredient.find(bun => bun && bun.type === "bun" && bun);
+    newBurgerIngredient.bun = burgerIngredient.find(bun => bun && bun.type === "bun" && bun) || null;
     newBurgerIngredient.ingredients = burgerIngredient.filter(ingredient => ingredient && (ingredient.type === "main" || ingredient.type === "sauce") && ingredient);
-    calculateTotalPrice(newBurgerIngredient.bun,  newBurgerIngredient.ingredients);
-    console.log(newBurgerIngredient)
+    calculateTotalPrice(newBurgerIngredient.bun, newBurgerIngredient.ingredients);
+    console.log(calculateTotalPrice(newBurgerIngredient.bun, newBurgerIngredient.ingredients))
   }, [])
 
 

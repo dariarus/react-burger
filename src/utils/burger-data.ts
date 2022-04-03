@@ -10,20 +10,21 @@ enum ingredientTypeRuName {
 const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
 const queryFeedDataUrl = 'wss://norma.nomoreparties.space';
 
-export const calculateTotalPrice = (bun: TIngredient | null, ingredients: ReadonlyArray<TIngredient>) => {
+export const calculateTotalPrice = (bun: TIngredient | null, ingredients: Array<TIngredient>) => {
   const ingredientArrayReducer = (acc: number, item: TIngredient) => {
-    return acc + item.price
+      return acc + item.price
   }
   let bunPrice = 0;
+  let ingredientPrice = 0;
   if (bun) {
-    bunPrice = bun.price * 2;
+   bunPrice = bun.price * 2;
   }
-    if (ingredients) {
-      let ingredientPrice = ingredients
-        //.map(element => element && element.item ? element.item : element)
-        .reduce(ingredientArrayReducer, 0);
-      return ingredientPrice + bunPrice;
-    } else return bunPrice
+  if (ingredients !== undefined) {
+   ingredientPrice = ingredients
+      //.map(element => element && element.item ? element.item : element)
+      .reduce(ingredientArrayReducer, 0);
+    return ingredientPrice + bunPrice;
+  } else return null
 }
 
 function setCookie(cookieName: string, tokenValue: string | number | boolean | null, props: any = {}) {
@@ -64,7 +65,7 @@ function getCookie(cookieName: string) {
 export function deleteCookie(cookieName: string) {
   // Находим куку по ключу token, удаляем её значение,
   // устанавливаем отрицательное время жизни, чтобы удалить сам ключ token
-  setCookie(cookieName, null, { expires: -1 });
+  setCookie(cookieName, null, {expires: -1});
 }
 
 export {ingredientTypeRuName, queryBurgerDataUrl, queryFeedDataUrl, setCookie, getCookie};
