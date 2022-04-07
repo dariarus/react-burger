@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {IModalSliceState} from "../types/index";
-import {TIngredient} from "../types/data";
+import {TIngredient, TOrders} from "../types/data";
 
 export const handleModalSlice = createSlice({
   name: 'modalState',
@@ -10,7 +10,7 @@ export const handleModalSlice = createSlice({
     ingredientForModal: null,
   } as IModalSliceState,
   reducers: {
-    setIngredientForModal: (state, action: PayloadAction<TIngredient>) => {
+    setIngredientForModal: (state, action: PayloadAction<TIngredient | TOrders>) => {
       return {
         ...state,
         ingredientForModal: action.payload // ingredient

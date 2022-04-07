@@ -28,7 +28,7 @@ export const BurgerConstructor: FunctionComponent = () => {
 
   const actionsConstructor = burgerConstructorSlice.actions;
   const actionsModal = handleModalSlice.actions;
-  const actionsTotalPrice = totalPriceSlice.actions;
+  const actionsTotalSendingOrderPrice = totalPriceSlice.actions;
   const actionsIngredientCounter = ingredientCounterSlice.actions;
 
   const history = useHistory();
@@ -46,7 +46,7 @@ export const BurgerConstructor: FunctionComponent = () => {
     return commonArrayOfIngredientsIds;
   }
 
-  const calculateTotalPriceCallback = React.useCallback(() => {
+  const calculateTotalPriceTotalSendingOrderPriceCallback = React.useCallback(() => {
     return calculateTotalPrice(burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients.map(ingredientItem => ingredientItem.item));
   }, [burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients])
 
@@ -62,8 +62,8 @@ export const BurgerConstructor: FunctionComponent = () => {
   })
 
   React.useEffect(() => {
-    dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPriceCallback()))
-  }, [burgerConstructorIngredients, dispatch, actionsTotalPrice, calculateTotalPriceCallback])
+    dispatch(actionsTotalSendingOrderPrice.setTotalSendingOrderPrice(calculateTotalPriceTotalSendingOrderPriceCallback()))
+  }, [burgerConstructorIngredients, dispatch, actionsTotalSendingOrderPrice, calculateTotalPriceTotalSendingOrderPriceCallback])
 
   return (
     <div ref={dropRef}
@@ -128,7 +128,7 @@ export const BurgerConstructor: FunctionComponent = () => {
       </div>
       <div className={burgerConstructor.order}>
         <h2 className="text text_type_digits-medium mr-2">
-          {totalPrice.totalPrice}
+          {totalPrice.totalSendingOrderPrice}
         </h2>
         <div className={burgerConstructor.icon}>
           <CurrencyIcon type="primary"/>

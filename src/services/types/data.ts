@@ -126,13 +126,18 @@ export type TOrders = {
 export type TIngredientIcon = {
   image: string,
   imageName: string,
-  isSixth: boolean,
+  isSixth?: boolean,
   index?: number,
   restCount?: number,
-  ingredientCount: number
+  ingredientCount?: number,
+  children?: React.ReactNode
 }
 
 /*** counter for reducer ***/
 export type TReducedCounter = {
   [index: string]: number
 }
+
+/*** order composition props type ***/
+export type TOrderComposition = {ingredientCount: number} & Pick<TIngredient, "type" | "name" | "price" | "image">
+

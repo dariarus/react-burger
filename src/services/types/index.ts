@@ -21,9 +21,10 @@ export interface IBurgerDataSliceState {
 export interface IModalSliceState {
   modalsOpened: {
     modalIngredientDetailsOpened?: string,
-    modalOrderNumberDetailsOpened?: string
+    modalOrderNumberDetailsOpened?: string,
+    modalOrderDetailsOpened?: string
   },
-  ingredientForModal: null | TIngredient
+  ingredientForModal: null | TIngredient | TOrders
 }
 
 /*** order slice initial state ***/
@@ -36,7 +37,8 @@ export interface IOrderSliceState {
 
 /*** total price slice initial state ***/
 export interface ITotalPriceSliceState {
-  totalPrice: number
+  totalSendingOrderPrice: number | null,
+  totalFeedOrderPrice: number | null
 }
 
 /*** user data slice initial state ***/

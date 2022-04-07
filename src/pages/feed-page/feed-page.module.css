@@ -24,3 +24,16 @@
   background-color: #8585ad;
 }
 
+.feedItem {
+  margin-bottom: 16px;
+}
+
+.feedItem:last-of-type {
+  margin-bottom: 0;
+}
+
+.link {
+  box-sizing: border-box;
+  color: #f2f2f3;
+  text-decoration: none;
+}

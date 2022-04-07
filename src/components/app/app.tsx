@@ -30,7 +30,8 @@ import {TLocationState} from "../../services/types/data";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
 import {FeedPage} from "../../pages/feed-page/feed-page";
-// import {OrderDetailsPage} from "../../pages/order-details-page/order-details-page";
+import {OrderDetailsPage} from "../../pages/order-details-page/order-details-page";
+import {OrderDetails} from "../order-details/order-details";
 
 const App: FunctionComponent = () => {
   const {burgerDataState} = useSelector(state => {
@@ -55,16 +56,10 @@ const App: FunctionComponent = () => {
     // Отправляем экшены при монтировании компонента
     dispatch(getBurgerDataFromServer());
     dispatch(getUser(getCookie('accessToken'), 3));
-    // dispatch(getAllOrders());
-    // console.log(actionsSocketMiddleware.wsInit())
-   // dispatch(getAllOrders());
-   //  console.log(ordersFeedState.orders)
     if (background) {
       delete location.state.background;
     }
-   // history.replace({state: {}})
   }, [dispatch, history])
-  // }, [dispatch, history])
 
   /*** App Rendering ***/
   if (burgerDataState.hasError) {
@@ -96,8 +91,11 @@ const App: FunctionComponent = () => {
             </Route>
 
             <Route path="/feed" exact={true}>
-              {/*<OrderDetailsPage/>*/}
               <FeedPage/>
+            </Route>
+
+            <Route path="/feed/:id" exact={true}>
+              <OrderDetailsPage/>
             </Route>
 
             <ProtectedRoute path="/profile" exact={true}>
@@ -128,11 +126,22 @@ const App: FunctionComponent = () => {
           {/*Show the modal when a background page is set */}
           {
             background
-            && <Route exact path="/ingredient/:id" children={<Modal handleOnClose={() => {
-              history.goBack();
-            }}>
-              <IngredientDetails/>
-            </Modal>
+            && <Route exact path="/ingredient/:id" children={
+              <Modal handleOnClose={() => {
+                history.goBack();
+              }}>
+                <IngredientDetails/>
+              </Modal>
+            }/>
+          }
+          {
+            background
+            && <Route exact path="/feed/:id" children={
+              <Modal handleOnClose={() => {
+                history.goBack();
+              }}>
+                <OrderDetails/>
+              </Modal>
             }/>
           }
         </main>

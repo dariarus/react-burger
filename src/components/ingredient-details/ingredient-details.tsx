@@ -1,21 +1,21 @@
 import React, {FunctionComponent, useState} from 'react';
 
-import { useSelector} from "../../services/types/hooks";
+import {useSelector} from "../../services/types/hooks";
 
 import ingredientDetailsStyle from './ingredient-details.module.css';
 import {useParams} from "react-router-dom";
 import {TIngredient} from "../../services/types/data";
 
 export const IngredientDetails: FunctionComponent = () => {
-  const { burgerDataState } = useSelector(state => {
+  const {burgerDataState} = useSelector(state => {
     return state
   });
   const [ingredient, setIngredient] = useState<TIngredient | undefined>(undefined);
 
-  const params: {id: string} = useParams();
+  const params: { id: string } = useParams();
   React.useEffect(() => {
     const findResult = burgerDataState.burgerData.find(element => element._id === params.id)
-   setIngredient(findResult)
+    setIngredient(findResult)
   }, [burgerDataState, params.id])
 
 
@@ -25,7 +25,7 @@ export const IngredientDetails: FunctionComponent = () => {
       {
         ingredient &&
         <React.Fragment key={ingredient._id}>
-          <img src={ingredient.image_large} alt={ingredient.name} />
+          <img src={ingredient.image_large} alt={ingredient.name}/>
           <p className="text text_type_main-medium">{ingredient.name}</p>
           <ul className={ingredientDetailsStyle.wrapper}>
             <li className={ingredientDetailsStyle.properties}>

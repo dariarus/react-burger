@@ -19,8 +19,8 @@ export const CreatedOrdersStatistics: FunctionComponent = () => {
       <div className={createdNumbers.wrapper}>
         <OrderNumbersList listName="Готовы:">
           {
-            ordersFeedState.orders.map((order) => order.status === 'done' &&
-              <p
+            ordersFeedState.orders.map((order, index) => order.status === 'done' &&
+              <p key={index}
                 className={`mb-2 mr-2 text text_type_digits-default ${createdNumbers.textOrderDone}`}>{order.number}</p>)
           }
         </OrderNumbersList>

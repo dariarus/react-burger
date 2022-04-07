@@ -22,7 +22,7 @@ export const IngredientIcon: FunctionComponent<TIngredientIcon> = (props) => {
             </div>
         }
         {
-          props.ingredientCount > 1 &&
+          props.ingredientCount && props.ingredientCount > 1 &&
           <Counter count={props.ingredientCount} size="small"/>
         }
       </div>
