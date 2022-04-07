@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 import {IFeedSliceState} from "../types/index";
+import {IWebSocketActions} from "../types/action-type";
 
 export const ordersFeedSlice = createSlice({
   name: 'orders',
@@ -10,23 +11,35 @@ export const ordersFeedSlice = createSlice({
     orders: [],
     total: 0,
     totalToday: 0,
+
+    wsStartConnecting: false,
+    wsConnected: false,
     hasError: false,
     error: null
   } as IFeedSliceState,
   reducers: {
-    getOrdersFeed: (state) => {
+    wsInit: (state) => {
       return {
         ...state,
-        isOrderFeedLoading: true
+        wsStartConnecting: true
       }
     },
-    getOrdersFeedSuccess: (state) => {
+    wsConnectionSuccess: (state) => {
       return {
         ...state,
-        isOrderFeedLoading: false
+        wsStartConnecting: false,
+        wsConnected: true
       }
     },
-    setOrdersFeed: (state, action: PayloadAction<IFeedSliceState>) => {
+    wsConnectionError: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        wsConnected: false,
+        hasError: true,
+        error: action.payload
+      }
+    },
+    wsGetMessage: (state, action: PayloadAction<IFeedSliceState>) => {
       return {
         ...state,
         success: action.payload.success,
@@ -35,12 +48,39 @@ export const ordersFeedSlice = createSlice({
         totalToday: action.payload.totalToday
       }
     },
-    getOrdersFeedFailed: (state) => {
+    wsSendMessage: (state, action: PayloadAction<string>) => {
       return {
-        ...state,
-        isOrderFeedLoading: false
+        ...state
       }
     },
+    wsConnectionClosed: (state, action: PayloadAction<CloseEvent>) => {
+      return {
+        ...state,
+        wsConnected: false,
+        hasError: true,
+        error: `Socket closed with code: , ${action.payload.code}`
+      }
+    }
   }
 })
-export const {getOrdersFeed, getOrdersFeedSuccess, setOrdersFeed} = ordersFeedSlice.actions
+
+export default ordersFeedSlice.reducer
+export const {
+  wsInit,
+  wsSendMessage,
+  wsConnectionSuccess,
+  wsConnectionError,
+  wsConnectionClosed,
+  wsGetMessage
+} = ordersFeedSlice.actions;
+
+
+// привязываем типы из интерфейса к конкретным экшнам
+export const wsActions: IWebSocketActions = {
+  wsInit: wsInit,
+  wsSendMessage: wsSendMessage,
+  onOpen: wsConnectionSuccess,
+  onClose: wsConnectionClosed,
+  onError:  wsConnectionError,
+  onMessage: wsGetMessage,
+}

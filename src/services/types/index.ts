@@ -65,8 +65,11 @@ export interface IFeedSliceState {
   orders: ReadonlyArray<TOrders>,
   total: number,
   totalToday: number,
-  hasError?: boolean,
-  error?: null | string
+
+  wsStartConnecting: boolean,
+  wsConnected: boolean,
+  hasError: boolean,
+  error: null |string
 }
 
 /*** socket middleware slice ***/

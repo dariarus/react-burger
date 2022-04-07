@@ -68,6 +68,8 @@ export const doOrder = (ingredientsIdsList: ReadonlyArray<string>,
                           ingredients: readonly TIngredientItem[]
                         }): ThunkAction<void, RootState, unknown, AnyAction> => {
   return function (dispatch: AppDispatch) {
+    const accessToken = getCookie('accessToken');
+
     const isValidOrder = order.bun ? true : false
 
     dispatch(actionsOrder.checkOrder(isValidOrder));
@@ -78,7 +80,8 @@ export const doOrder = (ingredientsIdsList: ReadonlyArray<string>,
       fetch(`${queryBurgerDataUrl}/orders`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'authorization': accessToken ? accessToken : ''// иначе accessToken не подходит по типу, т.к. м/б undefined
         },
         body: JSON.stringify({
           "ingredients": ingredientsIdsList

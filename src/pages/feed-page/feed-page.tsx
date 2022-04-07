@@ -7,19 +7,19 @@ import {CreatedOrder} from "../../components/created-order/created-order";
 import {CreatedOrdersStatistics} from "../../components/order-statistics/order-statistics";
 import {useEffect} from "react";
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
-import {middlewareSlice} from "../../services/toolkit-slices/socket-middleware";
-import burgerIngredientStyle from "../../components/ingredient-group/ingredient-group.module.css";
+
+import {ordersFeedSlice} from "../../services/toolkit-slices/orders-feed";
 
 export const FeedPage: FunctionComponent = () => {
   const {ordersFeedState} = useSelector(state => {
     return state;
   })
-  const actionsMiddleware = middlewareSlice.actions;
+  const actionsOrdersFeed = ordersFeedSlice.actions;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(actionsMiddleware.wsInit());
-  }, [actionsMiddleware, dispatch])
+    dispatch(actionsOrdersFeed.wsInit());
+  }, [actionsOrdersFeed, dispatch])
 
   const location = useLocation();
 
