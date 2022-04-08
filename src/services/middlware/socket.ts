@@ -1,5 +1,6 @@
 import {MiddlewareAPI} from "redux";
 import {AnyAction} from "@reduxjs/toolkit";
+
 import {IWebSocketActions} from "../types/action-type";
 import {getCookie} from "../../utils/burger-data";
 
@@ -11,13 +12,13 @@ export const socketMiddleware = (wsUrl: string, wsActions: IWebSocketActions, is
 
     return (next: (arg: AnyAction) => void) => (action: AnyAction) => {
       const {payload} = action;
-      const token = isTokenRequired ? getCookie('accessToken')?.split(' ')[1] : null;
+      const accessToken = isTokenRequired ? getCookie('accessToken')?.split(' ')[1] : null;
 
       if (!wsActions.wsInit.match(action)) {
         return next(action);
       } else if (!socket) {
-        socket = token
-          ? new WebSocket(`${wsUrl}?token=${token}`)
+        socket = accessToken
+          ? new WebSocket(`${wsUrl}?token=${accessToken}`)
           : new WebSocket(`${wsUrl}`);
 
         isConnected = true;
@@ -45,7 +46,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: IWebSocketActions, is
           }
         }
         if (wsActions.wsSendMessage.match(action)) {
-          const message = token ? {...payload, token} : {...payload}
+          const message = accessToken ? {...payload, accessToken} : {...payload}
           socket.send(JSON.stringify(message))
         }
         next(action);

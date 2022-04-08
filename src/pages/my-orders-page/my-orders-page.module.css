@@ -1,11 +1,11 @@
-.section {
-  display: flex;
-  justify-content: space-between;
+.wrapper {
+  box-sizing: border-box;
+  width: 844px;
 }
 
 .feed {
-  margin-top: 20px;
-  padding-right: 8px;
+  margin: 0;
+  padding: 0 8px 0 0;
   /*height: 100vh;*/
   height: calc(100vh - 104px);
   overflow: scroll;
@@ -26,6 +26,8 @@
 
 .feedItem {
   margin-bottom: 16px;
+  width: 100%;
+  list-style: none;
 }
 
 .feedItem:last-of-type {
@@ -36,8 +38,4 @@
   box-sizing: border-box;
   color: #f2f2f3;
   text-decoration: none;
-}
-
-.orderWrapper {
-  width: 600px;
 }

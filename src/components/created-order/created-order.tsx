@@ -15,7 +15,7 @@ import {
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
-export const CreatedOrder: FunctionComponent<{ order: TOrders }> = (props) => {
+export const CreatedOrder: FunctionComponent<{ order: TOrders, status: boolean }> = (props) => {
   const {burgerDataState} = useSelector(state => {
     return state;
   })
@@ -62,7 +62,17 @@ export const CreatedOrder: FunctionComponent<{ order: TOrders }> = (props) => {
         <p className="text text_type_digits-default">{`#${props.order.number}`}</p>
         <p className="text text_type_main-default text_color_inactive">{orderCreatedAt}</p>
       </div>
-      <h2 className={`mb-6 text text_type_main-medium ${order.burgerName}`}>{props.order.name}</h2>
+      <h2 className={`text text_type_main-medium ${order.burgerName}`}>{props.order.name}</h2>
+      {
+        props.status &&
+        (
+          props.order.status === 'done'
+            ? <p className={`mt-2 text text_type_main-default ${order.textDone}`}>Выполнен</p>
+            : props.order.status === 'created'
+              ? <p className="mt-2 text text_type_main-default">Создан</p>
+              : <p className="mt-2 text text_type_main-default">Готовится</p>
+        )
+      }
       <div className={order.ingredients}>
         <div className={order.ingredientsWrapper}>
           {
@@ -71,8 +81,10 @@ export const CreatedOrder: FunctionComponent<{ order: TOrders }> = (props) => {
                 && <IngredientIcon key={index} image={ingredient.image} imageName={ingredient.name} isSixth={false}
                                    ingredientCount={countOfDuplicatedIngredients[ingredient._id]}/>)
               : burgerIngredientSixFirst.reverse().map((ingredient, index) => ingredient && ingredient.name && ingredient.image // получаем ingredient - чтобы он при поиске не был undefined
-                && <IngredientIcon key={index} image={ingredient.image} imageName={ingredient.name} isSixth={true} index={index}
-                                   restCount={restIngredientCount} ingredientCount={countOfDuplicatedIngredients[ingredient._id]}/>
+                && <IngredientIcon key={index} image={ingredient.image} imageName={ingredient.name} isSixth={true}
+                                   index={index}
+                                   restCount={restIngredientCount}
+                                   ingredientCount={countOfDuplicatedIngredients[ingredient._id]}/>
               )
           }
 

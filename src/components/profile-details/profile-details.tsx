@@ -9,6 +9,7 @@ import {refreshUserData} from "../../services/actions/api";
 import {getCookie} from "../../utils/burger-data";
 
 import {useSelector} from "../../services/types/hooks";
+
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
 
 export const ProfileDetails: FunctionComponent = () => {
@@ -29,12 +30,18 @@ export const ProfileDetails: FunctionComponent = () => {
     }
   }, [userData.user])
 
+  // проверяем, изменилась ли форма, чтобы показать кнопки
+  const isFormChanged =
+    username !== userData.user.name ||
+    login !== userData.user.email ||
+    password
+
   return (
     <>
       <form className={profile.wrapper} onSubmit={(e) => {
         e.preventDefault();
         e.stopPropagation();
-       dispatch(refreshUserData(getCookie('accessToken'), username, login, password));
+        dispatch(refreshUserData(getCookie('accessToken'), username, login, password));
       }}>
         <InputDefault value={username} onChange={(e) => {
           setUsername(e.target.value);
@@ -45,13 +52,16 @@ export const ProfileDetails: FunctionComponent = () => {
         <InputDefault value={password} onChange={(e) => {
           setPassword(e.target.value);
         }} type="password" placeholder="Пароль" icon="EditIcon"/>
-        <div className={profile.buttons}>
-          <Button type="primary" size="medium">Сохранить</Button>
-          <Button type="primary" size="medium" onClick={() => {
-            setUsername(userData.user.name);
-            setLogin(userData.user.email);
-          }}>Отмена</Button>
-        </div>
+        {
+          isFormChanged &&
+          <div className={profile.buttons}>
+            <Button type="primary" size="medium">Сохранить</Button>
+            <Button type="secondary" size="medium" onClick={() => {
+              setUsername(userData.user.name);
+              setLogin(userData.user.email);
+            }}>Отмена</Button>
+          </div>
+        }
       </form>
     </>
   )

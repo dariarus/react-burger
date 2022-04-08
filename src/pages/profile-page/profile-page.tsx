@@ -10,9 +10,7 @@ export const AccountPage: FunctionComponent<TPropsAccount> = (props) => {
   return (
     <div className={profilePage.main}>
       <AccountNavigation text={props.text}/>
-      <div>
         {props.children}
-      </div>
     </div>
   )
 }

@@ -60,7 +60,6 @@ export interface IForgotPasswordMarker {
 
 /*** feed slice ***/
 export interface IFeedSliceState {
-  isOrderFeedLoading?: boolean,
   success: boolean,
   orders: ReadonlyArray<TOrders>,
   total: number,
@@ -72,10 +71,3 @@ export interface IFeedSliceState {
   error: null |string
 }
 
-/*** socket middleware slice ***/
-export interface ISocketMiddleware {
-  wsStartConnecting: boolean,
-  wsConnected: boolean,
-  hasError: boolean,
-  error: null | string
-}

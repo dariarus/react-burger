@@ -1,6 +1,7 @@
 import React from "react";
 import {TICons} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 import {IUserDataSliceState} from "./index";
+import {orderStatus} from "../../utils/burger-data";
 
 export type TErrorState = {
   message?: string
@@ -116,7 +117,7 @@ export type TOrders = {
   ingredients: ReadonlyArray<string>,
   _id: string,
   name: string,
-  status: string,
+  status: orderStatus,
   number: number | null,
   createdAt: string,
   updatedAt: string

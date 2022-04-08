@@ -1,3 +1,9 @@
+.wrapper {
+  box-sizing: border-box;
+  width: 320px;
+  margin-right: 60px;
+}
+
 .link {
   display: block;
   margin-top: 34px;

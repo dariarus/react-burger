@@ -17,18 +17,22 @@ import {
 
 import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 
-export const OrderDetails: FunctionComponent = () => {
-  const {ordersFeedState, burgerDataState} = useSelector((state) => {
+export const OrderDetails: FunctionComponent<{ array: ReadonlyArray<TOrders> }> = (props) => {
+  const {burgerDataState} = useSelector((state) => {
     return state;
   })
 
   const [order, setOrder] = useState<TOrders | undefined>(undefined);
+  // const [userOrder, setUserOrder] = useState<TOrders | undefined>(undefined);
 
   const params: { id: string } = useParams();
   React.useEffect(() => {
-    const findOrderResult = ordersFeedState.orders.find(element => element._id === params.id)
-    setOrder(findOrderResult)
-  }, [ordersFeedState, params.id])
+    const findOrderResult = props.array.find(element => element._id === params.id);
+    setOrder(findOrderResult);
+
+    // const findUserOrderResult = userOrdersFeedState.orders.find(element => element._id === params.id);
+    // setUserOrder(findUserOrderResult);
+  }, [params.id, props.array])
 
   let orderIngredients;
   let orderIngredientBunSorted;
@@ -49,6 +53,25 @@ export const OrderDetails: FunctionComponent = () => {
     orderTotalPrice = calculateTotalPrice(newOrderIngredients.bun, newOrderIngredients.ingredients)
     orderCreatedAt = defineActualOrderDateInformation(order.createdAt);
   }
+
+  // let userOrderIngredients;
+  // let userOrderIngredientBunSorted;
+  // let userOrderIngredientCutDuplicates;
+  // let countOfDuplicatedUserIngredients: { [x: string]: number; };
+  //
+  // let userOrderTotalPrice;
+  // let userOrderCreatedAt;
+  // if (userOrder) {
+  //   userOrderIngredients = mapBurgerIngredientFromId(userOrder.ingredients, burgerDataState.burgerData);
+  //   userOrderIngredientBunSorted = replaceBunToStart(userOrderIngredients);
+  //   userOrderIngredientCutDuplicates = cutDuplicatesFromArray(userOrderIngredientBunSorted);
+  //
+  //   countOfDuplicatedUserIngredients = countNotUniqueIngredients(userOrder.ingredients);
+  //
+  //   const newUserOrderIngredients = mapBunAndIngredientsFromArray(userOrderIngredientBunSorted)
+  //   userOrderTotalPrice = calculateTotalPrice(newUserOrderIngredients.bun, newUserOrderIngredients.ingredients)
+  //   userOrderCreatedAt = defineActualOrderDateInformation(userOrder.createdAt);
+  // }
 
   return (
     <div className={orderDetails.wrapper}>

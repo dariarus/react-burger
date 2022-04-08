@@ -9,6 +9,7 @@ import {ingredientCounterSlice} from "./ingredient-counter";
 import {userDataSlice} from "./user-data";
 import {forgotPasswordMarkerSlice} from "./reset-password-marker";
 import {ordersFeedSlice} from "./orders-feed";
+import {userOrdersFeedSlice} from "./user-orders-feed";
 
 export const rootReducer = combineReducers({
   burgerDataState: burgerDataSlice.reducer,
@@ -20,4 +21,5 @@ export const rootReducer = combineReducers({
   userData: userDataSlice.reducer,
   forgotPasswordMarker: forgotPasswordMarkerSlice.reducer,
   ordersFeedState: ordersFeedSlice.reducer,
+  userOrdersFeedState: userOrdersFeedSlice.reducer,
 });

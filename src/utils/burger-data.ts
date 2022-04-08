@@ -1,10 +1,15 @@
-import {TIngredient, TIngredientItem, TReducedCounter} from "../services/types/data";
-import React from "react";
+import {TIngredient, TReducedCounter} from "../services/types/data";
 
 enum ingredientTypeRuName {
   bun = "Булки",
   sauce = "Соусы",
   main = "Начинка"
+}
+
+enum orderStatus {
+  done = "done",
+  created = "created",
+  pending = "pending"
 }
 
 const queryBurgerDataUrl = 'https://norma.nomoreparties.space/api';
@@ -137,6 +142,7 @@ function deleteCookie(cookieName: string) {
 
 export {
   ingredientTypeRuName,
+  orderStatus,
   queryBurgerDataUrl,
   queryFeedDataUrl,
   mapBurgerIngredientFromId,

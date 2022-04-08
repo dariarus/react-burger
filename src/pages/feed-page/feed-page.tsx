@@ -37,7 +37,9 @@ export const FeedPage: FunctionComponent = () => {
                 }}
                       className={`text text_type_main-medium ${feedWrapper.link}`}
                 >
-                  <CreatedOrder order={order}/>
+                  <div className={feedWrapper.orderWrapper}>
+                    <CreatedOrder order={order} status={false}/>
+                  </div>
                 </Link>
               </div>)
             )
