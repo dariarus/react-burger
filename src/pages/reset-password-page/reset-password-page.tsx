@@ -3,7 +3,7 @@ import {Link, Redirect, useLocation} from "react-router-dom";
 
 import resetPWPage from "./reset-password-page.module.css";
 
-import {changePassword} from "../../services/actions/api";
+import {changePassword} from "../../services/actions/change-password";
 
 import {InputDefault} from "../../components/input-default/input-default";
 

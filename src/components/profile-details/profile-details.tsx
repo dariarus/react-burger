@@ -5,7 +5,7 @@ import {useAppDispatch} from "../../services/types/hooks";
 import profile from './profile-details.module.css';
 
 import {InputDefault} from "../input-default/input-default";
-import {refreshUserData} from "../../services/actions/api";
+import {refreshUserData} from "../../services/actions/user";
 import {getCookie} from "../../utils/burger-data";
 
 import {useSelector} from "../../services/types/hooks";

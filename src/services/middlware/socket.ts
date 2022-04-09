@@ -37,9 +37,12 @@ export const socketMiddleware = (wsUrl: string, wsActions: IWebSocketActions, is
           store.dispatch(wsActions.onMessage(parsedData));
         }
         socket.onclose = (event: CloseEvent) => {
-          store.dispatch(wsActions.onClose(event));
-          console.log('Socket closed with code: ', event.code);
-          if (!isConnected) {
+          store.dispatch(wsActions.onClose());
+          if (event.code !== 1000) {
+            store.dispatch(wsActions.onError);
+            console.log('Socket closed with code: ', event.code);
+          }
+          if (isConnected) {
             setTimeout(() => {
               store.dispatch(wsActions.wsInit())
             }, 1000)

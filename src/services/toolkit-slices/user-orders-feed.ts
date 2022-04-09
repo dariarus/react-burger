@@ -53,12 +53,12 @@ export const userOrdersFeedSlice = createSlice({
         ...state
       }
     },
-    wsConnectionClosed: (state, action: PayloadAction<CloseEvent>) => {
+    wsConnectionClosed: (state) => {
       return {
         ...state,
         wsConnected: false,
-        hasError: true,
-        error: `Socket closed with code: , ${action.payload.code}`
+        // hasError: true,
+        // error: `Socket closed with code: , ${action.payload.code}`
       }
     }
   }

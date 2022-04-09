@@ -17,6 +17,9 @@ export const MyOrdersPage: FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(actionsUserOrdersFeed.wsInit());
+    if (window.closed) {
+      dispatch(actionsUserOrdersFeed.wsConnectionClosed());
+    }
   }, [actionsUserOrdersFeed, dispatch])
 
   const location = useLocation();

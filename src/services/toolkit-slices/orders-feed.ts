@@ -1,7 +1,8 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AnyAction, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-import {IFeedSliceState} from "../types/index";
+import {IFeedSliceState, RootState} from "../types/index";
 import {IWebSocketActions} from "../types/action-type";
+import {ThunkAction} from "redux-thunk";
 
 export const ordersFeedSlice = createSlice({
   name: 'orders',
@@ -18,7 +19,7 @@ export const ordersFeedSlice = createSlice({
     error: null
   } as IFeedSliceState,
   reducers: {
-    wsInit: (state) => {
+    wsInit: (state)=> {
       return {
         ...state,
         wsStartConnecting: true
@@ -53,12 +54,12 @@ export const ordersFeedSlice = createSlice({
         ...state
       }
     },
-    wsConnectionClosed: (state, action: PayloadAction<CloseEvent>) => {
+    wsConnectionClosed: (state) => {
       return {
         ...state,
         wsConnected: false,
-        hasError: true,
-        error: `Socket closed with code: , ${action.payload.code}`
+        // hasError: true,
+        // error: `Socket closed with code: , ${action.payload.code}`
       }
     }
   }

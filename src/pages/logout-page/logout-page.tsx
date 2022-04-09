@@ -2,7 +2,7 @@ import React, {FunctionComponent} from "react";
 import logoutPage from "./logout-page.module.css";
 
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {logout} from "../../services/actions/api";
+import {logout} from "../../services/actions/auth";
 import {useAppDispatch} from "../../services/types/hooks";
 
 export const LogoutPage: FunctionComponent = () => {

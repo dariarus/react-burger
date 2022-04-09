@@ -9,10 +9,8 @@ import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import main from './app.module.css';
 
-import {
-  getBurgerDataFromServer,
-  getUser
-} from "../../services/actions/api";
+import {getBurgerDataFromServer} from "../../services/actions/burger-data";
+import {getUser} from "../../services/actions/user";
 
 import AppHeader from "../app-header/app-header";
 

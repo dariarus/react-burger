@@ -18,8 +18,12 @@ export const FeedPage: FunctionComponent = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(actionsOrdersFeed.wsInit());
-  }, [actionsOrdersFeed, dispatch])
+      dispatch(actionsOrdersFeed.wsInit());
+      if (window.closed) {
+        dispatch(actionsOrdersFeed.wsConnectionClosed());
+      }
+    }, [actionsOrdersFeed, dispatch]
+  )
 
   const location = useLocation();
 

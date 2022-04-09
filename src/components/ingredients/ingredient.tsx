@@ -1,5 +1,5 @@
 import React, {FunctionComponent} from 'react';
-import {useDispatch} from "react-redux";
+
 import {useDrag} from "react-dnd";
 import {Counter, CurrencyIcon} from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -8,7 +8,7 @@ import ingredientsStyle from "./ingredient.module.css";
 import {handleModalSlice} from "../../services/toolkit-slices/modal";
 
 import {TDraggableIngredient} from "../../services/types/data";
-import {useSelector} from "../../services/types/hooks";
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
 
@@ -16,7 +16,7 @@ export const Ingredient: FunctionComponent<TDraggableIngredient> = (props) => {
     return state
   })
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const actionsModal = handleModalSlice.actions;
 
   const [{isDragging}, dragRef] = useDrag({

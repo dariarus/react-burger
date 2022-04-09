@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react';
 import {useDrop} from "react-dnd";
 import {useHistory} from "react-router-dom";
 
-import {doOrder} from "../../services/actions/api";
+import {doOrder} from "../../services/actions/burger-data";
 
 import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
