@@ -1,6 +1,7 @@
 .wrapper {
   box-sizing: border-box;
   width: 844px;
+  max-height: calc(100vh + 300px);
 }
 
 .feed {
