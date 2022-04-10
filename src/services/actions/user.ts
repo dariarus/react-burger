@@ -1,14 +1,11 @@
-import {ThunkAction} from "redux-thunk";
-import {AppDispatch, IUserDataSliceState, RootState} from "../types";
-import {AnyAction} from "@reduxjs/toolkit";
+import {AppDispatch, AppThunk, IUserDataSliceState} from "../types";
 import {getCookie, queryBurgerDataUrl, setCookie} from "../../utils/burger-data";
 import {TToken} from "../types/data";
 import {getResponseData, throwOnError} from "./api";
 import {userDataSlice} from "../toolkit-slices/user-data";
-
 const actionsUserData = userDataSlice.actions;
 
-export const getUser = (accessToken: string | undefined, retryOnErrorCount?: number): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const getUser = (accessToken: string | undefined, retryOnErrorCount?: number): AppThunk => {
   return function (dispatch: AppDispatch) {
 
     dispatch(actionsUserData.getUserData());
@@ -54,7 +51,7 @@ export const getUser = (accessToken: string | undefined, retryOnErrorCount?: num
 
 export const refreshUserData = (accessToken: string | undefined,
                                 name: string, email: string,
-                                password: string): ThunkAction<void, RootState, unknown, AnyAction> => {
+                                password: string): AppThunk => {
   return function (dispatch: AppDispatch) {
     dispatch(actionsUserData.getUserData());
 
@@ -88,7 +85,7 @@ export const refreshUserData = (accessToken: string | undefined,
   }
 }
 
-export const refreshAccessToken = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const refreshAccessToken = (): AppThunk => {
   return function (dispatch: AppDispatch) {
     return fetch(`${queryBurgerDataUrl}/auth/token`, {
       method: 'POST',

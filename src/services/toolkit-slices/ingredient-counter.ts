@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {TIngredient} from "../types/data";
+import {ICounterActions} from "../types/action-type";
 
 const getInitialState = (): {selectedIngredients: ReadonlyArray<TIngredient>} => {
   return {
@@ -45,3 +46,17 @@ export const ingredientCounterSlice = createSlice({
     }
   }
 })
+
+export default ingredientCounterSlice.reducer;
+
+export const {
+  counterIncrement,
+  counterDecrement,
+  counterClean
+} = ingredientCounterSlice.actions;
+
+export const counterActions: ICounterActions = {
+  counterIncrement: counterIncrement,
+  counterDecrement: counterDecrement,
+  counterClean: counterClean
+}

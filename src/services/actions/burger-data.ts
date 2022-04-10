@@ -1,7 +1,4 @@
-import {ThunkAction} from "redux-thunk";
-import {AnyAction} from "@reduxjs/toolkit";
-
-import {AppDispatch, IOrderSliceState, RootState} from "../types";
+import {AppDispatch, AppThunk, IOrderSliceState} from "../types";
 
 import {getResponseData} from "./api";
 
@@ -17,7 +14,8 @@ const actionsOrder = orderSlice.actions;
 const actionsConstructor = burgerConstructorSlice.actions;
 const actionsIngredientCounter = ingredientCounterSlice.actions;
 
-export const getBurgerDataFromServer = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+// export const getBurgerDataFromServer = (): AppThunk<Promise<unknown>> => {
+export const getBurgerDataFromServer = (): AppThunk => {
   return function (dispatch: AppDispatch) {
     // Проставим флаг в хранилище о том, что мы начали выполнять запрос
     // Это нужно, чтоб отрисовать в интерфейсе лоудер или заблокировать
@@ -44,7 +42,7 @@ export const doOrder = (ingredientsIdsList: ReadonlyArray<string>,
                         order: {
                           bun: TIngredient | null,
                           ingredients: readonly TIngredientItem[]
-                        }): ThunkAction<void, RootState, unknown, AnyAction> => {
+                        }): AppThunk => {
   return function (dispatch: AppDispatch) {
     const accessToken = getCookie('accessToken');
 

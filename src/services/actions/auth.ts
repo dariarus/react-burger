@@ -1,6 +1,4 @@
-import {ThunkAction} from "redux-thunk";
-import {AppDispatch, IUserDataSliceState, RootState} from "../types";
-import {AnyAction} from "@reduxjs/toolkit";
+import {AppDispatch, AppThunk, IUserDataSliceState} from "../types";
 import {deleteCookie, getCookie, queryBurgerDataUrl, setCookie} from "../../utils/burger-data";
 import {getResponseData} from "./api";
 import {burgerDataSlice} from "../toolkit-slices/burger-data";
@@ -9,7 +7,7 @@ import {userDataSlice} from "../toolkit-slices/user-data";
 const actionsBurgerData = burgerDataSlice.actions;
 const actionsUserData = userDataSlice.actions;
 
-export const register = (name: string, email: string, password: string): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const register = (name: string, email: string, password: string): AppThunk => {
   return function (dispatch: AppDispatch) {
     dispatch(actionsUserData.getUserData());
 
@@ -44,7 +42,7 @@ export const register = (name: string, email: string, password: string): ThunkAc
   }
 }
 
-export const authorise = (email: string, password: string): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const authorise = (email: string, password: string): AppThunk => {
   return function (dispatch: AppDispatch) {
     dispatch(actionsUserData.getUserData());
 
@@ -78,7 +76,7 @@ export const authorise = (email: string, password: string): ThunkAction<void, Ro
   }
 }
 
-export const logout = (): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const logout = (): AppThunk => {
   return function (dispatch: AppDispatch) {
     return fetch(`${queryBurgerDataUrl}/auth/logout`, {
       method: 'POST',

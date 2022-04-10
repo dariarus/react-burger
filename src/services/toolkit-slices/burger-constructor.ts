@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {TIngredient, TIngredientItem, TDraggableItem} from '../types/data';
+import {IBurgerConstructorActions} from "../types/action-type";
 
-const getInitialState = (): {bun: TIngredient | null; ingredients: ReadonlyArray<TIngredientItem>} => {
+const getInitialState = (): { bun: TIngredient | null; ingredients: ReadonlyArray<TIngredientItem> } => {
   return {
     bun: null,
     ingredients: []
@@ -69,5 +70,19 @@ export const burgerConstructorSlice = createSlice({
     }
   }
 })
-export const { addIngredientToOrder, deleteIngredientFromOrder } = burgerConstructorSlice.actions
+
 export default burgerConstructorSlice.reducer
+
+export const {
+  addIngredientToOrder,
+  deleteIngredientFromOrder,
+  setIngredientToDrag,
+  cleanOrder
+} = burgerConstructorSlice.actions
+
+export const burgerConstructorActions: IBurgerConstructorActions = {
+  addIngredientToOrder: addIngredientToOrder,
+  deleteIngredientFromOrder: deleteIngredientFromOrder,
+  setIngredientToDrag: setIngredientToDrag,
+  cleanOrder: cleanOrder
+}

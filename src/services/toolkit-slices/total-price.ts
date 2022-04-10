@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 import {ITotalPriceSliceState} from "../types/index";
+import {ITotalPriceActions} from "../types/action-type";
 
 export const totalPriceSlice = createSlice({
   name: 'totalPrice',
@@ -23,4 +24,14 @@ export const totalPriceSlice = createSlice({
     }
   }
 })
-export const {setTotalSendingOrderPrice, setTotalFeedOrderPrice} = totalPriceSlice.actions
+
+export default totalPriceSlice.reducer
+export const {
+  setTotalSendingOrderPrice,
+  setTotalFeedOrderPrice
+} = totalPriceSlice.actions
+
+export const totalPriceActions: ITotalPriceActions = {
+  setTotalSendingOrderPrice: setTotalSendingOrderPrice,
+  setTotalFeedOrderPrice: setTotalFeedOrderPrice
+}

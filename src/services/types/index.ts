@@ -1,13 +1,15 @@
 import {rootReducer} from "../toolkit-slices/index";
 
 import {TErrorState, TIngredient, TOrders} from "./data";
-import {ThunkDispatch} from "redux-thunk";
-import {AnyAction} from "@reduxjs/toolkit";
-// import {store} from "../store";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {Action, AnyAction} from "@reduxjs/toolkit";
+import {TApplicationActions} from "./action-type";
 
 export type RootState = ReturnType<typeof rootReducer>;
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<TApplicationActions>>;
 // export type AppDispatch = typeof store.dispatch;
 export type AppDispatch = ThunkDispatch<RootState, any, AnyAction>;
+// export type AppDispatch = typeof storeState.dispatch;
 
 /*** burger-data slice initial state ***/
 export interface IBurgerDataSliceState {

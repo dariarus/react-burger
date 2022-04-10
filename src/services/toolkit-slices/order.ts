@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 import {IOrderSliceState} from "../types/index";
+import {IOrderActions} from "../types/action-type";
 
 export const orderSlice = createSlice({
   name: 'orderNumber',
@@ -40,5 +41,16 @@ export const orderSlice = createSlice({
     }
   }
 })
-export const { getOrderSuccess } = orderSlice.actions
+
 export default orderSlice.reducer
+export const {
+  checkOrder,
+  getOrderData,
+  getOrderSuccess
+} = orderSlice.actions
+
+export const orderActions: IOrderActions = {
+  checkOrder: checkOrder,
+  getOrderData: getOrderData,
+  getOrderSuccess: getOrderSuccess
+}

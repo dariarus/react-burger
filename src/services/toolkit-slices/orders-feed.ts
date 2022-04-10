@@ -1,8 +1,7 @@
-import {AnyAction, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-import {IFeedSliceState, RootState} from "../types/index";
+import {IFeedSliceState} from "../types/index";
 import {IWebSocketActions} from "../types/action-type";
-import {ThunkAction} from "redux-thunk";
 
 export const ordersFeedSlice = createSlice({
   name: 'orders',

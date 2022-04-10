@@ -1,13 +1,11 @@
-import {ThunkAction} from "redux-thunk";
-import {AppDispatch, RootState} from "../types";
-import {AnyAction} from "@reduxjs/toolkit";
+import {AppDispatch, AppThunk} from "../types";
 import {queryBurgerDataUrl} from "../../utils/burger-data";
 import {getResponseData} from "./api";
 import {forgotPasswordMarkerSlice} from "../toolkit-slices/reset-password-marker";
 
 const actionsForgotPasswordMarker = forgotPasswordMarkerSlice.actions;
 
-export const requestToResetPassword = (email: string, redirectToChangePWPage: () => void): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const requestToResetPassword = (email: string, redirectToChangePWPage: () => void): AppThunk => {
   return function (dispatch: AppDispatch) {
 
     return fetch(`${queryBurgerDataUrl}/password-reset`, {
@@ -37,7 +35,7 @@ export const requestToResetPassword = (email: string, redirectToChangePWPage: ()
   }
 }
 
-export const changePassword = (password: string, token: string): ThunkAction<void, RootState, unknown, AnyAction> => {
+export const changePassword = (password: string, token: string): AppThunk => {
   return function (dispatch: AppDispatch) {
     return fetch(`${queryBurgerDataUrl}/password-reset/reset`, {
       method: 'POST',
