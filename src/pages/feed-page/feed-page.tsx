@@ -19,7 +19,7 @@ export const FeedPage: FunctionComponent = () => {
 
   useEffect(() => {
       dispatch(actionsOrdersFeed.wsInit());
-      if (window.closed) {
+      return () => {
         dispatch(actionsOrdersFeed.wsConnectionClosed());
       }
     }, [actionsOrdersFeed, dispatch]

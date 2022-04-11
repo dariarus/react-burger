@@ -17,7 +17,7 @@ export const MyOrdersPage: FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(actionsUserOrdersFeed.wsInit());
-    if (window.closed) {
+    return () => {
       dispatch(actionsUserOrdersFeed.wsConnectionClosed());
     }
   }, [actionsUserOrdersFeed, dispatch])
