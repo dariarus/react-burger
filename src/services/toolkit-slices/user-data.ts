@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 import {IUserDataSliceState} from "../types";
 import {TToken, TUserRefresh} from "../types/data";
+import {IUserDataActions} from "../types/action-type";
 
 export const userDataSlice = createSlice({
   name: 'userData',
@@ -70,5 +71,20 @@ export const userDataSlice = createSlice({
     }
   }
 })
-export const {getUserData, setUserData, setTokens, refreshUserData, deleteUserData} = userDataSlice.actions
+
 export default userDataSlice.reducer
+export const {
+  getUserData,
+  setUserData,
+  setTokens,
+  refreshUserData,
+  deleteUserData
+} = userDataSlice.actions
+
+export const userDataActions: IUserDataActions = {
+  getUserData: getUserData,
+  setUserData: setUserData,
+  setTokens: setTokens,
+  refreshUserData: refreshUserData,
+  deleteUserData: deleteUserData
+}

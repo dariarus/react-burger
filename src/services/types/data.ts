@@ -1,6 +1,7 @@
 import React from "react";
 import {TICons} from "@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons";
 import {IUserDataSliceState} from "./index";
+import {orderStatus} from "../../utils/burger-data";
 
 export type TErrorState = {
   message?: string
@@ -110,3 +111,34 @@ export type TLocationState = {
     key: string;
   }
 }
+
+/*** orders feed ***/
+export type TOrders = {
+  ingredients: ReadonlyArray<string>,
+  _id: string,
+  name: string,
+  status: orderStatus,
+  number: number | null,
+  createdAt: string,
+  updatedAt: string
+}
+
+/*** ingredient icon props type ***/
+export type TIngredientIcon = {
+  image: string,
+  imageName: string,
+  isSixth?: boolean,
+  index?: number,
+  restCount?: number,
+  ingredientCount?: number,
+  children?: React.ReactNode
+}
+
+/*** counter for reducer ***/
+export type TReducedCounter = {
+  [index: string]: number
+}
+
+/*** order composition props type ***/
+export type TOrderComposition = {ingredientCount: number} & Pick<TIngredient, "type" | "name" | "price" | "image">
+

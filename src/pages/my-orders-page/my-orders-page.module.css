@@ -1,0 +1,42 @@
+.wrapper {
+  box-sizing: border-box;
+  width: 844px;
+  max-height: calc(100vh + 300px);
+}
+
+.feed {
+  margin: 0;
+  padding: 0 8px 0 0;
+  /*height: 100vh;*/
+  height: calc(100vh - 104px);
+  overflow: scroll;
+  scrollbar-color: #8585ad #2f2f37; /* «цвет ползунка» «цвет полосы скроллбара» */
+  scrollbar-width: thin;
+}
+
+.feed::-webkit-scrollbar {
+  width: 12px;
+  height: 0;
+  background-color: #2f2f37;
+}
+
+/* ползунок скроллбара */
+.feed::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.feedItem {
+  margin-bottom: 16px;
+  width: 100%;
+  list-style: none;
+}
+
+.feedItem:last-of-type {
+  margin-bottom: 0;
+}
+
+.link {
+  box-sizing: border-box;
+  color: #f2f2f3;
+  text-decoration: none;
+}

@@ -1,6 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
 
 import {IForgotPasswordMarker} from "../types";
+import {IResetPasswordActions} from "../types/action-type";
 
 export const forgotPasswordMarkerSlice = createSlice({
   name: 'forgotPassword',
@@ -23,5 +24,13 @@ export const forgotPasswordMarkerSlice = createSlice({
   }
 })
 
-export const {setEmailSentMarker, deleteEmailSentMarker} = forgotPasswordMarkerSlice.actions
 export default forgotPasswordMarkerSlice.reducer
+export const {
+  setEmailSentMarker,
+  deleteEmailSentMarker
+} = forgotPasswordMarkerSlice.actions
+
+export const resetPasswordActions: IResetPasswordActions = {
+  setEmailSentMarker: setEmailSentMarker,
+  deleteEmailSentMarker: deleteEmailSentMarker
+}

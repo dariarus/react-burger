@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.wrapper:last-of-type {
+  margin-bottom: 0;
+}
+
+.part {
+  display: flex;
+  align-items: center;
+}
+
+.part:last-of-type {
+  margin-right: 24px;
+}

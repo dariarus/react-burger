@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.wrapper {
+  margin-top: 24px;
+  max-height: 206px;
+  overflow-y: auto;
+  scrollbar-color: #8585ad #2f2f37; /* «цвет ползунка» «цвет полосы скроллбара» */
+  scrollbar-width: thin;
+}
+
+.wrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #2f2f37;
+}
+
+/* ползунок скроллбара */
+.wrapper::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
+}
+
+.wrapperList {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  flex-flow: column wrap;
+  width: 272px;
+  max-height: 352px;
+}

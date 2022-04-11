@@ -2,7 +2,7 @@ import React, {FunctionComponent} from 'react';
 import {useDrop} from "react-dnd";
 import {useHistory} from "react-router-dom";
 
-import {doOrder} from "../../services/actions/api";
+import {doOrder} from "../../services/actions/burger-data";
 
 import burgerConstructor from "./burger-constructor.module.css";
 import bunImage from '../../images/logo.svg';
@@ -17,6 +17,7 @@ import {ConstructorElement, CurrencyIcon, Button} from "@ya.praktikum/react-deve
 
 import {TIngredient} from "../../services/types/data";
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
+import {calculateTotalPrice} from "../../utils/burger-data";
 
 export const BurgerConstructor: FunctionComponent = () => {
 
@@ -27,7 +28,7 @@ export const BurgerConstructor: FunctionComponent = () => {
 
   const actionsConstructor = burgerConstructorSlice.actions;
   const actionsModal = handleModalSlice.actions;
-  const actionsTotalPrice = totalPriceSlice.actions;
+  const actionsTotalSendingOrderPrice = totalPriceSlice.actions;
   const actionsIngredientCounter = ingredientCounterSlice.actions;
 
   const history = useHistory();
@@ -45,18 +46,8 @@ export const BurgerConstructor: FunctionComponent = () => {
     return commonArrayOfIngredientsIds;
   }
 
-  const calculateTotalPrice = React.useCallback(() => {
-    const ingredientArrayReducer = (acc: number, item: TIngredient) => {
-      return acc + item.price
-    }
-    let bunPrice = 0;
-    if (burgerConstructorIngredients.bun) {
-      bunPrice = burgerConstructorIngredients.bun.price * 2;
-    }
-    let ingredientPrice = burgerConstructorIngredients.ingredients
-      .map(element => element.item)
-      .reduce(ingredientArrayReducer, 0);
-    return ingredientPrice + bunPrice;
+  const calculateTotalPriceTotalSendingOrderPriceCallback = React.useCallback(() => {
+    return calculateTotalPrice(burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients.map(ingredientItem => ingredientItem.item));
   }, [burgerConstructorIngredients.bun, burgerConstructorIngredients.ingredients])
 
   const [{isOver}, dropRef] = useDrop({
@@ -71,8 +62,8 @@ export const BurgerConstructor: FunctionComponent = () => {
   })
 
   React.useEffect(() => {
-    dispatch(actionsTotalPrice.setTotalPrice(calculateTotalPrice()))
-  }, [burgerConstructorIngredients, dispatch, actionsTotalPrice, calculateTotalPrice])
+    dispatch(actionsTotalSendingOrderPrice.setTotalSendingOrderPrice(calculateTotalPriceTotalSendingOrderPriceCallback()))
+  }, [burgerConstructorIngredients, dispatch, actionsTotalSendingOrderPrice, calculateTotalPriceTotalSendingOrderPriceCallback])
 
   return (
     <div ref={dropRef}
@@ -137,7 +128,7 @@ export const BurgerConstructor: FunctionComponent = () => {
       </div>
       <div className={burgerConstructor.order}>
         <h2 className="text text_type_digits-medium mr-2">
-          {totalPrice.totalPrice}
+          {totalPrice.totalSendingOrderPrice}
         </h2>
         <div className={burgerConstructor.icon}>
           <CurrencyIcon type="primary"/>
@@ -148,7 +139,7 @@ export const BurgerConstructor: FunctionComponent = () => {
             if (userData.user.name !== '' && userData.user.email !== ''){
               dispatch(doOrder(createCommonArrayOfIngredientsIds(), burgerConstructorIngredients));
               dispatch(actionsModal.handleModalOpen({
-                modalOrderDetailsOpened: true
+                modalOrderNumberDetailsOpened: true
               }));
             }
           }}>

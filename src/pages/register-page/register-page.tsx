@@ -6,7 +6,7 @@ import {EmailInputComponent} from "../../components/email-input/email-input";
 import {PasswordInputComponent} from "../../components/password-input/password-input";
 
 import {InputDefault} from "../../components/input-default/input-default";
-import {register} from "../../services/actions/api";
+import {register} from "../../services/actions/auth";
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";

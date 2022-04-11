@@ -1,10 +1,15 @@
 import {rootReducer} from "../toolkit-slices/index";
 
-import {TErrorState, TIngredient} from "./data";
-import {store} from "../store";
+import {TErrorState, TIngredient, TOrders} from "./data";
+import {ThunkAction, ThunkDispatch} from "redux-thunk";
+import {Action, AnyAction} from "@reduxjs/toolkit";
+import {TApplicationActions} from "./action-type";
 
 export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = typeof store.dispatch;
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<TApplicationActions>>;
+// export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ThunkDispatch<RootState, any, AnyAction>;
+// export type AppDispatch = typeof storeState.dispatch;
 
 /*** burger-data slice initial state ***/
 export interface IBurgerDataSliceState {
@@ -18,9 +23,10 @@ export interface IBurgerDataSliceState {
 export interface IModalSliceState {
   modalsOpened: {
     modalIngredientDetailsOpened?: string,
+    modalOrderNumberDetailsOpened?: string,
     modalOrderDetailsOpened?: string
   },
-  ingredientForModal: null | TIngredient
+  ingredientForModal: null | TIngredient | TOrders
 }
 
 /*** order slice initial state ***/
@@ -33,7 +39,8 @@ export interface IOrderSliceState {
 
 /*** total price slice initial state ***/
 export interface ITotalPriceSliceState {
-  totalPrice: number
+  totalSendingOrderPrice: number | null,
+  totalFeedOrderPrice: number | null
 }
 
 /*** user data slice initial state ***/
@@ -52,3 +59,17 @@ export interface IUserDataSliceState {
 export interface IForgotPasswordMarker {
   emailWasSent: boolean
 }
+
+/*** feed slice ***/
+export interface IFeedSliceState {
+  success: boolean,
+  orders: ReadonlyArray<TOrders>,
+  total: number,
+  totalToday: number,
+
+  wsStartConnecting: boolean,
+  wsConnected: boolean,
+  hasError: boolean,
+  error: null |string
+}
+

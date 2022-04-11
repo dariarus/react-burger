@@ -2,6 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {IBurgerDataSliceState} from "../types/index";
 import {TErrorState, TIngredient} from "../types/data";
+import {IBurgerDataActions} from "../types/action-type";
 
 export const burgerDataSlice = createSlice({
   name: 'burgerData', // префикс всех экшнов
@@ -37,5 +38,18 @@ export const burgerDataSlice = createSlice({
     }
   }
 })
-export const { getBurgerDataSuccess: getBurgerData_success, getBurgerData, getBurgerDataFailed: getBurgerData_failed } = burgerDataSlice.actions
+
 export default burgerDataSlice.reducer
+
+export const {
+  getBurgerDataSuccess,
+  getBurgerData,
+  getBurgerDataFailed
+} = burgerDataSlice.actions
+
+export const burgerDataActions: IBurgerDataActions = {
+  getBurgerDataSuccess: getBurgerDataSuccess,
+  getBurgerData: getBurgerData,
+  getBurgerDataFailed: getBurgerDataFailed
+}
+

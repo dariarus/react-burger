@@ -4,10 +4,11 @@ import {Link, Redirect, useHistory, useLocation} from "react-router-dom";
 import forgotPWPage from "./forgot-password-page.module.css";
 
 import {InputDefault} from "../../components/input-default/input-default";
-import {requestToResetPassword} from "../../services/actions/api";
+import {requestToResetPassword} from "../../services/actions/change-password";
+
+import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import {Button} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 export const ForgotPasswordPage: FunctionComponent = () => {
   const {userData} = useSelector(state => {

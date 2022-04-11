@@ -1,5 +1,4 @@
 .main {
-  display: grid;
-  grid-template-columns: 320px 480px;
-  gap: 60px;
+  box-sizing: border-box;
+  display: flex;
 }

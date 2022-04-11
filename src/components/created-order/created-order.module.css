@@ -1,0 +1,42 @@
+.wrapper {
+  box-sizing: border-box;
+  /*width: 100%;*/
+  padding: 24px;
+  background: #1C1C21;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 2px rgba(0, 0, 0, 0.06), 0 0 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+}
+
+.preview {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-bottom: 24px;
+}
+
+.burgerName {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+.textDone {
+  color: #00cccc;
+}
+
+.ingredients {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.ingredientsWrapper {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.price {
+  display: flex;
+}

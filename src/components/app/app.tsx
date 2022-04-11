@@ -9,10 +9,8 @@ import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import main from './app.module.css';
 
-import {
-  getBurgerDataFromServer,
-  getUser
-} from "../../services/actions/api";
+import {getBurgerDataFromServer} from "../../services/actions/burger-data";
+import {getUser} from "../../services/actions/user";
 
 import AppHeader from "../app-header/app-header";
 
@@ -29,9 +27,15 @@ import {NotFound404} from "../../pages/not-found-404/not-found-404";
 import {TLocationState} from "../../services/types/data";
 import {Modal} from "../modal/modal";
 import {IngredientDetails} from "../ingredient-details/ingredient-details";
+import {FeedPage} from "../../pages/feed-page/feed-page";
+import {OrderDetailsPage} from "../../pages/order-details-page/order-details-page";
+import {OrderDetails} from "../order-details/order-details";
+import {MyOrdersPage} from "../../pages/my-orders-page/my-orders-page";
+import {wsActions} from "../../services/toolkit-slices/orders-feed";
+import {wsActionsSecured} from "../../services/toolkit-slices/user-orders-feed";
 
 const App: FunctionComponent = () => {
-  const {burgerDataState} = useSelector(state => {
+  const {burgerDataState, ordersFeedState, userOrdersFeedState} = useSelector(state => {
     return state
   });
 
@@ -56,9 +60,7 @@ const App: FunctionComponent = () => {
     if (background) {
       delete location.state.background;
     }
-   // history.replace({state: {}})
   }, [dispatch, history])
-  // }, [dispatch, history])
 
   /*** App Rendering ***/
   if (burgerDataState.hasError) {
@@ -89,10 +91,33 @@ const App: FunctionComponent = () => {
               <ResetPasswordPage/>
             </Route>
 
+            <Route path="/feed" exact={true}>
+              <FeedPage/>
+            </Route>
+
+            <Route path="/feed/:id" exact={true}>
+              <OrderDetailsPage orderActions={wsActions} order={ordersFeedState.orders}/>
+            </Route>
+
             <ProtectedRoute path="/profile" exact={true}>
               <AccountPage text="В этом разделе вы можете изменить свои персональные данные">
                 <ProfileDetails/>
               </AccountPage>
+            </ProtectedRoute>
+
+            <ProtectedRoute path="/profile/orders" exact={true}>
+              <AccountPage text="В этом разделе вы можете посмотреть свою историю заказов">
+                <MyOrdersPage/>
+              </AccountPage>
+            </ProtectedRoute>
+
+            <ProtectedRoute path="/profile/orders/:id" exact={true}>
+              {
+                userOrdersFeedState.orders !== [] &&
+                // передаем реализацию интерфейса IWebSocketActions в виде переменной wsActionsSecured,
+                // внутри которой нужные функции соотв-ют типам из этого интерфейса
+                <OrderDetailsPage orderActions={wsActionsSecured} order={userOrdersFeedState.orders}/>
+              }
             </ProtectedRoute>
 
             <ProtectedRoute path="/profile/logout" exact={true}>
@@ -105,23 +130,44 @@ const App: FunctionComponent = () => {
               <IngredientDetailsPage/>
             </Route>
 
-            <Route path="/404" exact={true}>
-              <NotFound404/>
+            <Route path="/" exact={true}>
+              <BurgerConstructorPage/>
             </Route>
 
-            <Route path="/">
-              <BurgerConstructorPage/>
+            <Route>
+              <NotFound404/>
             </Route>
 
           </Switch>
           {/*Show the modal when a background page is set */}
           {
             background
-            && <Route exact path="/ingredient/:id" children={<Modal handleOnClose={() => {
-              history.goBack();
-            }}>
-              <IngredientDetails/>
-            </Modal>
+            && <Route exact path="/ingredient/:id" children={
+              <Modal handleOnClose={() => {
+                history.goBack();
+              }}>
+                <IngredientDetails/>
+              </Modal>
+            }/>
+          }
+          {
+            background
+            && <Route exact path="/feed/:id" children={
+              <Modal handleOnClose={() => {
+                history.goBack();
+              }}>
+                <OrderDetails array={ordersFeedState.orders}/>
+              </Modal>
+            }/>
+          }
+          {
+            background
+            && <ProtectedRoute exact path="/profile/orders/:id" children={
+              <Modal handleOnClose={() => {
+                history.goBack();
+              }}>
+                <OrderDetails array={userOrdersFeedState.orders}/>
+              </Modal>
             }/>
           }
         </main>
