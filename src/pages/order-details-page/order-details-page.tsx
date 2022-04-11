@@ -13,6 +13,9 @@ export const OrderDetailsPage: FunctionComponent<{orderActions: IWebSocketAction
 
   useEffect(() => {
     dispatch(props.orderActions.wsInit());
+    return () => {
+      dispatch(props.orderActions.onClose());
+    }
   }, [dispatch, props.orderActions])
 
   return (
