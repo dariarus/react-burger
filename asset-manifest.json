@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "./static/css/main.aaeb00de.chunk.css",
-    "main.js": "./static/js/main.0088ce5b.chunk.js",
-    "main.js.map": "./static/js/main.0088ce5b.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.60bf5109.js",
-    "runtime-main.js.map": "./static/js/runtime-main.60bf5109.js.map",
-    "static/css/2.b078496f.chunk.css": "./static/css/2.b078496f.chunk.css",
-    "static/js/2.f56e951a.chunk.js": "./static/js/2.f56e951a.chunk.js",
-    "static/js/2.f56e951a.chunk.js.map": "./static/js/2.f56e951a.chunk.js.map",
-    "static/js/3.3b083348.chunk.js": "./static/js/3.3b083348.chunk.js",
-    "static/js/3.3b083348.chunk.js.map": "./static/js/3.3b083348.chunk.js.map",
-    "index.html": "./index.html",
-    "static/css/2.b078496f.chunk.css.map": "./static/css/2.b078496f.chunk.css.map",
-    "static/css/main.aaeb00de.chunk.css.map": "./static/css/main.aaeb00de.chunk.css.map",
-    "static/js/2.f56e951a.chunk.js.LICENSE.txt": "./static/js/2.f56e951a.chunk.js.LICENSE.txt",
-    "static/media/404_shiba_inu.85129963.png": "./static/media/404_shiba_inu.85129963.png",
-    "static/media/fonts.css": "./static/media/iceland.77ad7fc2.woff",
-    "static/media/logo.81f3c4ef.svg": "./static/media/logo.81f3c4ef.svg"
+    "main.css": "/space-burgerhouse/static/css/main.88fe6d42.chunk.css",
+    "main.js": "/space-burgerhouse/static/js/main.33c28cb8.chunk.js",
+    "main.js.map": "/space-burgerhouse/static/js/main.33c28cb8.chunk.js.map",
+    "runtime-main.js": "/space-burgerhouse/static/js/runtime-main.ab7175f1.js",
+    "runtime-main.js.map": "/space-burgerhouse/static/js/runtime-main.ab7175f1.js.map",
+    "static/css/2.acf5d6e5.chunk.css": "/space-burgerhouse/static/css/2.acf5d6e5.chunk.css",
+    "static/js/2.f56e951a.chunk.js": "/space-burgerhouse/static/js/2.f56e951a.chunk.js",
+    "static/js/2.f56e951a.chunk.js.map": "/space-burgerhouse/static/js/2.f56e951a.chunk.js.map",
+    "static/js/3.3b083348.chunk.js": "/space-burgerhouse/static/js/3.3b083348.chunk.js",
+    "static/js/3.3b083348.chunk.js.map": "/space-burgerhouse/static/js/3.3b083348.chunk.js.map",
+    "index.html": "/space-burgerhouse/index.html",
+    "static/css/2.acf5d6e5.chunk.css.map": "/space-burgerhouse/static/css/2.acf5d6e5.chunk.css.map",
+    "static/css/main.88fe6d42.chunk.css.map": "/space-burgerhouse/static/css/main.88fe6d42.chunk.css.map",
+    "static/js/2.f56e951a.chunk.js.LICENSE.txt": "/space-burgerhouse/static/js/2.f56e951a.chunk.js.LICENSE.txt",
+    "static/media/404_shiba_inu.85129963.png": "/space-burgerhouse/static/media/404_shiba_inu.85129963.png",
+    "static/media/fonts.css": "/space-burgerhouse/static/media/iceland.77ad7fc2.woff",
+    "static/media/logo.81f3c4ef.svg": "/space-burgerhouse/static/media/logo.81f3c4ef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.60bf5109.js",
-    "static/css/2.b078496f.chunk.css",
+    "static/js/runtime-main.ab7175f1.js",
+    "static/css/2.acf5d6e5.chunk.css",
     "static/js/2.f56e951a.chunk.js",
-    "static/css/main.aaeb00de.chunk.css",
-    "static/js/main.0088ce5b.chunk.js"
+    "static/css/main.88fe6d42.chunk.css",
+    "static/js/main.33c28cb8.chunk.js"
   ]
 }
