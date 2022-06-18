@@ -11,7 +11,7 @@ import {store} from "./services/store";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <HashRouter basename='/space-burgerhouse'>
+      <HashRouter basename='/react-burgerhouse'>
         <App/>
       </HashRouter>
     </Provider>
