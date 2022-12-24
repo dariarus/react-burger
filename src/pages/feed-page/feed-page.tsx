@@ -9,6 +9,7 @@ import {useEffect} from "react";
 import {useAppDispatch, useSelector} from "../../services/types/hooks";
 
 import {ordersFeedSlice} from "../../services/toolkit-slices/orders-feed";
+import {TOrders} from '../../services/types/data';
 
 export const FeedPage: FunctionComponent = () => {
   const {ordersFeedState} = useSelector(state => {
@@ -33,7 +34,7 @@ export const FeedPage: FunctionComponent = () => {
       <div className={feedWrapper.section}>
         <div className={feedWrapper.feed}>
           {
-            ordersFeedState.orders.map((order, index) => (
+            ordersFeedState.orders.map((order: TOrders, index: number) => (
               <div className={feedWrapper.feedItem} key={index}>
                 <Link to={{
                   pathname: `feed/${order._id}`,
